@@ -1,6 +1,7 @@
 package fit.piris.evz.pages;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -29,17 +30,21 @@ public class Index {
 	private Session session;
 
 	@Property
-	private int brKorisnikaUSistemu = session.createCriteria(User.class).list().size();
-	
+	private int brKorisnikaUSistemu = session.createCriteria(User.class).list()
+			.size();
+
 	@Property
-	private int brGazdinstavaUSistemu = session.createCriteria(Gazdinstvo.class).list().size();
-	
+	private int brGazdinstavaUSistemu = session
+			.createCriteria(Gazdinstvo.class).list().size();
+
 	@Property
-	private int brVeterinaraUSistemu = session.createCriteria(Veterinar.class).list().size();
-	
+	private int brVeterinaraUSistemu = session.createCriteria(Veterinar.class)
+			.list().size();
+
 	@Property
-	private int brZivotinjaUSistemu = session.createCriteria(Zivotinja.class).list().size();
-	
+	private int brZivotinjaUSistemu = session.createCriteria(Zivotinja.class)
+			.list().size();
+
 	@Property
 	private Date danas = new Date();
 
@@ -64,6 +69,26 @@ public class Index {
 
 	public boolean isVeterinar() {
 		if (authenticator.getLoggedUser() instanceof Veterinar) {
+			return true;
+		}
+		return false;
+	}
+
+	@Property
+	private Vlasnik vlasnikTmp;
+	
+	@Property
+	private List<Vlasnik> vlasnici = sviVlasnici();
+
+	@SuppressWarnings("unchecked")
+	public List<Vlasnik> sviVlasnici() {
+		return session.createCriteria(Vlasnik.class).list();
+	}
+	
+	
+	
+	public boolean akoNijeNull(Gazdinstvo gazdinstvo) {
+		if (gazdinstvo!=null) {
 			return true;
 		}
 		return false;

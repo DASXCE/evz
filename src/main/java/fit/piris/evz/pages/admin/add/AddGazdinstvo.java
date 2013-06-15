@@ -1,5 +1,8 @@
 package fit.piris.evz.pages.admin.add;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.regexp.recompile;
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.annotations.Persist;
@@ -9,7 +12,11 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 
 import fit.piris.evz.entities.Adresa;
 import fit.piris.evz.entities.gazdinstvo.Gazdinstvo;
+import fit.piris.evz.entities.gazdinstvo.TipProizvodnje;
+import fit.piris.evz.entities.gazdinstvo.VrstaZivotinje;
 import fit.piris.evz.entities.users.Vlasnik;
+import fit.piris.evz.enums.TipProizvoda;
+import fit.piris.evz.enums.Vrsta;
 import fit.piris.evz.services.dao.gazdinstvo.GazdinstvoDAO;
 
 public class AddGazdinstvo {
@@ -38,6 +45,9 @@ public class AddGazdinstvo {
 	/*
 	 * tipovi proizvodnje
 	 */
+
+	private Set<TipProizvodnje> tipProizvodnje;
+
 	@Property
 	private boolean meso;
 	@Property
@@ -48,6 +58,8 @@ public class AddGazdinstvo {
 	/*
 	 * vrste zivotinja
 	 */
+
+	private Set<VrstaZivotinje> vrsteZivotinja;
 	@Property
 	private boolean goveda;
 	@Property
@@ -77,13 +89,47 @@ public class AddGazdinstvo {
 
 	@CommitAfter
 	public void onSubmitFromForma() {
-		dao.save(sifra, naziv, new Adresa(grad, posta, ulica), vlasnik, null,
-				null, null);
+		/*
+		 * vrste zivotinaj add
+		 */
+		vrsteZivotinja = new HashSet<VrstaZivotinje>();
+		if (goveda) {
+			vrsteZivotinja.add(new VrstaZivotinje(Vrsta.GOVEDA));
+		}
+		if (kopitari) {
+			vrsteZivotinja.add(new VrstaZivotinje(Vrsta.KOPITARI));
+		}
+		if (koze) {
+			vrsteZivotinja.add(new VrstaZivotinje(Vrsta.KOZE));
+		}
+		if (ovce) {
+			vrsteZivotinja.add(new VrstaZivotinje(Vrsta.OVCE));
+		}
+		if (svinje) {
+			vrsteZivotinja.add(new VrstaZivotinje(Vrsta.SVINJE));
+		}
+		if (zivina) {
+			vrsteZivotinja.add(new VrstaZivotinje(Vrsta.ZIVINA));
+		}
+		
+		/*
+		 * tipovi proizvodnje add
+		 */
+		tipProizvodnje = new HashSet<TipProizvodnje>();
+		if (jaja) {
+			tipProizvodnje.add(new TipProizvodnje(TipProizvoda.JAJA));
+		}
+		if (mlijeko) {
+			tipProizvodnje.add(new TipProizvodnje(TipProizvoda.MLIJECNI));
+		}
+		if (meso) {
+			tipProizvodnje.add(new TipProizvodnje(TipProizvoda.MESNI));
+		}
+		
+		
+		dao.save(sifra, naziv, new Adresa(grad, posta, ulica), vlasnik, tipProizvodnje,
+				vrsteZivotinja, null);
 		showsuccess = true;
-	}
-	
-	public void onActivate() {
-		System.out.println("AddGazdinstvo.onActivate() vlasnik: "+vlasnik.getIme());
 	}
 
 	public Vlasnik getVlasnik() {
