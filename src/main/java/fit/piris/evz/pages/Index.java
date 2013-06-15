@@ -3,6 +3,7 @@ package fit.piris.evz.pages;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
@@ -21,6 +22,7 @@ import fit.piris.evz.services.security.Authenticator;
  */
 @VeterinarAccess
 @VlasnikAccess
+@Import(stylesheet={"context:layout/canvasAdmin/stylesheets/sample_pages/invoice.css"})
 public class Index {
 
 	@Inject

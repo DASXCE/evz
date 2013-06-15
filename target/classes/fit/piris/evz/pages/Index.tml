@@ -52,140 +52,6 @@
 
 			</div> <!-- .widget, HIDDEN! -->
 
-			<div class="widget widget-tabs" style="display:none;">
-
-				<div class="widget-header">
-					<span class="icon-chart"></span>
-					<h3 class="">Charts</h3>
-
-					<ul class="tabs right">
-						<li class="active">
-							<a href="#yearly">Yearly</a>
-						</li>
-						<li class="">
-							<a href="#monthly">Monthly</a>
-						</li>
-						<li class="">
-							<a href="#weekly">Weekly</a>
-						</li>
-					</ul>
-				</div>
-
-				<div id="yearly" class="widget-content">
-					<table class="stats" data-chart-type="bar" data-chart-colors="">
-						<caption>2009/2010 Sales by industry (Million)</caption>
-						<thead>
-							<tr>
-								<td>&nbsp;
-								</td>
-								<th>Week 18</th>
-								<th>Week 19</th>
-								<th>Week 20</th>
-								<th>Week 21</th>
-								<th>Week 22</th>
-								<th>Week 23</th>
-								<th>Week 24</th>
-							</tr>
-
-						</thead>
-
-						<tbody>
-
-							<tr>
-								<th>Year 2009</th>
-								<td>492</td>
-								<td>478</td>
-								<td>507</td>
-								<td>518</td>
-								<td>505</td>
-								<td>536</td>
-								<td>561</td>
-							</tr>
-
-							<tr>
-								<th>Year 2010</th>
-								<td>586</td>
-								<td>652</td>
-								<td>610</td>
-								<td>658</td>
-								<td>689</td>
-								<td>674</td>
-								<td>679</td>
-							</tr>
-
-							<tr>
-								<th>Year 2011</th>
-								<td>689</td>
-								<td>732</td>
-								<td>845</td>
-								<td>786</td>
-								<td>815</td>
-								<td>859</td>
-								<td>907</td>
-							</tr>
-						</tbody>
-					</table>
-				</div> <!-- .widget-content -->
-
-				<div id="monthly" class="widget-content">
-
-					<h3>Monthly Content</h3>
-
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-						do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua.
-						Ut enim
-						ad minim veniam, quis nostrud exercitation ullamco
-						laboris nisi ut
-						aliquip ex ea commodo consequat. Duis aute
-						irure dolor in
-						reprehenderit in voluptate velit esse cillum
-						dolore eu fugiat nulla
-						pariatur. Excepteur sint occaecat
-						cupidatat non proident, sunt in
-						culpa qui officia deserunt
-						mollit anim id est laborum.</p>
-
-				</div> <!-- .widget-content -->
-
-				<div id="weekly" class="widget-content">
-
-					<h3>Weekly Content</h3>
-
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-						do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua.
-						Ut enim
-						ad minim veniam, quis nostrud exercitation ullamco
-						laboris nisi ut
-						aliquip ex ea commodo consequat. Duis aute
-						irure dolor in
-						reprehenderit in voluptate velit esse cillum
-						dolore eu fugiat nulla
-						pariatur. Excepteur sint occaecat
-						cupidatat non proident, sunt in
-						culpa qui officia deserunt
-						mollit anim id est laborum.</p>
-
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-						do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua.
-						Ut enim
-						ad minim veniam, quis nostrud exercitation ullamco
-						laboris nisi ut
-						aliquip ex ea commodo consequat. Duis aute
-						irure dolor in
-						reprehenderit in voluptate velit esse cillum
-						dolore eu fugiat nulla
-						pariatur. Excepteur sint occaecat
-						cupidatat non proident, sunt in
-						culpa qui officia deserunt
-						mollit anim id est laborum.</p>
-
-				</div> <!-- .widget-content -->
-
-			</div> <!-- .widget -->
-
 			<div class="widget widget-table">
 
 				<div class="widget-header">
@@ -197,6 +63,7 @@
 					<table class="table table-bordered table-striped data-table">
 						<thead>
 							<tr>
+							<th>Vise</th>
 								<th>JMBG</th>
 								<th>Ime</th>
 								<th>Prezime</th>
@@ -206,6 +73,8 @@
 						<tbody>
 							<t:loop source="vlasnici" value="vlasnikTmp">
 								<tr class="gradeA">
+								<td><ul id="invoice_actions" style="margin:0;"><li class="delete" style="margin:0; display:inline;"><a href="#"></a></li>
+								<li class="edit" style="margin:0;"><a href="#"></a></li></ul></td>
 									<td>${vlasnikTmp.getJmbg()}</td>
 									<td>${vlasnikTmp.getIme()}</td>
 									<td>${vlasnikTmp.getPrezime()}</td>
