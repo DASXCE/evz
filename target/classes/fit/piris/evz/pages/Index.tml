@@ -22,29 +22,29 @@
 
 					<div class="dashboard_report first activeState">
 						<div class="pad">
-							<span class="value">N/A</span>
+							<span class="value">${brKorisnikaUSistemu}</span>
 							Korisnika
 						</div> <!-- .pad -->
 					</div>
 
 					<div class="dashboard_report defaultState">
 						<div class="pad">
-							<span class="value">N/A</span>
+							<span class="value">${brGazdinstavaUSistemu}</span>
 							Gazdinstava
 						</div> <!-- .pad -->
 					</div>
 
 					<div class="dashboard_report defaultState">
 						<div class="pad">
-							<span class="value">N/A</span>
+							<span class="value">${brVeterinaraUSistemu}</span>
 							Veterinara
 						</div> <!-- .pad -->
 					</div>
 
 					<div class="dashboard_report defaultState last">
 						<div class="pad">
-							<span class="value">N/A</span>
-							Chargebacks
+							<span class="value">${brZivotinjaUSistemu}</span>
+							Zivotinja
 						</div> <!-- .pad -->
 					</div>
 
