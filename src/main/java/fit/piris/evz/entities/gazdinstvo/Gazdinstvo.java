@@ -60,9 +60,22 @@ public class Gazdinstvo {
 	}
 
 	public Gazdinstvo(String sifra, String naziv, Adresa adresa,
+			Set<TipProizvodnje> tipProizvodnje,
+			Set<VrstaZivotinje> vrsteZivotinja, Set<Zivotinja> zivotinje) {
+		super();
+		this.sifra = sifra;
+		this.naziv = naziv;
+		this.adresa = adresa;
+		this.tipProizvodnje = tipProizvodnje;
+		this.vrsteZivotinja = vrsteZivotinja;
+		this.zivotinje = zivotinje;
+	}
+
+	public Gazdinstvo(Long id, String sifra, String naziv, Adresa adresa,
 			Vlasnik vlasnik, Set<TipProizvodnje> tipProizvodnje,
 			Set<VrstaZivotinje> vrsteZivotinja, Set<Zivotinja> zivotinje) {
 		super();
+		this.id = id;
 		this.sifra = sifra;
 		this.naziv = naziv;
 		this.adresa = adresa;
@@ -106,10 +119,6 @@ public class Gazdinstvo {
 
 	public Vlasnik getVlasnik() {
 		return vlasnik;
-	}
-
-	public void setVlasnik(Vlasnik vlasnik) {
-		this.vlasnik = vlasnik;
 	}
 
 	public Set<TipProizvodnje> getTipProizvodnje() {

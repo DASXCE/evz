@@ -2,14 +2,20 @@
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
 
 	<div id="contentHeader">
-		<h1>+ Gazdinstvo</h1>
+		<t:if test="${forVlasnik()}">
+			<h1>+ Gazdinstvo za vlasnika: ${vlasnik.getIme()}, jmbg: ${vlasnik.getJmbg()} </h1>
+			<p:else>
+				<h1>+ Gazdinstvo</h1>
+			</p:else>
+		</t:if>
+
 	</div> <!-- #contentHeader -->
+	<form t:type="form" t:id="forma" class="form uniformForm">
+		<div class="container">
 
-	<div class="container">
+			<div class="grid-16">
 
-		<div class="grid-16">
 
-			<form t:type="form" t:id="forma" class="form uniformForm">
 
 				<div class="widget">
 
@@ -24,8 +30,8 @@
 							<label>Sifra:</label>
 
 							<div class="field">
-								<input t:type="textfield" name="sifra" t:id="sifra" size="10"
-									t:mixins="jquery/mask" />
+								<input t:type="textfield" t:value="sifra" name="sifra"
+									t:id="sifra" size="10" t:mixins="jquery/mask" />
 								<script>jQuery(function($){
 									$("#sifra").mask("99999",{placeholder:"*"});
 									});</script>
@@ -37,7 +43,8 @@
 							<label>Naziv:</label>
 
 							<div class="field">
-								<input t:type="textfield" name="naziv" t:id="naziv" size="20" />
+								<input t:type="textfield" t:value="naziv" name="naziv"
+									t:id="naziv" size="20" />
 							</div>
 
 						</div> <!-- .field-group -->
@@ -68,55 +75,57 @@
 							<label>Proizvodi:</label>
 
 							<div class="field">
-								<input t:type="checkbox" t:name="proizvod" t:id="meso"
-									t:value="0" />
-								<label for="checkbox1">Mesne proizvode</label>
+								<input t:type="checkbox" t:value="meso" t:name="proizvod"
+									t:id="meso" value="0" />
+								<label for="meso">Mesne proizvode</label>
 							</div>
 
 							<div class="field">
-								<input t:type="checkbox" t:name="proizvod" t:id="mlijeko"
-									value="0" />
-								<label for="checkbox2">Mlijecne proizvode</label>
+								<input t:type="checkbox" t:value="mlijeko" t:name="proizvod"
+									t:id="mlijeko" value="0" />
+								<label for="mlijeko">Mlijecne proizvode</label>
 							</div>
 
 							<div class="field">
-								<input t:type="checkbox" t:name="proizvod" t:id="jaja"
-									value="0" />
-								<label for="checkbox3">Jaja</label>
+								<input t:type="checkbox" t:value="jaja" t:name="proizvod"
+									t:id="jaja" value="0" />
+								<label for="jaja">Jaja</label>
 							</div>
 						</div>
 						<div class="field-group control-group">
 							<label>Vrste Zivotinja na gazdinstvu:</label>
 
 							<div class="field">
-								<input t:type="checkbox" t:name="vrsta" t:id="goveda"
-									value="0" />
-								<label for="checkbox1">Goveda</label>
+								<input t:type="checkbox" t:value="goveda" t:name="vrsta"
+									t:id="goveda" value="0" />
+								<label for="goveda">Goveda</label>
 							</div>
 
 							<div class="field">
-								<input t:type="checkbox" t:name="vrsta" t:id="ovce" value="0" />
-								<label for="checkbox2">Ovce</label>
+								<input t:type="checkbox" t:value="ovce" t:name="vrsta"
+									t:id="ovce" value="0" />
+								<label for="ovce">Ovce</label>
 							</div>
 
 							<div class="field">
-								<input t:type="checkbox" t:name="vrsta" t:id="koze" value="0" />
-								<label for="checkbox3">Koze</label>
+								<input t:type="checkbox" t:value="koze" t:name="vrsta"
+									t:id="koze" value="0" />
+								<label for="koze">Koze</label>
 							</div>
 							<div class="field">
-								<input t:type="checkbox" t:name="vrsta" t:id="svinje"
-									value="0" />
-								<label for="checkbox3">Svinje</label>
+								<input t:type="checkbox" t:value="svinje" t:name="vrsta"
+									t:id="svinje" value="0" />
+								<label for="svinje">Svinje</label>
 							</div>
 							<div class="field">
-								<input t:type="checkbox" t:name="vrsta" t:id="kopitari"
-									value="0" />
-								<label for="checkbox3">Kopitari</label>
+								<input t:type="checkbox" t:value="kopitari" t:name="vrsta"
+									t:id="kopitari" value="0" />
+								<label for="kopitari">Kopitari</label>
 							</div>
 							<div class="field">
-								<input t:type="checkbox" t:name="vrsta" t:id="zivina"
-									value="0" />
-								<label for="checkbox3">Zivina</label>
+								<input t:type="checkbox" t:value="zivina" t:name="vrsta"
+									t:id="zivina" value="0" />
+								<label for="zivina">Zivina</label>
 							</div>
 						</div>
 
@@ -124,48 +133,58 @@
 
 				</div> <!-- .widget -->
 
-			</form>
-
-		</div> <!-- .grid -->
-
-		<div class="grid-7">
 
 
-			<div class="box plain">
+			</div> <!-- .grid -->
 
-				<button type="submit" id="save" class="btn  btn-large btn-green"
-					style="
+			<div class="grid-7">
+				<t:if test="showsuccess">
+					<div id="succ" class="notify notify-success">
+
+						<a href="javascript:;" class="close">&times;
+						</a>
+
+						<h3>Uspjesno!</h3>
+
+						<p>Uspjesno ste dodali novo gazdinstvo u sistemu</p>
+					</div> <!-- .notify -->
+				</t:if>
+
+				<div class="box plain">
+
+					<button type="submit" id="save" class="btn  btn-large btn-green"
+						style="
     width: 100%;
 ">+
-					Save</button>
-				<br />
-				<br />
-				<button type="reset" class="btn  btn-large btn-red" style="
+						Save</button>
+					<br />
+					<br />
+					<button type="reset" class="btn  btn-large btn-gray" style="
     width: 100%;
 ">-
-					Cancel</button>
+						Cancel</button>
 
-			</div>
-			<script>
-				$(function () {
+				</div>
+				<script>
+					$(function () {
 
-				$('#save').live ('click', function (e) {
-				e.preventDefault ();
-				$.alert ({
-				type: 'confirm'
-				, title: 'Paznja'
-				, text: '
-				<p>Da li ste sigurni da zelite da unesete ove podatke?</p>
-				'
-				, callback: function () { $("#forma").submit(); }
-				});
-				});
+					$('#save').live ('click', function (e) {
+					e.preventDefault ();
+					$.alert ({
+					type: 'confirm'
+					, title: 'Paznja'
+					, text: '
+					<p>Da li ste sigurni da zelite da unesete ove podatke?</p>
+					'
+					, callback: function () { $("#forma").submit(); }
+					});
+					});
 
-				});
-			</script>
+					});
+				</script>
 
 
-		</div> <!-- .grid -->
-	</div> <!-- .container -->
-
+			</div> <!-- .grid -->
+		</div> <!-- .container -->
+	</form>
 </html>

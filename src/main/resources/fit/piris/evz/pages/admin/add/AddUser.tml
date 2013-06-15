@@ -223,12 +223,12 @@
 
 							<div class="field">
 								<input t:type="textfield" t:value="vet_ime" t:id="vet_ime"
-									size="10" class="validate[required]"/>
+									size="10" class="validate[required]" />
 								<label for="vet_ime">Ime</label>
 							</div>
 							<div class="field">
 								<input t:type="textfield" t:value="vet_prezime" t:id="vet_prezime"
-									size="12" class="validate[required]"/>
+									size="12" class="validate[required]" />
 								<label for="vet_prezime">Prezime</label>
 							</div>
 						</div> <!-- .field-group -->
@@ -237,14 +237,16 @@
 								<label>Ambulanta:</label>
 								<div class="field">
 									<input t:type="select" model="ambulantaModel" encoder="ambulantaEncoder"
-										value="ambulanta" class="validate[required]"/>
+										value="ambulanta" class="validate[required]" />
 
 									<button type="button" id="ambShow" class="btn btn-small btn-primary">Dodaj</button>
 									<script>
 										$("#ambShow").click(function (){
-										
+
 										$.blockUI({ message:
-										$('#ambulanta'), css: { border: '1px solid #aaa',top:'20%' },overlayCss:{cursor:'default'}});
+										$('#ambulanta'), css: { border: '1px solid
+										#aaa',top:'20%'
+										},overlayCss:{cursor:'default'}});
 										});
 									</script>
 									<label for="cardtype">Izaberite</label>
@@ -258,7 +260,7 @@
 			</div> <!-- .grid -->
 
 			<div class="grid-7">
-				<t:if test="showsuccess">
+				<t:if test="${isSuccessfullFromVlasnik()}">
 					<div id="succ" class="notify notify-success">
 
 						<a href="javascript:;" class="close">&times;
@@ -271,36 +273,53 @@
 
 					<div class="box plain">
 
-						<a t:type="pagelink" t:page="admin/add/gazdinstvo"
-							class="btn btn-primary btn-large dashboard_add">+ Gazdinstvo</a>
+						<a t:type="actionlink" t:id="novoGazdinstvo" id="novoGazdinstvo"
+							class="btn btn-primary btn-large dashboard_add"
+							original-title="Preko ovoga linka mozete dodati novo gazdinstvo za predhodno kreiranog korisnika">+ Gazdinstvo</a>
 					</div>
+					<script>
+						$(function () {
+						$('#novoGazdinstvo').tipsy({gravity: 'se'});
+						});
+					</script>
+				</t:if>
+				<t:if test="${isSuccessfull()}">
+					<div id="succ" class="notify notify-success">
+
+						<a href="javascript:;" class="close">&times;
+						</a>
+
+						<h3>Uspjesno!</h3>
+
+						<p>Uspjesno ste dodali novog korisnika na sistemu</p>
+					</div> <!-- .notify -->
+
 				</t:if>
 				<div class="box plain">
 					<button type="submit" id="save" class="btn btn-large btn-green"
 						style="width: 100%;">+Save</button>
-					<script>
-						$(function () {
-						$('#save').live ('click', function (e) {
-						e.preventDefault ();
-						$.alert ({
-						type: 'confirm'
-						, title: 'Potvrda'
-						,
-						confirmText: 'Sacuvaj'
-						, cancelText: 'Odustani'
-						, text: '
-						<p>Da li ste sigurni?</p>
-						'
-						, callback: function () { $('#forma').submit(); }
-						});
-						});
-						});
-					</script>
 					<br />
 					<br />
 					<button type="reset" class="btn btn-large btn-gray" style="width: 100%;">-Cancel</button>
 				</div>
-
+				<!-- NECE DA RADI AKO SE FORMATIRA HTML (CTRL+SHIFT+F), text: RAZBIJE 
+					STRING.... majku mu -->
+				<script>
+					$(function () {
+					$('#save').live ('click', function (e) {
+					e.preventDefault ();
+					$.alert ({
+					type: 'confirm'
+					, title: 'Potvrda'
+					,
+					confirmText: 'Sacuvaj'
+					, cancelText: 'Odustani'
+					, text: '<p>Da li ste sigurni?</p>'
+					, callback: function () { $('#forma').submit(); }
+					});
+					});
+					});
+				</script>
 
 			</div> <!-- .grid -->
 		</form>
@@ -332,12 +351,12 @@
 
 							<div class="field">
 								<input t:type="textfield" t:value="ambGrad" name="ambGrad"
-									id="ambGrad" size="12" class="validate[required]"/>
+									id="ambGrad" size="12" class="validate[required]" />
 								<label for="ambGrad">Grad</label>
 							</div>
 							<div class="field">
 								<input t:type="textfield" t:value="ambPosta" name="ambPosta"
-									t:id="ambPosta" size="6" t:mixins="jquery/mask" class="validate[required]"/>
+									t:id="ambPosta" size="6" t:mixins="jquery/mask" class="validate[required]" />
 								<label for="ambPosta">Postanski Broj</label>
 								<script>jQuery(function($){
 									$("#ambPosta").mask("99999",{placeholder:"*"});
@@ -345,7 +364,7 @@
 							</div>
 							<div class="field">
 								<input t:type="textfield" t:value="ambUlica" name="ambUlica"
-									id="ambUlica" size="20" class="validate[required]"/>
+									id="ambUlica" size="20" class="validate[required]" />
 								<label for="ambUlica">Ulica</label>
 							</div>
 
@@ -353,16 +372,20 @@
 						<div class="field-group">
 							<div class="field">
 								<table>
-								<tr>
-								<td>
-									<button type="submit" id="saveAmb" class="btn btn-green">+Save</button></td>
-									<td><button type="reset" id="resetAmb" class="btn btn-gray">Cancel</button></td>
-									<script>
-										$("#resetAmb").click(function (){
-										$.unblockUI();
-										});
-									</script>
-								</tr></table>
+									<tr>
+										<td>
+											<button type="submit" id="saveAmb" class="btn btn-green">+Save</button>
+										</td>
+										<td>
+											<button type="reset" id="resetAmb" class="btn btn-gray">Cancel</button>
+										</td>
+										<script>
+											$("#resetAmb").click(function (){
+											$.unblockUI();
+											});
+										</script>
+									</tr>
+								</table>
 							</div>
 						</div>
 

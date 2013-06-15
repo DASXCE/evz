@@ -2,7 +2,9 @@ package fit.piris.evz.services.dao.user;
 
 import fit.piris.evz.entities.Adresa;
 import fit.piris.evz.entities.Ambulanta;
+import fit.piris.evz.entities.gazdinstvo.Gazdinstvo;
 import fit.piris.evz.entities.users.User;
+import fit.piris.evz.entities.users.Vlasnik;
 
 public interface UserDAO {
 

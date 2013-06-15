@@ -6,6 +6,7 @@ import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectComponent;
+import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Zone;
@@ -15,6 +16,7 @@ import org.hibernate.Session;
 
 import fit.piris.evz.entities.Adresa;
 import fit.piris.evz.entities.Ambulanta;
+import fit.piris.evz.entities.users.Vlasnik;
 import fit.piris.evz.model.selectBox.ambulanta.AmbulantaEncoder;
 import fit.piris.evz.model.selectBox.ambulanta.AmbulantaSelectModel;
 import fit.piris.evz.services.dao.user.UserDAO;
@@ -95,34 +97,35 @@ public class AddUser {
 
 	@Property
 	private String ambUlica;
-	
+
 	@Property
 	private String amb_naziv;
 
 	/*
 	 * 
 	 */
-	
+
 	@Property
 	@Persist(PersistenceConstants.FLASH)
-	private boolean showsuccess;
+	private int showsuccess;
 
 	@InjectComponent
 	private Zone ambZona;
 
 	@CommitAfter
-	public Object onSubmitFromForma() {
+	public void onSubmitFromForma() {
 		if (privilegija.toLowerCase().equals("admin")) {
 			userDAO.registerAdmin(email, password2);
 		} else if (privilegija.toLowerCase().equals("vlasnik")) {
 			userDAO.registerVlasnik(email, password2, jmbg, ime, prezime,
 					new Adresa(grad, posta, ulica), telefon);
+			showsuccess = 2;
+			return;
 		} else if (privilegija.toLowerCase().equals("veterinar")) {
 			userDAO.registerVeterinar(email, password2, vet_ime, vet_prezime,
 					ambulanta);
 		}
-		showsuccess = true;
-		return null;
+		showsuccess = 1;
 	}
 
 	@CommitAfter
@@ -145,6 +148,16 @@ public class AddUser {
 		return ambZona.getBody();
 	}
 
+	@InjectPage
+	private AddGazdinstvo gazdinstvo;
+
+	public Object onActionFromNovoGazdinstvo() {
+		@SuppressWarnings("unchecked")
+		List<Vlasnik> list = session.createCriteria(Vlasnik.class).list();
+		gazdinstvo.setVlasnik(list.get(list.size() - 1));
+		return gazdinstvo;
+	}
+
 	@SuppressWarnings("unchecked")
 	public SelectModel getAmbulantaModel() {
 		return new AmbulantaSelectModel(session.createCriteria(Ambulanta.class)
@@ -154,5 +167,19 @@ public class AddUser {
 
 	public AmbulantaEncoder getAmbulantaEncoder() {
 		return new AmbulantaEncoder(session);
+	}
+
+	public boolean isSuccessfull() {
+		if (showsuccess == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isSuccessfullFromVlasnik() {
+		if (showsuccess == 2) {
+			return true;
+		}
+		return false;
 	}
 }

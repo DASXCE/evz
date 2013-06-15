@@ -2,13 +2,13 @@ package fit.piris.evz.services.dao.user;
 
 import java.util.List;
 
-
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import fit.piris.evz.entities.Adresa;
 import fit.piris.evz.entities.Ambulanta;
+import fit.piris.evz.entities.gazdinstvo.Gazdinstvo;
 import fit.piris.evz.entities.users.User;
 import fit.piris.evz.entities.users.Veterinar;
 import fit.piris.evz.entities.users.Vlasnik;
@@ -49,13 +49,13 @@ public class UserDAOImpl implements UserDAO {
 
 	public void registerVlasnik(String email, String password, Long jmbg,
 			String ime, String prezime, Adresa adresa, String telefon) {
-		
+
 		@SuppressWarnings("unchecked")
 		List<Adresa> adrese = session.createCriteria(Adresa.class).list();
 		for (Adresa adr : adrese) {
 			if (adr.equals(adresa)) {
-				Vlasnik v = new Vlasnik(email, MD5.md5(password), jmbg, ime, prezime,
-						adr, telefon);
+				Vlasnik v = new Vlasnik(email, MD5.md5(password), jmbg, ime,
+						prezime, adr, telefon);
 				session.save(v);
 				return;
 			}
@@ -70,7 +70,8 @@ public class UserDAOImpl implements UserDAO {
 	public void registerVeterinar(String email, String password, String ime,
 			String prezime, Ambulanta ambulanta) {
 
-		Veterinar v = new Veterinar(email, MD5.md5(password), ime, prezime, ambulanta);
+		Veterinar v = new Veterinar(email, MD5.md5(password), ime, prezime,
+				ambulanta);
 		session.save(v);
 	}
 
