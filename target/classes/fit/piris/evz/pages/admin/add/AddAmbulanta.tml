@@ -1,4 +1,4 @@
-<form t:type="form" class="form uniformForm validateForm" t:id="ambForma">
+
 	<table>
 		<div class="widget-content">
 			<tr>
@@ -81,4 +81,3 @@
 		</div>
 		<!-- .field-group -->
 	</table>
-</form>

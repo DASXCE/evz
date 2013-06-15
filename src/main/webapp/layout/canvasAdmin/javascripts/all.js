@@ -25976,9 +25976,12 @@ if (!document.createElement("canvas").getContext)
                 methods._saveOptions(form, options);
 
                 // bind all formError elements to close on click
-                $(".formError").live("click", function ()
+//                if($(".formError").is(':visible')){
+//                $(".formError").fadeOut(100);
+//                }
+                $(".formError").live("mouseover", function ()
                 {
-                    $(this).fadeOut(150, function ()
+                	$(this).fadeOut(150, function ()
                     {
 
                         // remove prompt once invisible
@@ -28371,7 +28374,7 @@ if (!document.createElement("canvas").getContext)
 
         var defaults, options, container, header, close, content, title, overlay;
 
-        
+        var location='#ambForma';
         defaults = {
             title: '',
             html: '',
@@ -28405,12 +28408,12 @@ if (!document.createElement("canvas").getContext)
             html: '&times'
         });
 
-        container.appendTo('body');
+        container.appendTo(location);
         header.appendTo(container);
         content.appendTo(container);
         if (options.overlay)
         {
-            overlay.appendTo('body');
+            overlay.appendTo('#ambForma');
         }
         title.prependTo(header);
         close.appendTo(header);

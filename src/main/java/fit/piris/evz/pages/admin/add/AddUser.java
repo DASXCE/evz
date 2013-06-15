@@ -1,23 +1,27 @@
 package fit.piris.evz.pages.admin.add;
 
+import java.util.List;
+
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.annotations.Import;
-import org.apache.tapestry5.annotations.OnEvent;
+import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 
-import fit.piris.evz.annotations.GuestAccess;
 import fit.piris.evz.entities.Adresa;
 import fit.piris.evz.entities.Ambulanta;
 import fit.piris.evz.model.selectBox.ambulanta.AmbulantaEncoder;
 import fit.piris.evz.model.selectBox.ambulanta.AmbulantaSelectModel;
 import fit.piris.evz.services.dao.user.UserDAO;
 
-@Import(stylesheet = "context:layout/canvasAdmin/stylesheets/all.css", library = { "context:layout/canvasAdmin/javascripts/all.js" })
+@Import(stylesheet = "context:layout/canvasAdmin/stylesheets/all.css", library = {
+		"context:layout/canvasAdmin/javascripts/all.js",
+		"context:layout/canvasAdmin/javascripts/jquery.blockUI.js" })
 public class AddUser {
 
 	/*
@@ -44,6 +48,12 @@ public class AddUser {
 	@Property
 	private String prezime;
 
+	@Property
+	private Long jmbg;
+
+	@Property
+	private String telefon;
+
 	/*
 	 * podaci o veterinaru
 	 */
@@ -65,24 +75,40 @@ public class AddUser {
 	@Property
 	private String ulica;
 
-	@Property
-	private Long jmbg;
-
-	@Property
-	private String telefon;
-
 	@Inject
 	private UserDAO userDAO;
 
 	@Inject
 	private Session session;
 
+	/*
+	 * ambulanta
+	 */
 	@Property
 	private Ambulanta ambulanta;
 
 	@Property
+	private String ambGrad;
+
+	@Property
+	private Integer ambPosta;
+
+	@Property
+	private String ambUlica;
+	
+	@Property
+	private String amb_naziv;
+
+	/*
+	 * 
+	 */
+	
+	@Property
 	@Persist(PersistenceConstants.FLASH)
 	private boolean showsuccess;
+
+	@InjectComponent
+	private Zone ambZona;
 
 	@CommitAfter
 	public Object onSubmitFromForma() {
@@ -96,10 +122,28 @@ public class AddUser {
 					ambulanta);
 		}
 		showsuccess = true;
-		// return AddGazdinstvo.class;
 		return null;
 	}
-	
+
+	@CommitAfter
+	public Object onSubmitFromAmbForma() {
+		Adresa adresa = new Adresa(ambGrad, ambPosta, ambUlica);
+
+		@SuppressWarnings("unchecked")
+		List<Adresa> adrese = session.createCriteria(Adresa.class).list();
+		for (Adresa adr : adrese) {
+			if (adr.equals(adresa)) {
+				ambulanta = new Ambulanta(amb_naziv, adr);
+				session.save(ambulanta);
+				return null;
+			}
+		}
+		session.save(adresa);
+
+		ambulanta = new Ambulanta(amb_naziv, adresa);
+		session.save(ambulanta);
+		return ambZona.getBody();
+	}
 
 	@SuppressWarnings("unchecked")
 	public SelectModel getAmbulantaModel() {

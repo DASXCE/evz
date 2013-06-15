@@ -485,7 +485,7 @@
 
 					<a t:type="pagelink" t:page="admin/add/user" href="admin/add/user"
 						class="btn btn-primary btn-large dashboard_add">+ Korisnik</a>
-					<a href="admin/add/gazdinstvo" class="btn btn-tertiary btn-large dashboard_add">+ Gazdinstvo</a>
+					<a href="admin/add/gazdinstvo" class="btn btn-teal btn-large dashboard_add">+ Gazdinstvo</a>
 
 				</div>
 			</t:if>

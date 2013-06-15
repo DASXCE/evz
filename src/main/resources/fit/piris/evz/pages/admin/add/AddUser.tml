@@ -128,7 +128,7 @@
 					});
 				</script>
 
-<!-- DIV ZA DODAVANJE VLASNIKA -->
+				<!-- DIV ZA DODAVANJE VLASNIKA -->
 
 				<div id="v-podaci" class="widget" style="display:none;">
 
@@ -223,39 +223,34 @@
 
 							<div class="field">
 								<input t:type="textfield" t:value="vet_ime" t:id="vet_ime"
-									size="10" class="" />
-								<label for="vet-ime">Ime</label>
+									size="10" class="validate[required]"/>
+								<label for="vet_ime">Ime</label>
 							</div>
 							<div class="field">
 								<input t:type="textfield" t:value="vet_prezime" t:id="vet_prezime"
-									size="12" class="" />
+									size="12" class="validate[required]"/>
 								<label for="vet_prezime">Prezime</label>
 							</div>
 						</div> <!-- .field-group -->
-						<div class="field-group">
-							<label>Ambulanta:</label>
-							<div class="field">
-								<input t:type="select" model="ambulantaModel" encoder="ambulantaEncoder"
-									value="ambulanta" />
+						<t:zone t:id="ambZona" id="ambZona">
+							<div class="field-group">
+								<label>Ambulanta:</label>
+								<div class="field">
+									<input t:type="select" model="ambulantaModel" encoder="ambulantaEncoder"
+										value="ambulanta" class="validate[required]"/>
 
-								<button type="button" id="exampleModal" class="btn btn-small btn-primary">Dodaj</button>
-								<script>
-
-									$(function () {
-									$('#exampleModal').live ('click', function (e) {
-
-
-									$.modal ({
-									title: '+Ambulanta'
-									, ajax: '/evz/html/novaAmbulanta.html'
-									});
-									});});
-
-								</script>
-								<label for="cardtype">Izaberite</label>
-							</div>
-						</div> <!-- .field-group -->
-
+									<button type="button" id="ambShow" class="btn btn-small btn-primary">Dodaj</button>
+									<script>
+										$("#ambShow").click(function (){
+										
+										$.blockUI({ message:
+										$('#ambulanta'), css: { border: '1px solid #aaa',top:'20%' },overlayCss:{cursor:'default'}});
+										});
+									</script>
+									<label for="cardtype">Izaberite</label>
+								</div>
+							</div> <!-- .field-group -->
+						</t:zone>
 					</div> <!-- .widget-content -->
 
 				</div> <!-- .widget -->
@@ -284,29 +279,99 @@
 					<button type="submit" id="save" class="btn btn-large btn-green"
 						style="width: 100%;">+Save</button>
 					<script>
-					$(function () {
-					$('#save').live ('click', function (e) {
-		e.preventDefault ();
-		$.alert ({ 
-			type: 'confirm'
-			, title: 'Potvrda'
-			, confirmText: 'Sacuvaj'
-			, cancelText: 'Odustani'
-			, text: '<p>Da li ste sigurni?</p>'
-			, callback: function () { $('#forma').submit(); }	
-		});		
-	});
-					});
+						$(function () {
+						$('#save').live ('click', function (e) {
+						e.preventDefault ();
+						$.alert ({
+						type: 'confirm'
+						, title: 'Potvrda'
+						,
+						confirmText: 'Sacuvaj'
+						, cancelText: 'Odustani'
+						, text: '
+						<p>Da li ste sigurni?</p>
+						'
+						, callback: function () { $('#forma').submit(); }
+						});
+						});
+						});
 					</script>
 					<br />
 					<br />
-					<button type="reset" class="btn btn-large btn-red" style="width: 100%;">-Cancel</button>
+					<button type="reset" class="btn btn-large btn-gray" style="width: 100%;">-Cancel</button>
 				</div>
 
 
 			</div> <!-- .grid -->
 		</form>
-	</div> <!-- .container -->
+		<div id="ambulanta" style="display:none;" align="left" cursor="default">
+			<form t:type="form" class="form uniformForm validateForm" t:id="ambForma"
+				id="ambForma">
+				<div class="widget">
 
+					<div class="widget-header">
+						<span class="icon-article" style="
+    background-position: 0px -6160px;
+"></span>
+						<h3>Ambulanta</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+
+						<div class="field-group">
+							<label>Naziv:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="amb_naziv" t:id="amb_naziv"
+									size="16" class="validate[required]" />
+							</div>
+						</div> <!-- .field-group -->
+
+						<div class="field-group">
+							<label>Adresa:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="ambGrad" name="ambGrad"
+									id="ambGrad" size="12" class="validate[required]"/>
+								<label for="ambGrad">Grad</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="ambPosta" name="ambPosta"
+									t:id="ambPosta" size="6" t:mixins="jquery/mask" class="validate[required]"/>
+								<label for="ambPosta">Postanski Broj</label>
+								<script>jQuery(function($){
+									$("#ambPosta").mask("99999",{placeholder:"*"});
+									});</script>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="ambUlica" name="ambUlica"
+									id="ambUlica" size="20" class="validate[required]"/>
+								<label for="ambUlica">Ulica</label>
+							</div>
+
+						</div>
+						<div class="field-group">
+							<div class="field">
+								<table>
+								<tr>
+								<td>
+									<button type="submit" id="saveAmb" class="btn btn-green">+Save</button></td>
+									<td><button type="reset" id="resetAmb" class="btn btn-gray">Cancel</button></td>
+									<script>
+										$("#resetAmb").click(function (){
+										$.unblockUI();
+										});
+									</script>
+								</tr></table>
+							</div>
+						</div>
+
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+
+			</form>
+		</div>
+	</div> <!-- .container -->
 
 </html>
