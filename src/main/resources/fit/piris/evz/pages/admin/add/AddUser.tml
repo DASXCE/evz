@@ -1,0 +1,311 @@
+<html t:type="layout" title="add user"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
+	<!-- script for save button -->
+	<div id="contentHeader">
+		<h1>+ Korisnik</h1>
+	</div> <!-- #contentHeader -->
+
+	<div class="container">
+		<form t:type="form" class="form uniformForm validateForm" t:id="forma">
+
+			<div class="grid-16">
+
+
+				<div class="widget">
+					<div id="nalog" class="widget-header">
+						<span class="icon-article" style="background-position: 0px -3960px;"></span>
+						<h3>Nalog</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+
+						<div class="field-group">
+							<label for="email" id="west" original-title="This is used instead of username"
+								style="width:50px;">Email:</label>
+							<script>
+								$(function () {
+
+								$('#north').tipsy({gravity: 'n'});
+								$('#south').tipsy({gravity: 's'});
+								$('#east').tipsy({gravity:
+								'e'});
+								$('#west').tipsy({gravity: 'w'});
+								$('#north-west').tipsy({gravity: 'nw'});
+								$('#north-east').tipsy({gravity: 'ne'});
+								$('#south-west').tipsy({gravity: 'sw'});
+								$('#south-east').tipsy({gravity: 'se'});
+								});
+							</script>
+							<div class="field">
+								<input t:type="textfield" t:value="email" name="email"
+									t:id="email" size="30" class="validate[required,custom[email]"
+									t:validate="email" />
+							</div>
+
+							<div class="field-group">
+								<label for="password1">Lozinka:</label>
+								<div class="field">
+									<input type="password" name="password1" id="password1"
+										size="25" class="validate[required,minSize[5]]" value=""
+										t:validate="password" />
+								</div>
+							</div> <!-- .field-group -->
+
+							<div class="field-group">
+								<label for="password2">Potvrda Lozinke:</label>
+								<div class="field">
+									<input t:type="passwordfield" name="password2" id="password2"
+										size="25" class="validate[required,equals[password1]]"
+										t:value="password2" />
+								</div>
+							</div>
+						</div> <!-- .field-group -->
+						<t:radiogroup t:value="privilegija">
+							<div class="field-group control-group inline">
+								<label>Privilegija:</label>
+
+								<div class="field">
+									<input t:type="radio" t:id="admin" t:value="literal:admin"
+										class="validate[required]" />
+									<label for="radio1">Admin</label>
+								</div>
+								<div class="field">
+									<input t:type="radio" t:id="veterinar" t:value="literal:veterinar"
+										class="validate[required]" />
+									<label for="radio3">Veterinar</label>
+								</div>
+								<div class="field">
+									<input t:type="radio" t:id="vlasnik" t:value="literal:vlasnik"
+										class="validate[required]" />
+									<label for="radio2">Vlasnik</label>
+								</div>
+
+							</div>
+						</t:radiogroup>
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+				<script>
+					$('input[name=radiogroup]:radio').click(
+					function() {
+					if
+					($(this).val() == 'admin') {
+					$('html,body').animate({
+					scrollTop :
+					$('body').offset().top
+					}, 2000);
+					$('#v-podaci').fadeOut(500);
+					$('#vet-podaci').fadeOut(500);
+					$("#save").fadeIn(400).fadeOut(400).fadeIn(400).fadeOut(400)
+					.fadeIn(400).fadeOut(400).fadeIn(400);
+					} else if ($(this).val() ==
+					'vlasnik') {
+					$('#vet-podaci').fadeOut();
+					$('#v-podaci').css('opacity', 0).slideDown('slow').animate({
+					opacity : 1
+					}, {
+					queue : false,
+					duration : 'slow'
+					});
+					$('html,body').animate({
+					scrollTop : $('#v-podaci').offset().top
+					},
+					2600);
+					}else if ($(this).val() == 'veterinar') {
+					$('#v-podaci').fadeOut();
+					$('#vet-podaci').css('opacity',
+					0).slideDown('slow').animate({
+					opacity : 1
+					}, {
+					queue : false,
+					duration : 'slow'
+					});
+					$('html,body').animate({
+					scrollTop :
+					$('#vet-podaci').offset().top
+					}, 2600);
+					}
+					});
+				</script>
+
+
+
+				<div id="v-podaci" class="widget" style="display:none;">
+
+					<div class="widget-header">
+						<span class="icon-article" style="
+    background-position: 0px -7480px;
+"></span>
+						<h3>Podaci</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+						<div class="field-group">
+							<label>JMBG:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="jmbg" name="jmbg" t:id="jmbg"
+									size="15" t:mixins="jquery/mask" />
+							</div>
+							<script>jQuery(function($){
+								$("#jmbg").mask("9999999999999",{placeholder:"*"});
+								});</script>
+						</div>
+
+						<div class="field-group">
+							<label>Naziv:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="ime" t:id="ime" size="10"
+									class="" />
+								<label for="ime">Ime</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="prezime" t:id="prezime"
+									size="12" class="" />
+								<label for="prezime">Prezime</label>
+							</div>
+						</div> <!-- .field-group -->
+
+						<div class="field-group">
+							<label>Kontakt:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="telefon" name="phone1"
+									t:id="phone1" size="15" t:mixins="jquery/mask" />
+								<label for="phone1">Tel</label>
+								<script>jQuery(function($){
+									$("#phone1").mask("999/999/999",{placeholder:"*"});
+									});</script>
+							</div>
+						</div>
+
+						<div class="field-group">
+							<label>Adresa:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="grad" name="grad" id="grad"
+									size="12" />
+								<label for="grad">Grad</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="posta" name="posta"
+									t:id="posta" size="6" t:mixins="jquery/mask" />
+								<label for="posta">Postanski Broj</label>
+								<script>jQuery(function($){
+									$("#posta").mask("99999",{placeholder:"*"});
+									});</script>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="ulica" name="ulica" id="ulica"
+									size="20" />
+								<label for="ulica">Ulica</label>
+							</div>
+						</div>
+
+
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+
+				<div id="vet-podaci" class="widget" style="display:none;">
+
+					<div class="widget-header">
+						<span class="icon-article" style="
+    background-position: 0px -7480px;
+"></span>
+						<h3>Podaci</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+						<div class="field-group">
+							<label>Naziv:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="vet_ime" t:id="vet_ime"
+									size="10" class="" />
+								<label for="vet-ime">Ime</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="vet_prezime" t:id="vet_prezime"
+									size="12" class="" />
+								<label for="vet_prezime">Prezime</label>
+							</div>
+						</div> <!-- .field-group -->
+						<div class="field-group">
+							<label>Ambulanta:</label>
+							<div class="field">
+								<input t:type="select" model="ambulantaModel" encoder="ambulantaEncoder"
+									value="ambulanta" />
+
+								<button type="button" id="exampleModal" class="btn btn-small btn-primary">Dodaj</button>
+								<script>
+
+									$(function () {
+									$('#exampleModal').live ('click', function (e) {
+
+
+									$.modal ({
+									title: '+Ambulanta'
+									, ajax: 'modal.php'
+									});
+									});});
+
+								</script>
+								<label for="cardtype">Izaberite</label>
+							</div>
+						</div> <!-- .field-group -->
+
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+
+			</div> <!-- .grid -->
+
+			<div class="grid-7">
+				<t:if test="showsuccess">
+					<div id="succ" class="notify notify-success">
+
+						<a href="javascript:;" class="close">&times;
+						</a>
+
+						<h3>Uspjesno!</h3>
+
+						<p>Uspjesno ste dodali novog korisnika na sistemu</p>
+					</div> <!-- .notify -->
+
+					<div class="box plain">
+
+						<a t:type="pagelink" t:page="admin/add/gazdinstvo"
+							class="btn btn-primary btn-large dashboard_add">+ Gazdinstvo</a>
+					</div>
+				</t:if>
+				<div class="box plain">
+					<button type="submit" id="save" class="btn btn-large btn-green"
+						style="width: 100%;">+Save</button>
+					<script type="text/javascript">
+						$('#save').live ('click', function (e) {
+						e.preventDefault ();
+						$.alert ({
+						type: 'confirm'
+						, title: 'Alert'
+						, text: '
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+							do dolor sit amet, consectetur adipisicing elit, sed do.</p>
+						'
+						, callback: function () { $('#forma').submit(); }
+						});
+						});
+					</script>
+					<br />
+					<br />
+					<button type="reset" class="btn btn-large btn-red" style="width: 100%;">-Cancel</button>
+				</div>
+
+
+			</div> <!-- .grid -->
+		</form>
+	</div> <!-- .container -->
+
+
+</html>

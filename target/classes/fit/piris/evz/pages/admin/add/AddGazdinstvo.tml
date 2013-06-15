@@ -1,0 +1,171 @@
+<html t:type="layout" title="add gazdinstvo"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
+
+	<div id="contentHeader">
+		<h1>+ Gazdinstvo</h1>
+	</div> <!-- #contentHeader -->
+
+	<div class="container">
+
+		<div class="grid-16">
+
+			<form t:type="form" t:id="forma" class="form uniformForm">
+
+				<div class="widget">
+
+					<div class="widget-header">
+						<span class="icon-article"></span>
+						<h3>Opsti podaci</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+
+						<div class="field-group">
+							<label>Sifra:</label>
+
+							<div class="field">
+								<input t:type="textfield" name="sifra" t:id="sifra" size="10"
+									t:mixins="jquery/mask" />
+								<script>jQuery(function($){
+									$("#sifra").mask("99999",{placeholder:"*"});
+									});</script>
+							</div>
+
+						</div> <!-- .field-group -->
+
+						<div class="field-group">
+							<label>Naziv:</label>
+
+							<div class="field">
+								<input t:type="textfield" name="naziv" t:id="naziv" size="20" />
+							</div>
+
+						</div> <!-- .field-group -->
+
+						<div class="field-group">
+							<label>Adresa:</label>
+							<div class="field">
+								<input t:type="textfield" t:value="grad" name="grad" id="grad"
+									size="12" />
+								<label for="grad">Grad</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="posta" name="posta"
+									t:id="posta" size="6" t:mixins="jquery/mask" />
+								<label for="posta">Postanski Broj</label>
+								<script>jQuery(function($){
+									$("#posta").mask("99999",{placeholder:"*"});
+									});</script>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="ulica" name="ulica" id="ulica"
+									size="20" />
+								<label for="ulica">Ulica</label>
+							</div>
+						</div> <!-- .field-group -->
+
+						<div class="field-group control-group">
+							<label>Proizvodi:</label>
+
+							<div class="field">
+								<input t:type="checkbox" t:name="proizvod" t:id="meso"
+									t:value="0" />
+								<label for="checkbox1">Mesne proizvode</label>
+							</div>
+
+							<div class="field">
+								<input t:type="checkbox" t:name="proizvod" t:id="mlijeko"
+									value="0" />
+								<label for="checkbox2">Mlijecne proizvode</label>
+							</div>
+
+							<div class="field">
+								<input t:type="checkbox" t:name="proizvod" t:id="jaja"
+									value="0" />
+								<label for="checkbox3">Jaja</label>
+							</div>
+						</div>
+						<div class="field-group control-group">
+							<label>Vrste Zivotinja na gazdinstvu:</label>
+
+							<div class="field">
+								<input t:type="checkbox" t:name="vrsta" t:id="goveda"
+									value="0" />
+								<label for="checkbox1">Goveda</label>
+							</div>
+
+							<div class="field">
+								<input t:type="checkbox" t:name="vrsta" t:id="ovce" value="0" />
+								<label for="checkbox2">Ovce</label>
+							</div>
+
+							<div class="field">
+								<input t:type="checkbox" t:name="vrsta" t:id="koze" value="0" />
+								<label for="checkbox3">Koze</label>
+							</div>
+							<div class="field">
+								<input t:type="checkbox" t:name="vrsta" t:id="svinje"
+									value="0" />
+								<label for="checkbox3">Svinje</label>
+							</div>
+							<div class="field">
+								<input t:type="checkbox" t:name="vrsta" t:id="kopitari"
+									value="0" />
+								<label for="checkbox3">Kopitari</label>
+							</div>
+							<div class="field">
+								<input t:type="checkbox" t:name="vrsta" t:id="zivina"
+									value="0" />
+								<label for="checkbox3">Zivina</label>
+							</div>
+						</div>
+
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+
+			</form>
+
+		</div> <!-- .grid -->
+
+		<div class="grid-7">
+
+
+			<div class="box plain">
+
+				<button type="submit" id="save" class="btn  btn-large btn-green"
+					style="
+    width: 100%;
+">+
+					Save</button>
+				<br />
+				<br />
+				<button type="reset" class="btn  btn-large btn-red" style="
+    width: 100%;
+">-
+					Cancel</button>
+
+			</div>
+			<script>
+				$(function () {
+
+				$('#save').live ('click', function (e) {
+				e.preventDefault ();
+				$.alert ({
+				type: 'confirm'
+				, title: 'Paznja'
+				, text: '
+				<p>Da li ste sigurni da zelite da unesete ove podatke?</p>
+				'
+				, callback: function () { $("#forma").submit(); }
+				});
+				});
+
+				});
+			</script>
+
+
+		</div> <!-- .grid -->
+	</div> <!-- .container -->
+
+</html>
