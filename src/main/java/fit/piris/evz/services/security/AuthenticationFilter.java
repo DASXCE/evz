@@ -67,7 +67,6 @@ public class AuthenticationFilter implements ComponentRequestFilter {
 		Component page = componentSource.getPage(pageName);
 		Link linkToIndex = renderLinkSource.createPageRenderLink("Index");
 		Link linkToError = renderLinkSource.createPageRenderLink("errorPages/Error_403");
-
 		if (authenticator.LoggedIn()) {
 			// Logged user should not go back to Login instead to index
 			if (loginPage.equalsIgnoreCase(pageName)) {
@@ -103,7 +102,6 @@ public class AuthenticationFilter implements ComponentRequestFilter {
 			return false;
 
 		}
-
 		// if no user logged in and if GuestAccess present ALLOW
 		if (page.getClass().isAnnotationPresent(GuestAccess.class)) {
 			return false;

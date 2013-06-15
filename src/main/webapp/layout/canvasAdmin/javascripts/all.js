@@ -28371,6 +28371,7 @@ if (!document.createElement("canvas").getContext)
 
         var defaults, options, container, header, close, content, title, overlay;
 
+        
         defaults = {
             title: '',
             html: '',

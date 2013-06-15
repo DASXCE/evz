@@ -70,8 +70,8 @@ public class Layout {
 	}
 	
 	public String getLoggedUser(){
-//		if (authenticator.getLoggedUser() instanceof User) {
-//		probaj ovo	
+//		if (authenticator.getLoggedUser().getEmail()!=null) {
+//			return authenticator.getLoggedUser().getEmail();
 //		}
 		return authenticator.getLoggedUser().getEmail();
 	}

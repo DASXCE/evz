@@ -3,6 +3,7 @@ package fit.piris.evz.pages.admin.add;
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.annotations.Import;
+import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
@@ -15,31 +16,46 @@ import fit.piris.evz.entities.Ambulanta;
 import fit.piris.evz.model.selectBox.ambulanta.AmbulantaEncoder;
 import fit.piris.evz.model.selectBox.ambulanta.AmbulantaSelectModel;
 import fit.piris.evz.services.dao.user.UserDAO;
+
 @Import(stylesheet = "context:layout/canvasAdmin/stylesheets/all.css", library = { "context:layout/canvasAdmin/javascripts/all.js" })
-@GuestAccess
 public class AddUser {
 
+	/*
+	 * tip korisnika
+	 */
 	@Property
 	private String privilegija;
 
+	/*
+	 * zajednicko za sve korisnike ili samo ako je admin
+	 */
 	@Property
 	private String email;
 
 	@Property
-	private String password2;
+	private String password2;// password '2' zato sto uzimamo potvrdu passworda
 
+	/*
+	 * podaci o vlasniku
+	 */
 	@Property
 	private String ime;
 
 	@Property
 	private String prezime;
 
+	/*
+	 * podaci o veterinaru
+	 */
 	@Property
 	private String vet_ime;
 
 	@Property
 	private String vet_prezime;
 
+	/*
+	 * adresa za vlasnika ili za ambulantu
+	 */
 	@Property
 	private String grad;
 
@@ -83,6 +99,7 @@ public class AddUser {
 		// return AddGazdinstvo.class;
 		return null;
 	}
+	
 
 	@SuppressWarnings("unchecked")
 	public SelectModel getAmbulantaModel() {

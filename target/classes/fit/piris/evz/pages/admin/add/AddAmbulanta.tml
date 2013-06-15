@@ -1,0 +1,84 @@
+<form t:type="form" class="form uniformForm validateForm" t:id="ambForma">
+	<table>
+		<div class="widget-content">
+			<tr>
+				<div class="field-group">
+					<th align="left">
+						<label>Naziv:</label>
+					</th>
+					<div class="field">
+						<td>
+							<input t:type="textfield" t:value="amb_naziv" t:id="amb_naziv"
+								size="20" class="" />
+						</td>
+					</div>
+				</div>
+			</tr>
+		</div>
+		<div class="field-group">
+			<tr>
+				<td colspan="2">
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="2" align="left">
+					<label>Adresa:</label>
+					<tr>
+						<div class="field">
+							<td>
+								<label for="grad">Grad:</label>
+							</td>
+							<td>
+								<input t:type="textfield" t:value="grad" name="grad" id="grad"
+									size="12" />
+							</td>
+						</div>
+					</tr>
+					<tr>
+						<div class="field">
+							<td>
+								<label for="posta">Postanski br:</label>
+							</td>
+							<td>
+								<input t:type="textfield" t:value="posta" name="posta"
+									t:id="posta" size="12" t:mixins="jquery/mask" />
+							</td>
+							<script>
+								jQuery(function($) {
+								$("#posta").mask("99999", {
+								placeholder : "*"
+								});
+								});
+							</script>
+						</div>
+					</tr>
+					<tr>
+						<div class="field">
+							<td>
+								<label for="ulica">Ulica: </label>
+							</td>
+							<td>
+								<input t:type="textfield" t:value="ulica" name="ulica" id="ulica"
+									size="20" />
+							</td>
+						</div>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<hr>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<button type="submit" id="saveAmb" class="btn btn-small btn-green"
+								style="width: 100%;">+Save</button>
+						</td>
+						<td>
+							<button type="reset" id="resetAmb" class="btn btn-small btn-gray">Cancel</button>
+						</td>
+					</tr>
+		</div>
+		<!-- .field-group -->
+	</table>
+</form>

@@ -128,7 +128,7 @@
 					});
 				</script>
 
-
+<!-- DIV ZA DODAVANJE VLASNIKA -->
 
 				<div id="v-podaci" class="widget" style="display:none;">
 
@@ -247,7 +247,7 @@
 
 									$.modal ({
 									title: '+Ambulanta'
-									, ajax: 'modal.php'
+									, ajax: '/evz/html/novaAmbulanta.html'
 									});
 									});});
 
@@ -283,19 +283,20 @@
 				<div class="box plain">
 					<button type="submit" id="save" class="btn btn-large btn-green"
 						style="width: 100%;">+Save</button>
-					<script type="text/javascript">
-						$('#save').live ('click', function (e) {
-						e.preventDefault ();
-						$.alert ({
-						type: 'confirm'
-						, title: 'Alert'
-						, text: '
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-							do dolor sit amet, consectetur adipisicing elit, sed do.</p>
-						'
-						, callback: function () { $('#forma').submit(); }
-						});
-						});
+					<script>
+					$(function () {
+					$('#save').live ('click', function (e) {
+		e.preventDefault ();
+		$.alert ({ 
+			type: 'confirm'
+			, title: 'Potvrda'
+			, confirmText: 'Sacuvaj'
+			, cancelText: 'Odustani'
+			, text: '<p>Da li ste sigurni?</p>'
+			, callback: function () { $('#forma').submit(); }	
+		});		
+	});
+					});
 					</script>
 					<br />
 					<br />

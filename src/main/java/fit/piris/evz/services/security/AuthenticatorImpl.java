@@ -27,6 +27,7 @@ public class AuthenticatorImpl implements Authenticator {
 
 	public void login(String email, String password)
 			throws AuthenticationException {
+		
 		User user = userDAO.find(email, MD5.md5(password));
 
 		if (user == null) {
