@@ -147,11 +147,11 @@ public class AddGazdinstvo {
 	private Vlasnik vlasnikTmp;
 	
 	@Property
-	private List<Vlasnik> vlasnici;
+	private List<Vlasnik> vlasnici = sviVlasnici();
 
 	@SuppressWarnings("unchecked")
 	public List<Vlasnik> sviVlasnici() {
-		return session.createCriteria(Vlasnik.class).add(Restrictions.eq("gazdinstvo", null)).list();
+		return session.createCriteria(Vlasnik.class).list();
 	}
 
 	public Vlasnik getVlasnik() {
@@ -174,5 +174,19 @@ public class AddGazdinstvo {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean isSelected(Vlasnik v) {
+		if (vlasnik==null || v==null) {
+			return false;
+		}
+		if (v.getJmbg().equals(vlasnik.getJmbg())) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void onActionFromSelect(Vlasnik vlasnik) {
+		this.vlasnik=vlasnik;
 	}
 }

@@ -3,14 +3,22 @@
 
 	<div id="contentHeader">
 		<t:if test="${forVlasnik()}">
-			<h1>+ Gazdinstvo za vlasnika: ${vlasnik.getIme()}, JMBG: ${vlasnik.getJmbg()} <button type="button" class="btn btn-large btn-blue" ><span class="icon-user" >Promjeni</span></button></h1>
+			<h1>+ Gazdinstvo za vlasnika: ${vlasnik.getIme()}, JMBG: ${vlasnik.getJmbg()} <button id="promjeniVlasnika" type="button" class="btn btn-large btn-blue" ><span class="icon-user" >Promjeni</span></button></h1>
+			<script>
+				$("#promjeniVlasnika").click(function (){
+					$.blockUI({ message:
+						$('#vBezG'), css: { border: '1px solid #aaa',top:'5%',left:'25%',textAlign:'left',width:'50%'},overlayCss:{cursor:'default'}});
+						$('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
+						});
+				</script>
 			<p:else>
 				<h1>+ Gazdinstvo 
 				<button id="dodijeliVlasnika" type="button" class="btn btn-large btn-orange" ><span class="icon-user" >Vlasnik</span></button></h1>
 				<script>
 				$("#dodijeliVlasnika").click(function (){
 					$.blockUI({ message:
-						$('#vBezG'), css: { border: '1px solid #aaa',top:'20%'},overlayCss:{cursor:'default'}});
+						$('#vBezG'), css: { border: '1px solid #aaa',top:'5%',left:'25%',textAlign:'left',width:'50%'},overlayCss:{cursor:'default'}});
+						$('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
 						});
 				</script>
 			</p:else>
@@ -24,14 +32,14 @@
 
 				<div class="widget-header">
 					<span class="icon-list"></span>
-					<h3 class="icon aperture">Vlasnici trenutno bez gazdinstava</h3>
+					<h3 class="icon aperture">Vlasnici bez gazdinstava</h3>
 				</div> <!-- .widget-header -->
 
 				<div class="widget-content">
 					<table class="table table-bordered table-striped data-table">
 						<thead>
 							<tr>
-								<th>Opcije</th>
+								<th>Odaberite</th>
 								<th>JMBG</th>
 								<th>Ime</th>
 								<th>Prezime</th>
@@ -41,33 +49,27 @@
 						<t:if test="${testVlasnici()}">
 							<t:loop source="vlasnici" value="vlasnikTmp">
 								<tr class="gradeA">
-									<td>
-										<ul id="invoice_actions" style="margin:0; list-style-type:none;">
-											<li id="liDelete${vlasnikTmp.getJmbg()}" class="delete" style="margin:0; display:inline;"
-												original-title="Delete">
-												<a href="#"></a>
-											</li>
-											<li id="liEdit${vlasnikTmp.getJmbg()}" class="edit" style="margin:0; display:inline;"
-												original-title="Edit">
-												<a href="#"></a>
-											</li>
-										</ul>
+								<t:if test="${isSelected(vlasnikTmp)}">
+									<td style="width:16%;text-align:center;"><button id="selected" type="button" class="btn btn-small btn-green"><span class="icon-check"></span></button>
 									</td>
+									<script>
+									$("#selected").click(function (){
+										$.unblockUI();
+									});
+									</script>
+									<p:else>
+									<td style="width:16%;text-align:center;"><t:actionlink t:id="select" context="vlasnikTmp"><button type="button" class="btn btn-small btn-blue"><span class="icon-check"></span></button></t:actionlink>
+									</td>
+									</p:else>
+									</t:if>
 									<td>${vlasnikTmp.getJmbg()}</td>
 									<td>${vlasnikTmp.getIme()}</td>
 									<td>${vlasnikTmp.getPrezime()}</td>
 								</tr>
-								<script>
-						$(function () {
-						$('#liEdit${vlasnikTmp.getJmbg()}').tipsy({gravity: 'se'});
-						$('#liDelete${vlasnikTmp.getJmbg()}').tipsy({gravity: 'se'});
-						});
-					</script>
 							</t:loop>
-							<p:else>
-							NO DATA
-							</p:else>
+							
 </t:if>
+
 						</tbody>
 					</table>
 
