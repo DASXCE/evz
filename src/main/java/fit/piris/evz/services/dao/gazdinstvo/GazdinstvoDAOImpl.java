@@ -21,30 +21,53 @@ public class GazdinstvoDAOImpl implements GazdinstvoDAO {
 	public void save(String sifra, String naziv, Adresa adresa,
 			Vlasnik vlasnik, Set<TipProizvodnje> tipProizvodnje,
 			Set<VrstaZivotinje> vrsteZivotinja, Set<Zivotinja> zivotinje) {
-		Gazdinstvo gazdinstvo = null;
+
+		Gazdinstvo gazdinstvo = new Gazdinstvo(sifra, naziv, null, null, null,
+				null);
 		Vlasnik v = null;
+
+		boolean skip = false;// flag, ako je postavljena adresa nemoj opet postavljat...
+								// Zbog duplog koda za update vlasnika
+
+		/*
+		 * moramo sacuvati svaki tipProizvodnje u bazu
+		 */
+		for (TipProizvodnje tp : tipProizvodnje) {
+			session.save(tp);
+		}
+		gazdinstvo.setTipProizvodnje(tipProizvodnje);
+		
+		/*
+		 * i svaku vrstu zivotinje da bi ih mogli setovati gazdinstvu
+		 */
+		for (VrstaZivotinje vs : vrsteZivotinja) {
+			session.save(vs);
+		}
+		gazdinstvo.setVrsteZivotinja(vrsteZivotinja);
+		
 		@SuppressWarnings("unchecked")
 		List<Adresa> adrese = session.createCriteria(Adresa.class).list();
 		for (Adresa adr : adrese) {
+			/*
+			 * ako se adresa vec nalazi u bazi, ne dodavaj duplikat nego postavi
+			 * tu postojecu
+			 */
 			if (adr.equals(adresa)) {
-				gazdinstvo = new Gazdinstvo(sifra, naziv, adr, null, null, null);
+
+				gazdinstvo.setAdresa(adr);
 				session.save(gazdinstvo);
-				if (vlasnik != null) {
-					System.out.println("od argumenta vlasnik: "
-							+ vlasnik.getId());
-					v = (Vlasnik) session.get(Vlasnik.class,
-							new Long(vlasnik.getId()));
-					System.out.println("od povucenog iz baze: " + v.getId());
-					v.setGazdinstvo(gazdinstvo);
-					session.update(v);
-				}
-				return;
+				skip = true;
+				break;
 			}
 		}
-		session.save(adresa);
-		gazdinstvo = new Gazdinstvo(sifra, naziv, adresa, null, null, null);
-		session.save(gazdinstvo);
+		if (!skip) {
+			// sacuvaj novu adresu u bazu
+			session.save(adresa);
+			gazdinstvo.setAdresa(adresa);
+			session.save(gazdinstvo);
+		}
 		if (vlasnik != null) {
+			// ako se kreira direktno za vlasnika moramo update Vlasnik
 			v = (Vlasnik) session.get(Vlasnik.class, new Long(vlasnik.getId()));
 			v.setGazdinstvo(gazdinstvo);
 			session.update(v);

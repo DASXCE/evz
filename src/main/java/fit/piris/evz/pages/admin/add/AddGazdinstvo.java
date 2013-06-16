@@ -1,14 +1,18 @@
 package fit.piris.evz.pages.admin.add;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.regexp.recompile;
 import org.apache.tapestry5.PersistenceConstants;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import fit.piris.evz.entities.Adresa;
 import fit.piris.evz.entities.gazdinstvo.Gazdinstvo;
@@ -19,7 +23,14 @@ import fit.piris.evz.enums.TipProizvoda;
 import fit.piris.evz.enums.Vrsta;
 import fit.piris.evz.services.dao.gazdinstvo.GazdinstvoDAO;
 
+@Import(library = {
+		"context:layout/canvasAdmin/javascripts/all.js",
+		"context:layout/canvasAdmin/javascripts/jquery.blockUI.js" })
+
 public class AddGazdinstvo {
+	
+	@Inject
+	private Session session;
 
 	/*
 	 * podaci
@@ -77,7 +88,7 @@ public class AddGazdinstvo {
 	 * vlasnik
 	 */
 
-	@Persist
+	@Persist(PersistenceConstants.FLASH)
 	private Vlasnik vlasnik;
 
 	@Inject
@@ -131,6 +142,17 @@ public class AddGazdinstvo {
 				vrsteZivotinja, null);
 		showsuccess = true;
 	}
+	
+	@Property
+	private Vlasnik vlasnikTmp;
+	
+	@Property
+	private List<Vlasnik> vlasnici;
+
+	@SuppressWarnings("unchecked")
+	public List<Vlasnik> sviVlasnici() {
+		return session.createCriteria(Vlasnik.class).add(Restrictions.eq("gazdinstvo", null)).list();
+	}
 
 	public Vlasnik getVlasnik() {
 		return vlasnik;
@@ -142,6 +164,13 @@ public class AddGazdinstvo {
 
 	public boolean forVlasnik() {
 		if (vlasnik != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean testVlasnici() {
+		if (vlasnici!=null) {
 			return true;
 		}
 		return false;

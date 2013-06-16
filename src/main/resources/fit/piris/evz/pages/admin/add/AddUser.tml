@@ -244,9 +244,7 @@
 										$("#ambShow").click(function (){
 
 										$.blockUI({ message:
-										$('#ambulanta'), css: { border: '1px solid
-										#aaa',top:'20%'
-										},overlayCss:{cursor:'default'}});
+										$('#ambulanta'), css: { border: '1px solid #aaa',top:'20%'},overlayCss:{cursor:'default'}});
 										});
 									</script>
 									<label for="cardtype">Izaberite</label>
@@ -324,7 +322,7 @@
 			</div> <!-- .grid -->
 		</form>
 		<div id="ambulanta" style="display:none;" align="left" cursor="default">
-			<form t:type="form" class="form uniformForm validateForm" t:id="ambForma"
+			<form t:type="form" t:zone="ambZona" class="form uniformForm validateForm" t:id="ambForma"
 				id="ambForma">
 				<div class="widget">
 
@@ -374,6 +372,7 @@
 								<table>
 									<tr>
 										<td>
+										
 											<button type="submit" id="saveAmb" class="btn btn-green">+Save</button>
 										</td>
 										<td>

@@ -19,9 +19,10 @@ import fit.piris.evz.entities.Ambulanta;
 import fit.piris.evz.entities.users.Vlasnik;
 import fit.piris.evz.model.selectBox.ambulanta.AmbulantaEncoder;
 import fit.piris.evz.model.selectBox.ambulanta.AmbulantaSelectModel;
+import fit.piris.evz.pages.Index;
 import fit.piris.evz.services.dao.user.UserDAO;
 
-@Import(stylesheet = "context:layout/canvasAdmin/stylesheets/all.css", library = {
+@Import( library = {
 		"context:layout/canvasAdmin/javascripts/all.js",
 		"context:layout/canvasAdmin/javascripts/jquery.blockUI.js" })
 public class AddUser {
@@ -119,12 +120,18 @@ public class AddUser {
 		} else if (privilegija.toLowerCase().equals("vlasnik")) {
 			userDAO.registerVlasnik(email, password2, jmbg, ime, prezime,
 					new Adresa(grad, posta, ulica), telefon);
+			
+			// set flag for success message and button link to +Gazdinstvo
 			showsuccess = 2;
 			return;
 		} else if (privilegija.toLowerCase().equals("veterinar")) {
 			userDAO.registerVeterinar(email, password2, vet_ime, vet_prezime,
 					ambulanta);
 		}
+		// set flag for stats refresh
+		Index.newEntity=true;
+		
+		// set flag for success message
 		showsuccess = 1;
 	}
 
@@ -147,6 +154,7 @@ public class AddUser {
 		session.save(ambulanta);
 		return ambZona.getBody();
 	}
+	
 
 	@InjectPage
 	private AddGazdinstvo gazdinstvo;

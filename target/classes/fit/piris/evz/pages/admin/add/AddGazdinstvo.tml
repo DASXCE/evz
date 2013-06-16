@@ -3,13 +3,80 @@
 
 	<div id="contentHeader">
 		<t:if test="${forVlasnik()}">
-			<h1>+ Gazdinstvo za vlasnika: ${vlasnik.getIme()}, jmbg: ${vlasnik.getJmbg()} </h1>
+			<h1>+ Gazdinstvo za vlasnika: ${vlasnik.getIme()}, JMBG: ${vlasnik.getJmbg()} <button type="button" class="btn btn-large btn-blue" ><span class="icon-user" >Promjeni</span></button></h1>
 			<p:else>
-				<h1>+ Gazdinstvo</h1>
+				<h1>+ Gazdinstvo 
+				<button id="dodijeliVlasnika" type="button" class="btn btn-large btn-orange" ><span class="icon-user" >Vlasnik</span></button></h1>
+				<script>
+				$("#dodijeliVlasnika").click(function (){
+					$.blockUI({ message:
+						$('#vBezG'), css: { border: '1px solid #aaa',top:'20%'},overlayCss:{cursor:'default'}});
+						});
+				</script>
 			</p:else>
 		</t:if>
 
 	</div> <!-- #contentHeader -->
+	
+	<!-- TABELA ZA ODABIRANJE VLASNIKA UKOLIKO NIJE POSTAVLJEN VEC, AKO JESTE ONDA ZA PROMJENU -->
+	
+	<div id="vBezG" class="widget widget-table" style="display:none;">
+
+				<div class="widget-header">
+					<span class="icon-list"></span>
+					<h3 class="icon aperture">Vlasnici trenutno bez gazdinstava</h3>
+				</div> <!-- .widget-header -->
+
+				<div class="widget-content">
+					<table class="table table-bordered table-striped data-table">
+						<thead>
+							<tr>
+								<th>Opcije</th>
+								<th>JMBG</th>
+								<th>Ime</th>
+								<th>Prezime</th>
+							</tr>
+						</thead>
+						<tbody>
+						<t:if test="${testVlasnici()}">
+							<t:loop source="vlasnici" value="vlasnikTmp">
+								<tr class="gradeA">
+									<td>
+										<ul id="invoice_actions" style="margin:0; list-style-type:none;">
+											<li id="liDelete${vlasnikTmp.getJmbg()}" class="delete" style="margin:0; display:inline;"
+												original-title="Delete">
+												<a href="#"></a>
+											</li>
+											<li id="liEdit${vlasnikTmp.getJmbg()}" class="edit" style="margin:0; display:inline;"
+												original-title="Edit">
+												<a href="#"></a>
+											</li>
+										</ul>
+									</td>
+									<td>${vlasnikTmp.getJmbg()}</td>
+									<td>${vlasnikTmp.getIme()}</td>
+									<td>${vlasnikTmp.getPrezime()}</td>
+								</tr>
+								<script>
+						$(function () {
+						$('#liEdit${vlasnikTmp.getJmbg()}').tipsy({gravity: 'se'});
+						$('#liDelete${vlasnikTmp.getJmbg()}').tipsy({gravity: 'se'});
+						});
+					</script>
+							</t:loop>
+							<p:else>
+							NO DATA
+							</p:else>
+</t:if>
+						</tbody>
+					</table>
+
+
+				</div> <!-- .widget-content -->
+
+			</div> <!-- .widget -->
+	
+	
 	<form t:type="form" t:id="forma" class="form uniformForm">
 		<div class="container">
 
