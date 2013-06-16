@@ -8,7 +8,6 @@ import org.hibernate.criterion.Restrictions;
 
 import fit.piris.evz.entities.Adresa;
 import fit.piris.evz.entities.Ambulanta;
-import fit.piris.evz.entities.gazdinstvo.Gazdinstvo;
 import fit.piris.evz.entities.users.User;
 import fit.piris.evz.entities.users.Veterinar;
 import fit.piris.evz.entities.users.Vlasnik;
@@ -28,6 +27,12 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public boolean delete(User u) {
+//		if (u instanceof Vlasnik) {
+//			
+//		}
+//		User u = (User) session.get(User.class, new Long(id));
+
+		session.delete(u);
 		return false;
 	}
 
@@ -73,6 +78,10 @@ public class UserDAOImpl implements UserDAO {
 		Veterinar v = new Veterinar(email, MD5.md5(password), ime, prezime,
 				ambulanta);
 		session.save(v);
+	}
+
+	public void delete(Long id) {
+		
 	}
 
 }

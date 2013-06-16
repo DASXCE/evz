@@ -9,6 +9,7 @@ import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Zone;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 
@@ -19,6 +20,7 @@ import fit.piris.evz.entities.users.User;
 import fit.piris.evz.entities.users.Veterinar;
 import fit.piris.evz.entities.users.Vlasnik;
 import fit.piris.evz.entities.zivotinje.Zivotinja;
+import fit.piris.evz.services.dao.user.UserDAO;
 import fit.piris.evz.services.security.Authenticator;
 
 /**
@@ -31,10 +33,16 @@ public class Index {
 
 	@Inject
 	private Authenticator authenticator;
+	
+	@Inject
+	private UserDAO userDAO;
 
 	@Inject
 	private Session session;
 
+	/*
+	 * kocke za statistiku sa brojevima
+	 */
 	@Persist
 	@Property
 	private int brKorisnikaUSistemu;
@@ -54,6 +62,9 @@ public class Index {
 	@Property
 	private Date danas = new Date();
 	
+	/*
+	 * refresuj samo ako se dodalo nesto novo u bazi...bilo sta...mora se setovati posle unosa!
+	 */
 	@Persist(PersistenceConstants.FLASH)
 	public static boolean newEntity;
 
@@ -70,9 +81,15 @@ public class Index {
 
 			brZivotinjaUSistemu = session.createCriteria(Zivotinja.class).list()
 					.size();
+			
+			
 		}
+//		vlasnici = sviVlasnici();
 	}
 
+	/*
+	 * ako je administrator, koristim za prikaz komponenti koje zahtjevaju ovu privilegiju
+	 */
 	public boolean isAdmin() {
 		if (!(authenticator.getLoggedUser() instanceof Veterinar)
 				&& !(authenticator.getLoggedUser() instanceof Vlasnik)) {
@@ -81,34 +98,29 @@ public class Index {
 		return false;
 	}
 
-	public boolean isVlasnik() {
-		if (authenticator.getLoggedUser() instanceof Vlasnik) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean isVeterinar() {
-		if (authenticator.getLoggedUser() instanceof Veterinar) {
-			return true;
-		}
-		return false;
-	}
-
+	/*
+	 * privremena promjenljiva kojom se krecem kroz petlju - za tabelu vlasnika
+	 */
 	@Property
 	private Vlasnik vlasnikTmp;
 
+	/*
+	 * lista svih vlasnika iz baze
+	 */
 	@Property
-	private List<Vlasnik> vlasnici = sviVlasnici();
+	private List<Vlasnik> vlasnici;
 
+	/*
+	 * metoda koja puni listu vlasnici
+	 */
 	@SuppressWarnings("unchecked")
-	public List<Vlasnik> sviVlasnici() {
+	public List<Vlasnik> getVlasnicii() {
 		return session.createCriteria(Vlasnik.class).list();
 	}
 
 	@InjectComponent
 	private Zone statZone;
-
+	
 	public Object onActionFromRefresh() {
 
 		brKorisnikaUSistemu = session.createCriteria(User.class).list().size();
@@ -121,7 +133,9 @@ public class Index {
 
 		brZivotinjaUSistemu = session.createCriteria(Zivotinja.class).list()
 				.size();
-
+		
+//		vlasnici = sviVlasnici();
+		
 		return statZone.getBody();
 	}
 
@@ -130,5 +144,11 @@ public class Index {
 			return true;
 		}
 		return false;
+	}
+	
+	@CommitAfter
+	public Object onActionFromDeleteVlasnik(Vlasnik vlasnik) {
+		userDAO.delete(vlasnik);
+		return null;
 	}
 }

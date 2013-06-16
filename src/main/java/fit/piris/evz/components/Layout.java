@@ -10,6 +10,8 @@ import org.apache.tapestry5.SymbolConstants;
 import org.hibernate.Session;
 
 import fit.piris.evz.entities.users.User;
+import fit.piris.evz.entities.users.Veterinar;
+import fit.piris.evz.entities.users.Vlasnik;
 import fit.piris.evz.pages.Login;
 import fit.piris.evz.services.security.Authenticator;
 
@@ -78,6 +80,13 @@ public class Layout {
 	
 	public int getNumberOfUsers() {
 		return session.createCriteria(User.class).list().size();
+	}
+	
+	public boolean ifAdmin() {
+		if (authenticator.getLoggedUser()instanceof Vlasnik || authenticator.getLoggedUser()instanceof Veterinar) {
+			return false;
+		}
+		return true;
 	}
 	
 	public Object onActionFromLogout(){

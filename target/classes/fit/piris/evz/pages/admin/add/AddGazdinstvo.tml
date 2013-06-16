@@ -58,7 +58,7 @@
 									});
 									</script>
 									<p:else>
-									<td style="width:16%;text-align:center;"><t:actionlink t:id="select" context="vlasnikTmp"><button type="button" class="btn btn-small btn-blue"><span class="icon-check"></span></button></t:actionlink>
+									<td style="width:16%;text-align:center;"><t:actionlink t:id="select" context="vlasnikTmp"><button type="button" class="btn btn-small btn-blue"><span class="icon-minus"></span></button></t:actionlink>
 									</td>
 									</p:else>
 									</t:if>

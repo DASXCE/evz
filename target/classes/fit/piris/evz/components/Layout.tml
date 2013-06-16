@@ -9,7 +9,7 @@
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter"> <!--<![endif] -->
 	<head>
 
-		<title>Canvas Admin - Dashboard</title>
+		<title>Evidencija Zivotinja</title>
 
 		<meta charset="utf-8" />
 		<meta name="description" content="" />
@@ -86,7 +86,7 @@
 						</ul>
 
 					</li>
-
+<t:if test="${ifAdmin()}">
 					<li id="navForms" class="nav">
 						<span class="icon-article"></span>
 						<a href="javascript:;">Dodaj</a>
@@ -101,7 +101,7 @@
 						</ul>
 
 					</li>
-
+</t:if>
 					<li id="navType" class="nav">
 						<span class="icon-info"></span>
 						<a href="typography.html">Typography</a>
@@ -178,7 +178,7 @@
 							<div class="menu-content">
 								<ul class="">
 									<li>
-										<a href="javascript:;">Edit Profile</a>
+									<a t:type="pagelink" t:page="user/view">Edit Profile</a>
 									</li>
 									<li>
 										<a href="javascript:;">Edit Settings</a>

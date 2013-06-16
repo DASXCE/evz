@@ -56,7 +56,6 @@
 				</div> <!-- .widget-content -->
 </t:zone>
 			</div> <!-- .widget, HIDDEN! -->
-
 			<div class="widget widget-table">
 
 				<div class="widget-header">
@@ -76,18 +75,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<t:loop source="vlasnici" value="vlasnikTmp">
+							<t:loop source="vlasnicii" value="vlasnikTmp">
 								<tr class="gradeA">
 									<td>
 										<ul id="invoice_actions" style="margin:0; list-style-type:none;">
+										<t:if test="isAdmin()">
 											<li id="liDelete${vlasnikTmp.getJmbg()}" class="delete" style="margin:0; display:inline;"
 												original-title="Delete">
-												<a href="#"></a>
+												<a t:type="actionlink" t:id="deleteVlasnik" context="vlasnikTmp"></a>
 											</li>
+											
 											<li id="liEdit${vlasnikTmp.getJmbg()}" class="edit" style="margin:0; display:inline;"
 												original-title="Edit">
-												<a href="#"></a>
+												<a t:type="actionlink" t:id="editVlasnik" context="vlasnikTmp"></a>
 											</li>
+											</t:if>
 										</ul>
 									</td>
 									<td>${vlasnikTmp.getJmbg()}</td>
@@ -99,7 +101,7 @@
 											<td>N/A</td>
 										</p:else>
 									</t:if>
-
+					
 								</tr>
 								<script>
 						$(function () {
@@ -110,6 +112,7 @@
 							</t:loop>
 
 						</tbody>
+						
 					</table>
 
 
@@ -121,30 +124,7 @@
 
 		<div class="grid-7">
 
-			<div id="gettingStarted" class="box" style="display:none;">
-				<h3>Getting Started</h3>
-
-				<p>Completing your bio will bring you to 58%.</p>
-
-				<div class="progress-bar secondary">
-					<div class="bar" style="width: 42%;">42%</div>
-				</div>
-
-				<ul class="bullet secondary">
-					<li>
-						<a href="javascript:;">Complete Your Profile</a>
-					</li>
-					<li>
-						<a href="javascript:;">Add Your Photo</a>
-					</li>
-					<li>
-						<a href="javascript:;">Create Reports</a>
-					</li>
-					<li>
-						<a href="javascript:;">Invite Peoople to Join</a>
-					</li>
-				</ul>
-			</div>
+			
 			<t:if test="isAdmin()">
 				<div class="box plain">
 
@@ -156,26 +136,7 @@
 			</t:if>
 
 
-			<div class="box" style="display:none;">
-				<h3>Progress Bars</h3>
-
-				<div class="progress-bar primary">
-					<div class="bar" style="width: 65%;">65%</div>
-				</div>
-
-				<div class="progress-bar secondary">
-					<div class="bar" style="width: 42%;">42%</div>
-				</div>
-
-				<div class="progress-bar tertiary thin">
-					<div class="bar" style="width: 83%;">83%</div>
-				</div>
-
-				<div class="progress-bar quaternary thin">
-					<div class="bar" style="width: 93%;">93%</div>
-				</div>
-			</div>
-
+			
 
 			<div class="box">
 				<h3>Recent Activity</h3>
