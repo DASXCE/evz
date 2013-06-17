@@ -12,49 +12,49 @@
 		<div class="grid-17">
 
 			<div class="widget widget-plain">
-<t:zone t:id="statZone" id="statZone">
-				<div class="widget-content">
+				<t:zone t:id="statZone">
+					<div class="widget-content">
 
-					<h2 class="dashboard_title">
-						Statistika
-						<span>${danas}</span>
-						<t:actionlink t:id="refresh" zone="statZone">
-						<button class="btn btn-orange" style="float:right;">
-						<span class="icon-loop" style="color:white; font-style:normal;">Refresh</span>
-						</button>
-						</t:actionlink>
-					</h2>
+						<h2 class="dashboard_title">
+							Statistika
+							<span>${danas}</span>
+							<t:actionlink t:id="refresh" zone="statZone">
+								<button class="btn btn-orange" style="float:right;">
+									<span class="icon-loop" style="color:white; font-style:normal;">Refresh</span>
+								</button>
+							</t:actionlink>
+						</h2>
 
-					<div class="dashboard_report first activeState">
-						<div class="pad">
-							<span class="value">${brKorisnikaUSistemu}</span>
-							Korisnika
-						</div> <!-- .pad -->
-					</div>
+						<div class="dashboard_report first activeState">
+							<div class="pad">
+								<span class="value">${brKorisnikaUSistemu}</span>
+								Korisnika
+							</div> <!-- .pad -->
+						</div>
 
-					<div class="dashboard_report defaultState">
-						<div class="pad">
-							<span class="value">${brGazdinstavaUSistemu}</span>
-							Gazdinstava
-						</div> <!-- .pad -->
-					</div>
+						<div class="dashboard_report defaultState">
+							<div class="pad">
+								<span class="value">${brGazdinstavaUSistemu}</span>
+								Gazdinstava
+							</div> <!-- .pad -->
+						</div>
 
-					<div class="dashboard_report defaultState">
-						<div class="pad">
-							<span class="value">${brVeterinaraUSistemu}</span>
-							Veterinara
-						</div> <!-- .pad -->
-					</div>
+						<div class="dashboard_report defaultState">
+							<div class="pad">
+								<span class="value">${brVeterinaraUSistemu}</span>
+								Veterinara
+							</div> <!-- .pad -->
+						</div>
 
-					<div class="dashboard_report defaultState last">
-						<div class="pad">
-							<span class="value">${brZivotinjaUSistemu}</span>
-							Zivotinja
-						</div> <!-- .pad -->
-					</div>
+						<div class="dashboard_report defaultState last">
+							<div class="pad">
+								<span class="value">${brZivotinjaUSistemu}</span>
+								Zivotinja
+							</div> <!-- .pad -->
+						</div>
 
-				</div> <!-- .widget-content -->
-</t:zone>
+					</div> <!-- .widget-content -->
+				</t:zone>
 			</div> <!-- .widget, HIDDEN! -->
 			<div class="widget widget-table">
 
@@ -79,16 +79,15 @@
 								<tr class="gradeA">
 									<td>
 										<ul id="invoice_actions" style="margin:0; list-style-type:none;">
-										<t:if test="isAdmin()">
-											<li id="liDelete${vlasnikTmp.getJmbg()}" class="delete" style="margin:0; display:inline;"
-												original-title="Delete">
-												<a t:type="actionlink" t:id="deleteVlasnik" context="vlasnikTmp"></a>
-											</li>
-											
-											<li id="liEdit${vlasnikTmp.getJmbg()}" class="edit" style="margin:0; display:inline;"
-												original-title="Edit">
-												<a t:type="actionlink" t:id="editVlasnik" context="vlasnikTmp"></a>
-											</li>
+											<t:if test="isAdmin()">
+												<li id="liDelete${vlasnikTmp.getJmbg()}" class="delete"
+													style="margin:0; display:inline;" original-title="Delete">
+													<a t:type="actionlink" id="id${vlasnikTmp.getId()}" class="del" t:id="deleteVlasnik" context="vlasnikTmp"></a>
+												</li>
+												<li id="liEdit${vlasnikTmp.getJmbg()}" class="edit"
+													style="margin:0; display:inline;" original-title="Edit">
+													<a t:type="actionlink" t:id="editVlasnik" context="vlasnikTmp"></a>
+												</li>
 											</t:if>
 										</ul>
 									</td>
@@ -101,18 +100,35 @@
 											<td>N/A</td>
 										</p:else>
 									</t:if>
-					
+
 								</tr>
 								<script>
-						$(function () {
-						$('#liEdit${vlasnikTmp.getJmbg()}').tipsy({gravity: 'se'});
-						$('#liDelete${vlasnikTmp.getJmbg()}').tipsy({gravity: 'se'});
-						});
-					</script>
+									$(function () {
+									$('#liEdit${vlasnikTmp.getJmbg()}').tipsy({gravity: 'se'});
+									$('#liDelete${vlasnikTmp.getJmbg()}').tipsy({gravity: 'se'});
+									});
+								</script>
 							</t:loop>
-
+												<script>
+													$(function () {
+													$('.del').live ('click', function (e) {
+													 e.preventDefault();
+													 var id = this;
+													
+													$.alert ({
+													type: 'confirm'
+													, title: 'Potvrda'
+													,
+													confirmText: 'Obrisi'
+													, cancelText: 'Odustani'
+													, text: '<p>Da li ste sigurni ?</p>'
+													, callback: function () { window.location = id;}
+													});
+													});
+													});
+												</script>
 						</tbody>
-						
+
 					</table>
 
 
@@ -124,7 +140,7 @@
 
 		<div class="grid-7">
 
-			
+
 			<t:if test="isAdmin()">
 				<div class="box plain">
 
@@ -136,7 +152,7 @@
 			</t:if>
 
 
-			
+
 
 			<div class="box">
 				<h3>Recent Activity</h3>

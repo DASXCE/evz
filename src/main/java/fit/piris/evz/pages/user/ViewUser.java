@@ -15,10 +15,13 @@ import fit.piris.evz.services.security.Authenticator;
 public class ViewUser {
 
 	@Persist
-	private User user;
+	public static User user;
 	
 	@Property
 	private String naslov;
+	
+	@Property
+	private boolean vlasnik;
 
 	@Inject
 	private Authenticator authenticator;
@@ -29,16 +32,9 @@ public class ViewUser {
 			
 		}
 		if (user instanceof Vlasnik) {
+			vlasnik=true;
 			naslov = ((Vlasnik) user).getIme()+" "+((Vlasnik) user).getPrezime();
 		}
-	}
-	
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 }

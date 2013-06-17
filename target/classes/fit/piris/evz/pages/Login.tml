@@ -29,7 +29,7 @@
 						<div class="field">
 							<label for="email">Email</label>
 							<input type="text" t:type="textfield" t:value="email" name="email"
-								value="" id="email" tabindex="1" placeholder="email@example.com"
+								value="" id="email" tabindex="1" placeholder="email@example.com" t:validate="email"
 								/>
 						</div>
 

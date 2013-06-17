@@ -28532,9 +28532,7 @@ if (!document.createElement("canvas").getContext)
             overlayClose: false,
             escClose: true
         };
-
         options = $.extend(defaults, config);
-
         container = $('<div>', {
             id: 'alert'
         });
@@ -28555,7 +28553,6 @@ if (!document.createElement("canvas").getContext)
         title = $('<h2>', {
             text: options.title
         });
-
         submit = $('<button>', {
             'class': 'btn btn btn-success',
             text: options.confirmText

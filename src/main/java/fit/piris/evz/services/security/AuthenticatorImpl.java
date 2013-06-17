@@ -2,17 +2,13 @@ package fit.piris.evz.services.security;
 
 import java.io.IOException;
 
-import org.apache.tapestry5.annotations.BeforeRenderBody;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.Response;
 import org.apache.tapestry5.services.Session;
 
 import fit.piris.evz.entities.users.User;
-import fit.piris.evz.entities.users.Vlasnik;
 import fit.piris.evz.model.MD5;
-import fit.piris.evz.pages.Index;
-import fit.piris.evz.pages.admin.add.AddUser;
 import fit.piris.evz.services.dao.user.UserDAO;
 
 public class AuthenticatorImpl implements Authenticator {
@@ -28,18 +24,19 @@ public class AuthenticatorImpl implements Authenticator {
 	@Inject
 	private Response response;
 	
-	public void login(String email, String password)
-			throws AuthenticationException {
+	public void login(String email, String password) throws AuthenticationException
+			 {
 		
 		User user = userDAO.find(email, MD5.md5(password));
 
 		if (user == null) {
-			try {
-				response.sendRedirect("errorPages/Error_401");
+//			throw new AuthenticationException("Pogresno uneseni podaci");
+				try {
+					response.sendRedirect("errorPages/Error_401");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				return;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 
 		request.getSession(true).setAttribute(AUTH_TOKEN, user);

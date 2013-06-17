@@ -178,7 +178,7 @@
 							<div class="menu-content">
 								<ul class="">
 									<li>
-									<a t:type="pagelink" t:page="user/view">Edit Profile</a>
+									<a t:type="actionLink" t:id="view">Edit Profile</a>
 									</li>
 									<li>
 										<a href="javascript:;">Edit Settings</a>

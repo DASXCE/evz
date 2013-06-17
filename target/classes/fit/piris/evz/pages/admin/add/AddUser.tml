@@ -37,7 +37,7 @@
 								});
 							</script>
 							<div class="field">
-								<input t:type="textfield" t:value="email" name="email"
+								<input t:type="textfield" type="text" t:value="email" name="email"
 									t:id="email" size="30" class="validate[required,custom[email]"
 									t:validate="email" />
 							</div>
@@ -308,8 +308,8 @@
 					e.preventDefault ();
 					$.alert ({
 					type: 'confirm'
-					, title: 'Potvrda'
-					,
+					, title: 'Potvrda',
+					
 					confirmText: 'Sacuvaj'
 					, cancelText: 'Odustani'
 					, text: '<p>Da li ste sigurni?</p>'

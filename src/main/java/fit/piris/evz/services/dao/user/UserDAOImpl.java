@@ -33,7 +33,7 @@ public class UserDAOImpl implements UserDAO {
 //		User u = (User) session.get(User.class, new Long(id));
 
 		session.delete(u);
-		return false;
+		return true;
 	}
 
 	public User find(String email, String password) {
@@ -55,20 +55,20 @@ public class UserDAOImpl implements UserDAO {
 	public void registerVlasnik(String email, String password, Long jmbg,
 			String ime, String prezime, Adresa adresa, String telefon) {
 
+		Vlasnik v = new Vlasnik(email, MD5.md5(password),jmbg, ime, prezime, null, telefon);
+		
 		@SuppressWarnings("unchecked")
 		List<Adresa> adrese = session.createCriteria(Adresa.class).list();
 		for (Adresa adr : adrese) {
 			if (adr.equals(adresa)) {
-				Vlasnik v = new Vlasnik(email, MD5.md5(password), jmbg, ime,
-						prezime, adr, telefon);
+				v.setAdresa(adr);
 				session.save(v);
 				return;
 			}
 		}
 		session.save(adresa);
 
-		Vlasnik v = new Vlasnik(email, MD5.md5(password), jmbg, ime, prezime,
-				adresa, telefon);
+		v.setAdresa(adresa);
 		session.save(v);
 	}
 

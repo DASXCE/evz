@@ -5,6 +5,7 @@ import java.util.Date;
 import org.apache.tapestry5.*;
 import org.apache.tapestry5.annotations.*;
 import org.apache.tapestry5.ioc.annotations.*;
+import org.apache.tapestry5.services.Response;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.SymbolConstants;
 import org.hibernate.Session;
@@ -13,6 +14,7 @@ import fit.piris.evz.entities.users.User;
 import fit.piris.evz.entities.users.Veterinar;
 import fit.piris.evz.entities.users.Vlasnik;
 import fit.piris.evz.pages.Login;
+import fit.piris.evz.pages.user.ViewUser;
 import fit.piris.evz.services.security.Authenticator;
 
 
@@ -53,7 +55,7 @@ public class Layout {
 
 	@Inject
 	private ComponentResources resources;
-
+	
 	@Property
 	@Inject
 	@Symbol(SymbolConstants.APPLICATION_VERSION)
@@ -92,5 +94,10 @@ public class Layout {
 	public Object onActionFromLogout(){
 		authenticator.logout();
 		return Login.class;
+	}
+	
+	public Object onActionFromView() {
+		ViewUser.user=null;
+		return ViewUser.class;
 	}
 }
