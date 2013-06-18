@@ -16,7 +16,7 @@
 				<button id="dodijeliVlasnika" type="button" class="btn btn-large btn-orange" ><span class="icon-user" >Vlasnik</span></button></t:actionlink></h1>
 				<script>
 				$(document).ready(function() {
-				if(${proba}){
+				if(${showTable}){
 				$.blockUI({ message:
 						$('#vBezG'), css: { border: '1px solid #aaa',top:'5%',left:'25%',textAlign:'left',width:'50%'},overlayCss:{cursor:'default'}});
 						$('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
@@ -53,7 +53,7 @@
 							<t:loop source="vlasnici" value="vlasnikTmp">
 								<tr class="gradeA">
 								<t:if test="${isSelected(vlasnikTmp)}">
-									<td style="width:16%;text-align:center;"><button id="selected" type="button" class="btn btn-small btn-green"><span class="icon-check"></span></button>
+									<td style="width:16%;text-align:center;"><t:actionlink t:id="deSelect"><button id="selected" type="button" class="btn btn-small btn-green"><span class="icon-check"></span></button></t:actionlink>
 									</td>
 									<script>
 									$("#selected").click(function (){
@@ -95,10 +95,8 @@
 					</div> <!-- .widget-header -->
 
 					<div class="widget-content">
-
 						<div class="field-group">
 							<label>Sifra:</label>
-
 							<div class="field">
 								<input t:type="textfield" t:value="sifra" name="sifra"
 									t:id="sifra" size="10" t:mixins="jquery/mask" />
@@ -108,7 +106,6 @@
 							</div>
 
 						</div> <!-- .field-group -->
-
 						<div class="field-group">
 							<label>Naziv:</label>
 

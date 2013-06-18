@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.apache.catalina.connector.Request;
 import org.apache.tapestry5.PersistenceConstants;
+import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Import;
+import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
@@ -20,12 +24,10 @@ import fit.piris.evz.enums.TipProizvoda;
 import fit.piris.evz.enums.Vrsta;
 import fit.piris.evz.services.dao.gazdinstvo.GazdinstvoDAO;
 
-@Import(library = {
-		"context:layout/canvasAdmin/javascripts/all.js",
+@Import(library = { "context:layout/canvasAdmin/javascripts/all.js",
 		"context:layout/canvasAdmin/javascripts/jquery.blockUI.js" })
-
 public class AddGazdinstvo {
-	
+
 	@Inject
 	private Session session;
 
@@ -85,7 +87,7 @@ public class AddGazdinstvo {
 	 * vlasnik
 	 */
 
-//	@Persist(PersistenceConstants.FLASH)
+	// @Persist(PersistenceConstants.FLASH)
 	private Vlasnik vlasnik;
 
 	@Inject
@@ -119,7 +121,7 @@ public class AddGazdinstvo {
 		if (zivina) {
 			vrsteZivotinja.add(new VrstaZivotinje(Vrsta.ZIVINA));
 		}
-		
+
 		/*
 		 * tipovi proizvodnje add
 		 */
@@ -136,32 +138,35 @@ public class AddGazdinstvo {
 		for (TipProizvodnje tip : tipProizvodnje) {
 			System.out.println(tip.getTip());
 		}
-		dao.save(sifra, naziv, new Adresa(grad, posta, ulica), vlasnik, tipProizvodnje,
-				vrsteZivotinja, null);
+		dao.save(sifra, naziv, new Adresa(grad, posta, ulica), vlasnik,
+				tipProizvodnje, vrsteZivotinja, null);
 		showsuccess = true;
-		
-//		vlasnik = null;
+
+		// vlasnik = null;
 	}
+
 	@Property
 	private Vlasnik vlasnikTmp;
-	
+
 	@Property
 	@Persist
 	private List<Vlasnik> vlasnici;
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Vlasnik> sviVlasnici() {
-		
+
 		List<Vlasnik> list = session.createCriteria(Vlasnik.class).list();
 		List<Vlasnik> l = new ArrayList<Vlasnik>();
 		for (Vlasnik vlasnik : list) {
-			if (vlasnik.getGazdinstvo()==null) {
+			if (vlasnik.getGazdinstvo() == null) {
 				l.add(vlasnik);
 			}
 		}
-		
+
 		return l;
-//		return session.createCriteria(Vlasnik.class).add(Restrictions.eq("gazdinstvo", null)).list();
+		// return
+		// session.createCriteria(Vlasnik.class).add(Restrictions.eq("gazdinstvo",
+		// null)).list();
 	}
 
 	public Vlasnik getVlasnik() {
@@ -178,30 +183,26 @@ public class AddGazdinstvo {
 		}
 		return false;
 	}
-	
-	public void onActivate(Vlasnik vlasnik){
-		System.out.println("AddGazdinstvo.onActivate()");
+
+	public void onActivate(Vlasnik vlasnik) {
 		this.vlasnik = vlasnik;
-		System.out.println("argument vlasnik: "+vlasnik);
-		System.out.println("this.vlasnik: "+this.vlasnik);
 	}
-	
-	public Object onPassivate(){
-		System.out.println("AddGazdinstvo.onPassivate()");
+
+	public Object onPassivate() {
 		return vlasnik;
 	}
-	
+
 	@Property
 	@Persist(PersistenceConstants.FLASH)
-	private boolean proba;
-	
+	private boolean showTable;
+
 	public void onActionFromFillTable() {
 		vlasnici = sviVlasnici();
-		proba = true;
+		showTable = true;
 	}
-	
+
 	public boolean isSelected(Vlasnik v) {
-		if (vlasnik==null || v==null) {
+		if (vlasnik == null || v == null) {
 			return false;
 		}
 		if (v.getJmbg().equals(vlasnik.getJmbg())) {
@@ -209,8 +210,15 @@ public class AddGazdinstvo {
 		}
 		return false;
 	}
-	
+
+
 	public void onActionFromSelect(Vlasnik vlasnik) {
-		this.vlasnik=vlasnik;
+		this.vlasnik = vlasnik;
+
+	}
+	
+	public void onActionFromDeSelect() {
+		this.vlasnik = null;
+
 	}
 }
