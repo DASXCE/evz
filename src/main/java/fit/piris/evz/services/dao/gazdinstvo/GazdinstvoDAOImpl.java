@@ -32,7 +32,19 @@ public class GazdinstvoDAOImpl implements GazdinstvoDAO {
 		/*
 		 * moramo sacuvati svaki tipProizvodnje u bazu
 		 */
-		for (TipProizvodnje tp : tipProizvodnje) {
+		a:for (TipProizvodnje tp : tipProizvodnje) {
+			@SuppressWarnings("unchecked")
+			/*
+			 * ako postoji vec u bazi, treba to dodijeliti, ako ne sacuvaj novo
+			 */
+			List<TipProizvodnje> list = session.createCriteria(TipProizvodnje.class).list();
+			for (TipProizvodnje tpcheck : list) {
+				if (tp.getTip().equals(tpcheck.getTip())) {
+					tipProizvodnje.remove(tp);
+					tipProizvodnje.add(tpcheck);
+					continue a;
+				}
+			}
 			session.save(tp);
 		}
 		gazdinstvo.setTipProizvodnje(tipProizvodnje);
@@ -40,7 +52,19 @@ public class GazdinstvoDAOImpl implements GazdinstvoDAO {
 		/*
 		 * i svaku vrstu zivotinje da bi ih mogli setovati gazdinstvu
 		 */
-		for (VrstaZivotinje vs : vrsteZivotinja) {
+		b:for (VrstaZivotinje vs : vrsteZivotinja) {
+			@SuppressWarnings("unchecked")
+			/*
+			 * ako postoji vec u bazi, treba to dodijeliti, ako ne sacuvaj novo
+			 */
+			List<VrstaZivotinje> list = session.createCriteria(VrstaZivotinje.class).list();
+			for (VrstaZivotinje vscheck : list) {
+				if (vs.getVrsta().equals(vscheck.getVrsta())) {
+					vrsteZivotinja.remove(vs);
+					vrsteZivotinja.add(vscheck);
+					continue b;
+				}
+			}
 			session.save(vs);
 		}
 		gazdinstvo.setVrsteZivotinja(vrsteZivotinja);

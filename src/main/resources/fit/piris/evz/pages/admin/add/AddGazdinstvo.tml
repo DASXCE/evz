@@ -12,14 +12,17 @@
 						});
 				</script>
 			<p:else>
-				<h1>+ Gazdinstvo 
-				<button id="dodijeliVlasnika" type="button" class="btn btn-large btn-orange" ><span class="icon-user" >Vlasnik</span></button></h1>
+				<h1>+ Gazdinstvo <t:actionlink t:id="fillTable">
+				<button id="dodijeliVlasnika" type="button" class="btn btn-large btn-orange" ><span class="icon-user" >Vlasnik</span></button></t:actionlink></h1>
 				<script>
-				$("#dodijeliVlasnika").click(function (){
-					$.blockUI({ message:
+				$(document).ready(function() {
+				if(${proba}){
+				$.blockUI({ message:
 						$('#vBezG'), css: { border: '1px solid #aaa',top:'5%',left:'25%',textAlign:'left',width:'50%'},overlayCss:{cursor:'default'}});
 						$('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
-						});
+				}
+				});
+				
 				</script>
 			</p:else>
 		</t:if>
@@ -46,7 +49,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						<t:if test="${testVlasnici()}">
+						<!-- <t:if test="${testVlasnici()}"> -->
 							<t:loop source="vlasnici" value="vlasnikTmp">
 								<tr class="gradeA">
 								<t:if test="${isSelected(vlasnikTmp)}">
@@ -67,9 +70,7 @@
 									<td>${vlasnikTmp.getPrezime()}</td>
 								</tr>
 							</t:loop>
-							
-</t:if>
-
+						<!-- </t:if>-->
 						</tbody>
 					</table>
 
@@ -242,9 +243,7 @@
 					$.alert ({
 					type: 'confirm'
 					, title: 'Paznja'
-					, text: '
-					<p>Da li ste sigurni da zelite da unesete ove podatke?</p>
-					'
+					, text: '<p>Da li ste sigurni da zelite da unesete ove podatke?</p>'
 					, callback: function () { $("#forma").submit(); }
 					});
 					});

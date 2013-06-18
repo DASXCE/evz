@@ -1,5 +1,7 @@
 package fit.piris.evz.entities.users;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +18,7 @@ import fit.piris.evz.entities.gazdinstvo.Gazdinstvo;
 @Table(name = "vlasnici")
 @PrimaryKeyJoinColumn(name = "id")
 public class Vlasnik extends User {
+
 
 	@Column(name = "jmbg", unique = true, nullable = false)
 	private Long jmbg;

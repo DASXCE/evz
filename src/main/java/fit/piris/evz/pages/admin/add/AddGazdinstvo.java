@@ -1,5 +1,6 @@
 package fit.piris.evz.pages.admin.add;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -88,7 +89,7 @@ public class AddGazdinstvo {
 	 * vlasnik
 	 */
 
-	@Persist(PersistenceConstants.FLASH)
+//	@Persist(PersistenceConstants.FLASH)
 	private Vlasnik vlasnik;
 
 	@Inject
@@ -137,21 +138,36 @@ public class AddGazdinstvo {
 			tipProizvodnje.add(new TipProizvodnje(TipProizvoda.MESNI));
 		}
 		
-		
+		System.out.println("submit "+vlasnik);
 		dao.save(sifra, naziv, new Adresa(grad, posta, ulica), vlasnik, tipProizvodnje,
 				vrsteZivotinja, null);
 		showsuccess = true;
+		
+//		vlasnik = null;
 	}
-	
 	@Property
 	private Vlasnik vlasnikTmp;
 	
 	@Property
-	private List<Vlasnik> vlasnici = sviVlasnici();
+	@Persist
+	private List<Vlasnik> vlasnici;
 
 	@SuppressWarnings("unchecked")
 	public List<Vlasnik> sviVlasnici() {
-		return session.createCriteria(Vlasnik.class).list();
+		/*
+		 * HITNO !, VRACA SVE VLASNIKE, TREBA SAMO ONE KOJI NEMAJU GAZDINSTVO!!!
+		 */
+		
+		List<Vlasnik> list = session.createCriteria(Vlasnik.class).list();
+		List<Vlasnik> l = new ArrayList<Vlasnik>();
+		for (Vlasnik vlasnik : list) {
+			if (vlasnik.getGazdinstvo()==null) {
+				l.add(vlasnik);
+			}
+		}
+		
+		return l;
+//		return session.createCriteria(Vlasnik.class).add(Restrictions.eq("gazdinstvo", null)).list();
 	}
 
 	public Vlasnik getVlasnik() {
@@ -169,11 +185,25 @@ public class AddGazdinstvo {
 		return false;
 	}
 	
-	public boolean testVlasnici() {
-		if (vlasnici!=null) {
-			return true;
-		}
-		return false;
+	public void onActivate(Vlasnik vlasnik){
+		System.out.println("AddGazdinstvo.onActivate()");
+		this.vlasnik = vlasnik;
+		System.out.println("argument vlasnik: "+vlasnik);
+		System.out.println("this.vlasnik: "+this.vlasnik);
+	}
+	
+	public Object onPassivate(){
+		System.out.println("AddGazdinstvo.onPassivate()");
+		return vlasnik;
+	}
+	
+	@Property
+	@Persist(PersistenceConstants.FLASH)
+	private boolean proba;
+	
+	public void onActionFromFillTable() {
+		vlasnici = sviVlasnici();
+		proba = true;
 	}
 	
 	public boolean isSelected(Vlasnik v) {

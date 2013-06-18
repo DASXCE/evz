@@ -24,7 +24,7 @@ public class VrstaZivotinje {
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "vrsta")
+	@Column(name = "vrsta",unique=true)
 	private Vrsta vrsta;
 
 	public VrstaZivotinje() {

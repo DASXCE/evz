@@ -13,7 +13,7 @@ import fit.piris.evz.entities.users.Veterinar;
 import fit.piris.evz.entities.users.Vlasnik;
 import fit.piris.evz.model.MD5;
 
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl implements UserDAO{
 
 	@Inject
 	private Session session;

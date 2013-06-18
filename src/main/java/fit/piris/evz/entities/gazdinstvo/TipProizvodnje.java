@@ -24,7 +24,7 @@ public class TipProizvodnje {
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "tip")
+	@Column(name = "tip",unique=true)
 	private TipProizvoda tip;
 
 	public TipProizvodnje() {
