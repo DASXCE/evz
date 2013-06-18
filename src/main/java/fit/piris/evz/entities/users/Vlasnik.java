@@ -36,7 +36,7 @@ public class Vlasnik extends User {
 	@Column(name = "telefon", unique = true)
 	private String telefon;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "sifra_gazdinstva", unique = true)
 	private Gazdinstvo gazdinstvo;
 

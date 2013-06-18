@@ -1,11 +1,9 @@
 package fit.piris.evz.pages.admin.add;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.apache.regexp.recompile;
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Persist;
@@ -13,10 +11,8 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import fit.piris.evz.entities.Adresa;
-import fit.piris.evz.entities.gazdinstvo.Gazdinstvo;
 import fit.piris.evz.entities.gazdinstvo.TipProizvodnje;
 import fit.piris.evz.entities.gazdinstvo.VrstaZivotinje;
 import fit.piris.evz.entities.users.Vlasnik;
@@ -58,7 +54,7 @@ public class AddGazdinstvo {
 	 * tipovi proizvodnje
 	 */
 
-	private Set<TipProizvodnje> tipProizvodnje;
+	private List<TipProizvodnje> tipProizvodnje;
 
 	@Property
 	private boolean meso;
@@ -71,7 +67,7 @@ public class AddGazdinstvo {
 	 * vrste zivotinja
 	 */
 
-	private Set<VrstaZivotinje> vrsteZivotinja;
+	private List<VrstaZivotinje> vrsteZivotinja;
 	@Property
 	private boolean goveda;
 	@Property
@@ -104,7 +100,7 @@ public class AddGazdinstvo {
 		/*
 		 * vrste zivotinaj add
 		 */
-		vrsteZivotinja = new HashSet<VrstaZivotinje>();
+		vrsteZivotinja = new CopyOnWriteArrayList<VrstaZivotinje>();
 		if (goveda) {
 			vrsteZivotinja.add(new VrstaZivotinje(Vrsta.GOVEDA));
 		}
@@ -127,7 +123,7 @@ public class AddGazdinstvo {
 		/*
 		 * tipovi proizvodnje add
 		 */
-		tipProizvodnje = new HashSet<TipProizvodnje>();
+		tipProizvodnje = new CopyOnWriteArrayList<TipProizvodnje>();
 		if (jaja) {
 			tipProizvodnje.add(new TipProizvodnje(TipProizvoda.JAJA));
 		}
@@ -137,8 +133,9 @@ public class AddGazdinstvo {
 		if (meso) {
 			tipProizvodnje.add(new TipProizvodnje(TipProizvoda.MESNI));
 		}
-		
-		System.out.println("submit "+vlasnik);
+		for (TipProizvodnje tip : tipProizvodnje) {
+			System.out.println(tip.getTip());
+		}
 		dao.save(sifra, naziv, new Adresa(grad, posta, ulica), vlasnik, tipProizvodnje,
 				vrsteZivotinja, null);
 		showsuccess = true;
@@ -151,12 +148,9 @@ public class AddGazdinstvo {
 	@Property
 	@Persist
 	private List<Vlasnik> vlasnici;
-
+	
 	@SuppressWarnings("unchecked")
 	public List<Vlasnik> sviVlasnici() {
-		/*
-		 * HITNO !, VRACA SVE VLASNIKE, TREBA SAMO ONE KOJI NEMAJU GAZDINSTVO!!!
-		 */
 		
 		List<Vlasnik> list = session.createCriteria(Vlasnik.class).list();
 		List<Vlasnik> l = new ArrayList<Vlasnik>();

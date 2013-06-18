@@ -1,6 +1,6 @@
 package fit.piris.evz.entities.gazdinstvo;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,22 +46,22 @@ public class Gazdinstvo {
 
 	@ManyToMany
 	@JoinTable(name = "gazdinstvo_tipovi_proizvodnje", joinColumns = { @JoinColumn(name = "gazdinstvo") }, inverseJoinColumns = { @JoinColumn(name = "tip_proizvodnje") })
-	private Set<TipProizvodnje> tipProizvodnje;
+	private List<TipProizvodnje> tipProizvodnje;
 
 	@ManyToMany
 	@JoinTable(name = "gazdinstvo_vrste_zivotinja", joinColumns = { @JoinColumn(name = "gazdinstvo") }, inverseJoinColumns = { @JoinColumn(name = "vrste_zivotinja") })
-	private Set<VrstaZivotinje> vrsteZivotinja;
+	private List<VrstaZivotinje> vrsteZivotinja;
 
 	@OneToMany
 	@JoinColumn(name = "gazdinstvo")
-	private Set<Zivotinja> zivotinje;
+	private List<Zivotinja> zivotinje;
 
 	public Gazdinstvo() {
 	}
 
 	public Gazdinstvo(String sifra, String naziv, Adresa adresa,
-			Set<TipProizvodnje> tipProizvodnje,
-			Set<VrstaZivotinje> vrsteZivotinja, Set<Zivotinja> zivotinje) {
+			List<TipProizvodnje> tipProizvodnje,
+			List<VrstaZivotinje> vrsteZivotinja, List<Zivotinja> zivotinje) {
 		super();
 		this.sifra = sifra;
 		this.naziv = naziv;
@@ -72,8 +72,8 @@ public class Gazdinstvo {
 	}
 
 	public Gazdinstvo(Long id, String sifra, String naziv, Adresa adresa,
-			Vlasnik vlasnik, Set<TipProizvodnje> tipProizvodnje,
-			Set<VrstaZivotinje> vrsteZivotinja, Set<Zivotinja> zivotinje) {
+			Vlasnik vlasnik, List<TipProizvodnje> tipProizvodnje,
+			List<VrstaZivotinje> vrsteZivotinja, List<Zivotinja> zivotinje) {
 		super();
 		this.id = id;
 		this.sifra = sifra;
@@ -121,27 +121,27 @@ public class Gazdinstvo {
 		return vlasnik;
 	}
 
-	public Set<TipProizvodnje> getTipProizvodnje() {
+	public List<TipProizvodnje> getTipProizvodnje() {
 		return tipProizvodnje;
 	}
 
-	public void setTipProizvodnje(Set<TipProizvodnje> tipProizvodnje) {
+	public void setTipProizvodnje(List<TipProizvodnje> tipProizvodnje) {
 		this.tipProizvodnje = tipProizvodnje;
 	}
 
-	public Set<VrstaZivotinje> getVrsteZivotinja() {
+	public List<VrstaZivotinje> getVrsteZivotinja() {
 		return vrsteZivotinja;
 	}
 
-	public void setVrsteZivotinja(Set<VrstaZivotinje> vrsteZivotinja) {
+	public void setVrsteZivotinja(List<VrstaZivotinje> vrsteZivotinja) {
 		this.vrsteZivotinja = vrsteZivotinja;
 	}
 
-	public Set<Zivotinja> getZivotinje() {
+	public List<Zivotinja> getZivotinje() {
 		return zivotinje;
 	}
 
-	public void setZivotinje(Set<Zivotinja> zivotinje) {
+	public void setZivotinje(List<Zivotinja> zivotinje) {
 		this.zivotinje = zivotinje;
 	}
 

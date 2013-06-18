@@ -1,6 +1,5 @@
 package fit.piris.evz.pages;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.Response;
 import org.hibernate.Session;
 
 import fit.piris.evz.annotations.VeterinarAccess;

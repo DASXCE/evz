@@ -1,5 +1,6 @@
 package fit.piris.evz.services.dao.gazdinstvo;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -19,8 +20,8 @@ public class GazdinstvoDAOImpl implements GazdinstvoDAO {
 	private Session session;
 
 	public void save(String sifra, String naziv, Adresa adresa,
-			Vlasnik vlasnik, Set<TipProizvodnje> tipProizvodnje,
-			Set<VrstaZivotinje> vrsteZivotinja, Set<Zivotinja> zivotinje) {
+			Vlasnik vlasnik, List<TipProizvodnje> tipProizvodnje,
+			List<VrstaZivotinje> vrsteZivotinja, List<Zivotinja> zivotinje) {
 
 		Gazdinstvo gazdinstvo = new Gazdinstvo(sifra, naziv, null, null, null,
 				null);
@@ -32,13 +33,15 @@ public class GazdinstvoDAOImpl implements GazdinstvoDAO {
 		/*
 		 * moramo sacuvati svaki tipProizvodnje u bazu
 		 */
+		@SuppressWarnings("unchecked")
+		List<TipProizvodnje> tipoviUBazi = session.createCriteria(TipProizvodnje.class).list();
 		a:for (TipProizvodnje tp : tipProizvodnje) {
-			@SuppressWarnings("unchecked")
+			
 			/*
 			 * ako postoji vec u bazi, treba to dodijeliti, ako ne sacuvaj novo
 			 */
-			List<TipProizvodnje> list = session.createCriteria(TipProizvodnje.class).list();
-			for (TipProizvodnje tpcheck : list) {
+			
+			for (TipProizvodnje tpcheck : tipoviUBazi) {
 				if (tp.getTip().equals(tpcheck.getTip())) {
 					tipProizvodnje.remove(tp);
 					tipProizvodnje.add(tpcheck);
@@ -52,13 +55,15 @@ public class GazdinstvoDAOImpl implements GazdinstvoDAO {
 		/*
 		 * i svaku vrstu zivotinje da bi ih mogli setovati gazdinstvu
 		 */
+		@SuppressWarnings("unchecked")
+		List<VrstaZivotinje> vrsteUBazi = session.createCriteria(VrstaZivotinje.class).list();
 		b:for (VrstaZivotinje vs : vrsteZivotinja) {
-			@SuppressWarnings("unchecked")
+			
 			/*
 			 * ako postoji vec u bazi, treba to dodijeliti, ako ne sacuvaj novo
 			 */
-			List<VrstaZivotinje> list = session.createCriteria(VrstaZivotinje.class).list();
-			for (VrstaZivotinje vscheck : list) {
+			
+			for (VrstaZivotinje vscheck : vrsteUBazi) {
 				if (vs.getVrsta().equals(vscheck.getVrsta())) {
 					vrsteZivotinja.remove(vs);
 					vrsteZivotinja.add(vscheck);
