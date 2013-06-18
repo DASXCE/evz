@@ -147,7 +147,7 @@ public class AddUser {
 		} catch (Exception e) {
 			// mora ovako, ne moze sa return Error_500.class jer ga prestigne
 			// drugi exception
-			Error_500.previousPage = resources.getPageName();
+			Error_500.PREVIOUS_PAGE = resources.getPageName();
 			response.sendRedirect("/evz/errorPages/Error_500");
 		}
 	}

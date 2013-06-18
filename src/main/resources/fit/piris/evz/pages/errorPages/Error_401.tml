@@ -5,7 +5,7 @@
 <!--[if IE 7]> <html class="no-js ie7 oldie" lang="en"> <![endif] -->
 <!--[if IE 8]> <html class="no-js ie8 oldie" lang="en"> <![endif] -->
 <!--[if gt IE 8]><! -->
-<html class="no-js" lang="en"> <!--<![endif] -->
+<html class="no-js" lang="en" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter"> <!--<![endif] -->
 	<head>
 
 		<title>Canvas Admin - 401 Unauthorized</title>
@@ -40,11 +40,11 @@
 			<div id="error-code">401 Unauthorized</div>
 
 			<div id="error-message">
-				Sorry, you do not seem to have access privilege to this resource!
+				${MESSAGE}
 			</div>
 
 			<div id="error-actions">
-				<a href="dashboard.html" class="btn btn- btn-primary">Try Again</a>
+				<a t:type="actionlink" t:id="back" class="btn btn- btn-primary">Nazad</a>
 			</div>
 
 		</div> <!-- #error-wrapper -->

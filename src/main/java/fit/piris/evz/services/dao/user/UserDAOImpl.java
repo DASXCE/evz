@@ -19,7 +19,8 @@ public class UserDAOImpl implements UserDAO{
 	private Session session;
 
 	public boolean update(User u) {
-		return false;
+		session.update(u);
+		return true;
 	}
 
 	public boolean update(Long id) {

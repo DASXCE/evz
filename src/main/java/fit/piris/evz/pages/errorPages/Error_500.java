@@ -20,14 +20,14 @@ public class Error_500 {
 
 	@Persist
 	@Property
-	public static String previousPage;
+	public static String PREVIOUS_PAGE;
 	
 	@Inject
 	private Response response;
 	
 	public void onActionFromBack() {
 		try {
-			response.sendRedirect("/evz/"+previousPage);
+			response.sendRedirect("/evz/"+PREVIOUS_PAGE);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

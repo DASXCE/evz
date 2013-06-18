@@ -2,42 +2,328 @@
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
 	<!-- Most of the page content, including <head>, <body>, etc. tags, comes 
 		from Layout.tml -->
+		
 	<div id="contentHeader">
 		<h1>
-			<t:if test="vlasnik">
+			<t:if test="isCurrentUserVlasnik">
 				${naslov}
-				<p:else>Admin: ${user.getEmail()}</p:else>
+			</t:if>
+			<t:if test="isCurrentUserVeterinar">
+				${naslov}
+			</t:if>
+			<t:if test="isCurrentUserAdmin">
+			Admin: ${user.getEmail()}
 			</t:if>
 		</h1>
 	</div> <!-- #contentHeader -->
 
 	<div class="container">
-
+<form t:type="form" class="form uniformForm validateForm" t:id="forma">
 
 		<div class="grid-16">
 			<div class="widget">
+					<div id="nalog" class="widget-header">
+						<span class="icon-article" style="background-position: 0px -3960px;"></span>
+						<h3>Login podaci</h3>
+					</div> <!-- .widget-header -->
 
-				<div class="widget-header">
-					<span class="icon-layers"></span>
-					<h3>16 Columns</h3>
-				</div>
+					<div class="widget-content">
 
-				<div class="widget-content">
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-						enim ad minim veniam, quis nostrud exercitation ullamco laboris
-						nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-						reprehenderit in voluptate velit esse cillum dolore eu fugiat
-						nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-						sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				</div>
+						<div class="field-group">
+							<label for="email" >Email:</label>
+							
+							<div class="field">
+								<input t:type="textfield" type="text" t:value="email" name="email"
+									t:id="email" size="30" class="validate[required,custom[email]"
+									t:validate="email"/>
+							</div>
+						<t:if test="writePermission">
+						<div class="field-group" >
+								<label for="password1">Stara Lozinka:</label>
+								<div class="field">
+									<input t:type="passwordfield" name="oldpass" t:id="oldpass"
+										size="25" t:value="oldpass"/>
+								</div>
+							</div> <!-- .field-group -->
+							<div class="field-group" >
+								<label for="password1">Nova Lozinka:</label>
+								<div class="field">
+									<input type="password" name="password1" id="password1"
+										size="25" class="validate[minSize[5]]" value=""
+										t:validate="password" />
+								</div>
+							</div> <!-- .field-group -->
 
-			</div>
+							<div class="field-group">
+								<label for="password2">Potvrda Nove Lozinke:</label>
+								<div class="field">
+									<input t:type="passwordfield" name="password2" t:id="password2"
+										size="25" class="validate[equals[password1]]"
+										t:value="password2" />
+								</div>
+							</div>
+							</t:if>
+						</div> <!-- .field-group -->
+						
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+				
+				<!-- VLASNIK PODACI -->
+				
+				<t:if test="isCurrentUserVlasnik">
+				<div id="v-podaci" class="widget">
+
+					<div class="widget-header">
+						<span class="icon-article" style="
+    background-position: 0px -7480px;
+"></span>
+						<h3>Licni Podaci</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+						<div class="field-group">
+							<label>JMBG:</label>
+
+							<t:if test="writePermission">
+							<div class="field">
+								<input t:type="textfield" t:value="jmbg" name="jmbg" t:id="jmbg"
+									size="15" t:mixins="jquery/mask" />
+							</div>
+							<script>
+							jQuery(function($){
+								$("#jmbg").mask("9999999999999",{placeholder:"*"});
+								});</script>
+								<p:else>
+								<div class="field">
+								<input t:type="textfield" t:value="jmbg" name="jmbg" t:id="jmbg2"
+									size="15" />
+							</div>
+								</p:else>
+								</t:if>
+						</div>
+
+						<div class="field-group">
+							<label>Naziv:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="ime" t:id="ime" size="10"
+									/>
+								<label for="ime">Ime</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="prezime" t:id="prezime"
+									size="12" />
+								<label for="prezime">Prezime</label>
+							</div>
+						</div> <!-- .field-group -->
+
+						<div class="field-group">
+							<label>Kontakt:</label>
+				
+							<t:if test="writePermission">
+							<div class="field">
+								<input t:type="textfield" t:value="telefon" name="phone1"
+									t:id="phone1" size="15" t:mixins="jquery/mask" />
+								<label for="phone1">Tel</label>
+							</div>
+							<script>jQuery(function($){
+									$("#phone1").mask("999/999/999",{placeholder:"*"});
+									});</script>
+							<p:else>
+							<div class="field">
+								<input t:type="textfield" t:value="telefon" name="phone1"
+									t:id="phone2" size="15"  />
+								<label for="phone1">Tel</label>
+							</div>
+							</p:else>
+							</t:if>
+						</div>
+
+						<div class="field-group">
+							<label>Adresa:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="grad" name="grad" t:id="grad"
+									size="12" />
+								<label for="grad">Grad</label>
+							</div>
+							<t:if test="writePermission">
+							<div class="field">
+								<input t:type="textfield" t:value="posta" name="posta"
+									t:id="posta" size="6" t:mixins="jquery/mask"/>
+								<label for="posta">Postanski Broj</label>
+							</div>
+							<script>jQuery(function($){
+									$("#posta").mask("99999",{placeholder:"*"});
+									});</script>
+							<p:else>
+							<div class="field">
+								<input t:type="textfield" t:value="posta" name="posta"
+									t:id="posta2" size="6" />
+								<label for="posta">Postanski Broj</label>
+							</div>
+							</p:else>
+							</t:if>
+							<div class="field">
+								<input t:type="textfield" t:value="ulica" name="ulica" t:id="ulica"
+									size="20" />
+								<label for="ulica">Ulica</label>
+							</div>
+						</div>
+
+
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+				</t:if>
+				
+				<!-- VETERINAR PODACI -->
+				<t:if test="isCurrentUserVeterinar">
+				<div id="vet-podaci" class="widget" >
+
+					<div class="widget-header">
+						<span class="icon-article" style="
+    background-position: 0px -7480px;
+"></span>
+						<h3>Podaci</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+						<div class="field-group">
+							<label>Naziv:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="vet_ime" t:id="vet_ime"
+									size="10" class="validate[required]" />
+								<label for="vet_ime">Ime</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="vet_prezime" t:id="vet_prezime"
+									size="12" class="validate[required]" />
+								<label for="vet_prezime">Prezime</label>
+							</div>
+						</div> <!-- .field-group -->
+						<t:zone t:id="ambZona" id="ambZona">
+							<div class="field-group">
+								<label>Ambulanta:</label>
+								<t:if test="writePermission">
+								<div class="field">
+									<input t:type="select" model="ambulantaModel" encoder="ambulantaEncoder"
+										value="ambulanta" class="validate[required]" />
+									<t:if test="${isAdminLoggedIn()}">
+									<button type="button" id="ambShow" class="btn btn-small btn-primary">Dodaj</button>
+									<script>
+										$("#ambShow").click(function (){
+
+										$.blockUI({ message:
+										$('#ambulanta'), css: { border: '1px solid #aaa',top:'20%'},overlayCss:{cursor:'default'}});
+										});
+									</script>
+									<label for="cardtype">Izaberite</label>
+									</t:if>
+								</div>
+								<p:else>
+								<div class="field">
+									<input t:type="textfield" t:id="amb" value="amb" />
+								</div>
+								</p:else>
+								</t:if>
+							</div> <!-- .field-group -->
+						</t:zone>
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+				</t:if>
 		</div> <!-- .grid -->
-
+		<script>
+		$(document).ready(function(){
+    		$("input").attr("readonly","true");
+    			
+    			if(${writePermission}){
+    			
+   					 if(${isAdminLoggedIn()}){
+   					 
+    					$("input").removeAttr("readonly");
+    						return;
+   					 }
+   					 if(${isCurrentUserVlasnik}){
+   					 
+   					 	$("#phone1").removeAttr("readonly");
+   					 	
+   					 	$("#grad").removeAttr("readonly");
+   					 	$("#posta").removeAttr("readonly");
+   					 	$("#ulica").removeAttr("readonly");
+   					 
+   					 }
+    	
+    				$("#oldpass").removeAttr("readonly");
+   					$("#password1").removeAttr("readonly");
+    				$("#password2").removeAttr("readonly");
+  				}
+		});
+  
+		</script>
+</form>
 		<div class="grid-7">
+		<t:if test="${hasAccess()}">
+		<t:if test="${isSuccessfull()}">
+					<div id="succ" class="notify notify-success">
 
+						<a href="javascript:;" class="close">&times;
+						</a>
 
+						<h3>Uspjesno!</h3>
+
+						<p>Uspjesno ste izvrsili promjene</p>
+					</div> <!-- .notify -->
+					</t:if>
+					<t:if test="${isError()}">
+					<div id="succ" class="notify notify-error">
+
+						<a href="javascript:;" class="close">&times;
+						</a>
+
+						<h3>Greska!</h3>
+
+						<p>Stara lozinka nije tacna!</p>
+					</div> <!-- .notify -->
+					</t:if>
+					
+				<div class="box plain">
+				<t:if test="${!writePermission}">
+				<t:actionlink t:id="edit">
+					<button type="button" id="edit" class="btn btn-large btn-primary"
+						style="width: 100%;">Ukljuci editovanje</button>
+						</t:actionlink>
+						<p:else>
+						<button type="submit" id="save" class="btn btn-large btn-green"
+						style="width: 100%;"><span class="icon-loop"></span> Sacuvaj promjene</button>
+						<script>
+					$(function () {
+					$('#save').live ('click', function (e) {
+					e.preventDefault ();
+					$.alert ({
+					type: 'confirm'
+					, title: 'Potvrda',
+					
+					confirmText: 'Sacuvaj'
+					, cancelText: 'Odustani'
+					, text: '<p>Da li ste sigurni?</p>'
+					, callback: function () { $('#forma').submit(); }
+					});
+					});
+					});
+				</script>
+						<br/>
+						<br/>
+						<t:actionlink t:id="stop">
+					<button type="button" id="stop" class="btn btn-large btn-orange"
+						style="width: 100%;">Iskljuci editovanje</button>
+						</t:actionlink>
+						</p:else></t:if>
+				</div>
+		</t:if>
 		</div> <!-- .grid -->
 
 	</div> <!-- .container -->
