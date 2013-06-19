@@ -12,13 +12,13 @@ import javax.persistence.Table;
 import org.apache.tapestry5.beaneditor.NonVisual;
 
 @Entity
-@Table(name = "users")
+@Table(name = "korisnici")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
 	@Id
 	@NonVisual
-	@Column(name = "id")
+	@Column(name = "pk_korisnik_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 

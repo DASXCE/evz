@@ -1,7 +1,7 @@
 package fit.piris.evz.entities.gazdinstvo;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +16,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.tapestry5.beaneditor.NonVisual;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import fit.piris.evz.entities.Adresa;
 import fit.piris.evz.entities.users.Vlasnik;
@@ -27,7 +29,7 @@ public class Gazdinstvo {
 
 	@Id
 	@NonVisual
-	@Column(name = "id")
+	@Column(name = "pk_gazdinstvo_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
@@ -38,23 +40,25 @@ public class Gazdinstvo {
 	private String naziv;
 
 	@ManyToOne
-	@JoinColumn(name = "adresa")
+	@JoinColumn(name = "fk_adresa_id")
 	private Adresa adresa;
 
 	@OneToOne(mappedBy = "gazdinstvo")
 	private Vlasnik vlasnik;
 
 	@ManyToMany
-	@JoinTable(name = "gazdinstvo_tipovi_proizvodnje", joinColumns = { @JoinColumn(name = "gazdinstvo") }, inverseJoinColumns = { @JoinColumn(name = "tip_proizvodnje") })
-	private List<TipProizvodnje> tipProizvodnje;
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinTable(name = "gazdinstvo_tipovi_proizvodnje", joinColumns = { @JoinColumn(name = "fk_gazdinstvo_id") }, inverseJoinColumns = { @JoinColumn(name = "fk_tip_proizvodnje_id") })
+	private List<TipProizvodnje> tipProizvodnje= new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(name = "gazdinstvo_vrste_zivotinja", joinColumns = { @JoinColumn(name = "gazdinstvo") }, inverseJoinColumns = { @JoinColumn(name = "vrste_zivotinja") })
-	private List<VrstaZivotinje> vrsteZivotinja;
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinTable(name = "gazdinstvo_vrste_zivotinja", joinColumns = { @JoinColumn(name = "fk_gazdinstvo_id") }, inverseJoinColumns = { @JoinColumn(name = "fk_vrsta_zivotinje_id") })
+	private List<VrstaZivotinje> vrsteZivotinja= new ArrayList<>();
 
 	@OneToMany
-	@JoinColumn(name = "gazdinstvo")
-	private List<Zivotinja> zivotinje;
+	@JoinColumn(name = "fk_gazdinstvo_id")
+	private List<Zivotinja> zivotinje = new ArrayList<>();
 
 	public Gazdinstvo() {
 	}

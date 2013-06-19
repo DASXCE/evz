@@ -1,26 +1,22 @@
 package fit.piris.evz.entities.zivotinje;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.io.Serializable;
 
-import org.apache.tapestry5.beaneditor.NonVisual;
+import javax.persistence.Embeddable;
 
-@Entity
-@Table(name = "usne_markice")
-public class UsnaMarkica {
+@Embeddable
+public class UsnaMarkica implements Serializable {
 
-	@Id
-	@NonVisual
-	@Column(name = "broj")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long broj;
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	@Column(name = "drzava")
-	private String drzava;
+	//	@Column(name = "broj")
+	public Long broj;
+
+//	@Column(name = "drzava")
+	public String drzava;
 
 	public UsnaMarkica() {
 	}
@@ -45,5 +41,20 @@ public class UsnaMarkica {
 
 	public void setDrzava(String drzava) {
 		this.drzava = drzava;
+	}
+
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		UsnaMarkica that = (UsnaMarkica) o;
+
+		if (that.getBroj() != this.broj || that.getDrzava() != this.drzava) {
+			return false;
+		}
+
+		return true;
 	}
 }

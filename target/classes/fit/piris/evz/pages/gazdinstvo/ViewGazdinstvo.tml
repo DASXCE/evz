@@ -1,0 +1,168 @@
+<html t:type="layout" title="add gazdinstvo"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
+
+	<div id="contentHeader">
+		<h1>
+			Gazdinstvo: ${gazdinstvo.getNaziv()}, Vlasnik: <a t:type="actionlink" t:id="editVlasnik" context="gazdinstvo.getVlasnik()">${gazdinstvo.getVlasnik().getIme()} ${gazdinstvo.getVlasnik().getPrezime()}</a>
+		</h1>
+
+	</div> <!-- #contentHeader -->
+
+
+	<form t:type="form" t:id="forma" class="form uniformForm">
+		<div class="container">
+
+			<div class="grid-16">
+
+				<div class="widget">
+
+					<div class="widget-header">
+						<span class="icon-article"></span>
+						<h3>Opsti podaci</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+						<div class="field-group">
+							<label>Sifra:</label>
+							<div class="field">
+								<input t:type="textfield" t:value="sifra" name="sifra"
+									t:id="sifra" size="10"  />
+							</div>
+
+						</div> <!-- .field-group -->
+						<div class="field-group">
+							<label>Naziv:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="naziv" name="naziv"
+									t:id="naziv" size="20" />
+							</div>
+
+						</div> <!-- .field-group -->
+
+						<div class="field-group">
+							<label>Adresa:</label>
+							<div class="field">
+								<input t:type="textfield" t:value="grad" name="grad" id="grad"
+									size="12" />
+								<label for="grad">Grad</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="posta" name="posta"
+									t:id="posta" size="6"  />
+								<label for="posta">Postanski Broj</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="ulica" name="ulica" id="ulica"
+									size="20" />
+								<label for="ulica">Ulica</label>
+							</div>
+						</div> <!-- .field-group -->
+
+						<div class="field-group control-group">
+							<label>Proizvodi:</label>
+
+							<span>${proizvodi}</span>
+						</div>
+						<div class="field-group control-group">
+							<label>Vrste Zivotinja na gazdinstvu:</label>
+
+							<span>${vrsteZivotinja}</span>
+						</div>
+
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+		<script>
+			$(document).ready(function(){
+    			$("input").attr("readonly","true");
+			});
+		</script>
+<div class="widget widget-table">
+
+				<div class="widget-header">
+					<span class="icon-list"></span>
+					<h3 class="icon aperture">Zivotinje</h3>
+				</div> <!-- .widget-header -->
+
+				<div class="widget-content">
+					<table class="table table-bordered table-striped data-table">
+						<thead>
+							<tr>
+								<th>Oznaka</th>
+								<th>Datum Rodjenja</th>
+								<th>Pol</th>
+								<th>Ime</th>
+								<th>Majka</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- <t:loop source="zivotinjee" value="zivotinjaTmp">
+								<tr class="gradeA">
+								 	<td>${zivotinjaTmp.getBroj()} ${zivotinjaTmp.getDrzava()}</td>
+									<td>${zivotinjaTmp.getDatumRodjenja()}</td>
+									<td>${zivotinjaTmp.getPol()}</td>
+									<td>${zivotinjaTmp.getIme()}</td>
+									<td>${zivotinjaTmp.getMajka()}</td>
+								</tr> 
+							</t:loop> -->
+						</tbody>
+
+					</table>
+
+
+				</div> <!-- .widget-content -->
+
+			</div> <!-- .widget -->
+
+			</div> <!-- .grid -->
+
+			<div class="grid-7">
+				<t:if test="showsuccess">
+					<div id="succ" class="notify notify-success">
+
+						<a href="javascript:;" class="close">&times;
+						</a>
+
+						<h3>Uspjesno!</h3>
+
+						<p>Uspjesno ste dodali novo gazdinstvo u sistemu</p>
+					</div> <!-- .notify -->
+				</t:if>
+
+				<div class="box plain">
+
+					<button type="submit" id="save" class="btn  btn-large btn-green"
+						style="
+    width: 100%;
+">+
+						Save</button>
+					<br />
+					<br />
+					<button type="reset" class="btn  btn-large btn-gray" style="
+    width: 100%;
+">-
+						Cancel</button>
+
+				</div>
+				<script>
+					$(function () {
+
+					$('#save').live ('click', function (e) {
+					e.preventDefault ();
+					$.alert ({
+					type: 'confirm'
+					, title: 'Paznja'
+					, text: '<p>Da li ste sigurni da zelite da unesete ove podatke?</p>'
+					, callback: function () { $("#forma").submit(); }
+					});
+					});
+
+					});
+				</script>
+
+
+			</div> <!-- .grid -->
+		</div> <!-- .container -->
+	</form>
+</html>

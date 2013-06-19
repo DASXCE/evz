@@ -15,7 +15,7 @@ public class Pasos {
 
 	@Id
 	@NonVisual
-	@Column(name = "id")
+	@Column(name = "pk_pasos_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 

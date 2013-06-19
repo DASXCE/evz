@@ -135,6 +135,62 @@
 				</div> <!-- .widget-content -->
 
 			</div> <!-- .widget -->
+			
+			
+			<t:if test="${!isAdmin()}">
+			<div class="widget widget-table">
+
+				<div class="widget-header">
+					<span class="icon-list"></span>
+					<h3 class="icon aperture">Gazdinstva</h3>
+				</div> <!-- .widget-header -->
+
+				<div class="widget-content">
+					<table class="table table-bordered table-striped data-table">
+						<thead>
+							<tr>
+								<th>Opcije</th>
+								<th>Sifra</th>
+								<th>Naziv</th>
+								<th>Grad</th>
+								<th>Vlasnik</th>
+							</tr>
+						</thead>
+						<tbody>
+							<t:loop source="gazdinstva" value="gazdTmp">
+								<tr class="gradeA">
+									<td>
+										<ul id="invoice_actions" style="margin:0; list-style-type:none;">
+											<li id="liEdit${gazdTmp.getSifra()}" class="edit"
+												style="margin:0; display:inline;" original-title="Detalji">
+												<a t:type="actionlink" t:id="editGazd" context="gazdTmp"></a>
+											</li>
+										</ul>
+									</td>
+									<td>${gazdTmp.getSifra()}</td>
+									<td>${gazdTmp.getNaziv()}</td>
+									<td>${gazdTmp.getAdresa().getGrad()}</td>
+									<td><a t:type="actionlink" t:id="editVlasnik2" context="gazdTmp.getVlasnik()">${gazdTmp.getVlasnik().getIme()} ${gazdTmp.getVlasnik().getPrezime()}</a></td>
+								</tr>
+								<script>
+									$(function () {
+									$('#liEdit${gazdTmp.getSifra()}').tipsy({gravity: 'se'});
+									});
+								</script>
+							</t:loop>
+						</tbody>
+
+					</table>
+
+
+				</div> <!-- .widget-content -->
+
+			</div> <!-- .widget -->
+			</t:if>
+			
+			
+			
+			
 
 		</div> <!-- .grid -->
 

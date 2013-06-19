@@ -7,38 +7,35 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.apache.tapestry5.beaneditor.NonVisual;
 
 import fit.piris.evz.enums.Pol;
 
 @Entity
 @Table(name = "zivotinje")
+@IdClass(UsnaMarkica.class)
 public class Zivotinja {
-
+	
 	@Id
-	@NonVisual
-	@Column(name = "zivotni_broj")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long zivotniBroj;
+	@Column(name="pk_zivotinja_broj_markice")
+	public Long broj;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "markica")
-	private UsnaMarkica markica;
+	@Column(name="pk_zivotinja_drzava_markice")
+	public String drzava;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pasos")
+	@JoinColumn(name = "fk_pasos_id")
 	private Pasos pasos;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "karton")
+	@JoinColumn(name = "fk_karton_id")
 	private ZdravstveniKarton karton;
 
 	@Column(name = "ime")
@@ -55,22 +52,24 @@ public class Zivotinja {
 	private Pol pol;
 
 	@ManyToOne
-	@JoinColumn(name = "majka")
+	@JoinColumns(value={@JoinColumn(name="fk_zivotinja_majka_broj_markice"),@JoinColumn(name="fk_zivotinja_majka_drzava_markice")})
 	private Zivotinja majka;
 
 	@ManyToOne
-	@JoinColumn(name = "otac")
+	@JoinColumns(value={@JoinColumn(name="fk_zivotinja_otac_broj_markice"),@JoinColumn(name="fk_zivotinja_otac_drzava_markice")})
 	private Zivotinja otac;
 
 	public Zivotinja() {
 	}
 
-	public Zivotinja(Long zivotniBroj, UsnaMarkica markica, String ime,
-			Date datumRodjenja, Date datumUginuca, Pol pol, Zivotinja majka,
-			Zivotinja otac) {
+	public Zivotinja(Long broj, String drzava, Pasos pasos,
+			ZdravstveniKarton karton, String ime, Date datumRodjenja,
+			Date datumUginuca, Pol pol, Zivotinja majka, Zivotinja otac) {
 		super();
-		this.zivotniBroj = zivotniBroj;
-		this.markica = markica;
+		this.broj = broj;
+		this.drzava = drzava;
+		this.pasos = pasos;
+		this.karton = karton;
 		this.ime = ime;
 		this.datumRodjenja = datumRodjenja;
 		this.datumUginuca = datumUginuca;
@@ -79,20 +78,36 @@ public class Zivotinja {
 		this.otac = otac;
 	}
 
-	public Long getZivotniBroj() {
-		return zivotniBroj;
+	public Long getBroj() {
+		return broj;
 	}
 
-	public void setZivotniBroj(Long zivotniBroj) {
-		this.zivotniBroj = zivotniBroj;
+	public void setBroj(Long broj) {
+		this.broj = broj;
 	}
 
-	public UsnaMarkica getMarkica() {
-		return markica;
+	public String getDrzava() {
+		return drzava;
 	}
 
-	public void setMarkica(UsnaMarkica markica) {
-		this.markica = markica;
+	public void setDrzava(String drzava) {
+		this.drzava = drzava;
+	}
+
+	public Pasos getPasos() {
+		return pasos;
+	}
+
+	public void setPasos(Pasos pasos) {
+		this.pasos = pasos;
+	}
+
+	public ZdravstveniKarton getKarton() {
+		return karton;
+	}
+
+	public void setKarton(ZdravstveniKarton karton) {
+		this.karton = karton;
 	}
 
 	public String getIme() {
@@ -142,4 +157,6 @@ public class Zivotinja {
 	public void setOtac(Zivotinja otac) {
 		this.otac = otac;
 	}
+
+	
 }

@@ -21,7 +21,7 @@ public class Dijagnoza {
 
 	@Id
 	@NonVisual
-	@Column(name = "id")
+	@Column(name = "pk_dijagnoza_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
@@ -35,7 +35,7 @@ public class Dijagnoza {
 	private String terapija;
 
 	@ManyToOne
-	@JoinColumn(name = "veterinar")
+	@JoinColumn(name = "fk_veterinar_id")
 	private Veterinar veterinar;
 
 	public Dijagnoza() {

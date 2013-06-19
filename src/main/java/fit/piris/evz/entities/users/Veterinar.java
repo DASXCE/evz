@@ -11,7 +11,7 @@ import fit.piris.evz.entities.Ambulanta;
 
 @Entity
 @Table(name = "veterinari")
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "pk_fk_korisnik_id")
 public class Veterinar extends User {
 
 	@Column(name = "ime", nullable = false)
@@ -21,7 +21,7 @@ public class Veterinar extends User {
 	private String prezime;
 
 	@ManyToOne
-	@JoinColumn(name = "ambulanta")
+	@JoinColumn(name = "fk_ambulanta_id")
 	private Ambulanta ambulanta;
 
 	public Veterinar() {

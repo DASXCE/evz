@@ -1,8 +1,5 @@
 package fit.piris.evz.entities.users;
 
-import java.io.Serializable;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -16,9 +13,8 @@ import fit.piris.evz.entities.gazdinstvo.Gazdinstvo;
 
 @Entity
 @Table(name = "vlasnici")
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "pk_fk_korisnik_id")
 public class Vlasnik extends User {
-
 
 	@Column(name = "jmbg", unique = true, nullable = false)
 	private Long jmbg;
@@ -30,14 +26,14 @@ public class Vlasnik extends User {
 	private String prezime;
 
 	@ManyToOne
-	@JoinColumn(name = "adresa")
+	@JoinColumn(name = "fk_adresa_id")
 	private Adresa adresa;
 
 	@Column(name = "telefon", unique = true)
 	private String telefon;
 
 	@OneToOne
-	@JoinColumn(name = "sifra_gazdinstva", unique = true)
+	@JoinColumn(name = "fk_gazdinstvo_id", unique = true)
 	private Gazdinstvo gazdinstvo;
 
 	public Vlasnik() {

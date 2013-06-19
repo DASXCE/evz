@@ -2,6 +2,7 @@ package fit.piris.evz.pages;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.annotations.Component;
@@ -12,6 +13,7 @@ import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import fit.piris.evz.annotations.VeterinarAccess;
 import fit.piris.evz.annotations.VlasnikAccess;
@@ -20,6 +22,7 @@ import fit.piris.evz.entities.users.User;
 import fit.piris.evz.entities.users.Veterinar;
 import fit.piris.evz.entities.users.Vlasnik;
 import fit.piris.evz.entities.zivotinje.Zivotinja;
+import fit.piris.evz.pages.gazdinstvo.ViewGazdinstvo;
 import fit.piris.evz.pages.user.ViewUser;
 import fit.piris.evz.services.dao.user.UserDAO;
 import fit.piris.evz.services.security.Authenticator;
@@ -74,6 +77,9 @@ public class Index {
 	
 	@Property
 	private Vlasnik vlasnikTmp;
+	
+	@Property
+	private Gazdinstvo gazdTmp;
 
 	/*
 	 * lista svih vlasnika iz baze
@@ -131,6 +137,21 @@ public class Index {
 	public List<Vlasnik> getVlasnicii() {
 		return session.createCriteria(Vlasnik.class).list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Gazdinstvo> getGazdinstva() {
+		List<Gazdinstvo> list = session.createCriteria(Gazdinstvo.class).list();
+		List<Gazdinstvo> l = new CopyOnWriteArrayList<>();
+//		return session.createCriteria(Gazdinstvo.class).add(Restrictions.isNull("vlasnik")).list();
+		for (Gazdinstvo gazdinstvo : list) {
+			System.out.println(gazdinstvo.getNaziv());
+			System.out.println(gazdinstvo.getVlasnik());
+			if (gazdinstvo.getVlasnik()!=null) {
+				l.add(gazdinstvo);
+			}
+		}
+		return l;
+	}
 
 	public Object onActionFromRefresh() {
 
@@ -165,5 +186,15 @@ public class Index {
 	public Object onActionFromEditVlasnik(Vlasnik vlasnik) {
 		ViewUser.user = vlasnik;
 		return ViewUser.class;
+	}
+	
+	public Object onActionFromEditVlasnik2(Vlasnik vlasnik) {
+		ViewUser.user = vlasnik;
+		return ViewUser.class;
+	}
+	
+	public Object onActionFromEditGazd(Gazdinstvo gazdinstvo) {
+		ViewGazdinstvo.gazdinstvo = gazdinstvo;
+		return ViewGazdinstvo.class;
 	}
 }

@@ -1,7 +1,8 @@
 package fit.piris.evz.entities.gazdinstvo;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +23,7 @@ public class Klaonica {
 
 	@Id
 	@NonVisual
-	@Column(name = "id")
+	@Column(name = "pk_klaonica_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
@@ -30,13 +31,13 @@ public class Klaonica {
 	private Date datum;
 
 	@OneToMany
-	@JoinColumn(name = "klaonica")
-	private Set<Zivotinja> zivotinje;
+	@JoinColumn(name = "fk_klaonica_id")
+	private List<Zivotinja> zivotinje = new ArrayList<>();
 
 	public Klaonica() {
 	}
 
-	public Klaonica(Date datum, Set<Zivotinja> zivotinje) {
+	public Klaonica(Date datum, List<Zivotinja> zivotinje) {
 		super();
 		this.datum = datum;
 		this.zivotinje = zivotinje;
@@ -58,11 +59,11 @@ public class Klaonica {
 		this.datum = datum;
 	}
 
-	public Set<Zivotinja> getZivotinje() {
+	public List<Zivotinja> getZivotinje() {
 		return zivotinje;
 	}
 
-	public void setZivotinje(Set<Zivotinja> zivotinje) {
+	public void setZivotinje(List<Zivotinja> zivotinje) {
 		this.zivotinje = zivotinje;
 	}
 

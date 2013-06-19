@@ -1,8 +1,8 @@
 package fit.piris.evz.entities.zivotinje;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
-
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,14 +19,14 @@ import org.apache.tapestry5.beaneditor.NonVisual;
 import fit.piris.evz.entities.users.Veterinar;
 
 @Entity
-@Table(name = "ev_kretanja")
+@Table(name = "evidencije_kretanja")
 public class EvidencijaKretanja {
 
 	@Id
 	@NonVisual
-	@Column(name = "evidencioni_broj")
+	@Column(name = "pk_evidencija_kretanja_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long evBroj;
+	private Long id;
 
 	@Column(name = "datum_odlazka")
 	private Date datumOdlazka;
@@ -38,18 +38,18 @@ public class EvidencijaKretanja {
 	private String mjesto;
 
 	@ManyToOne
-	@JoinColumn(name = "veterinar")
+	@JoinColumn(name = "fk_veterinar_id")
 	private Veterinar veterinar;
 
 	@ManyToMany
-	@JoinTable(name = "ev_kretanja_zivotinja", joinColumns = { @JoinColumn(name = "ev_kretanja") }, inverseJoinColumns = { @JoinColumn(name = "zivotinja") })
-	private Set<Zivotinja> zivotinje;
+	@JoinTable(name = "evidencije_kretanja_zivotinja", joinColumns = { @JoinColumn(name = "fk_evidencija_kretanja_id") }, inverseJoinColumns = { @JoinColumn(name = "fk_zivotinja_broj_markice"),@JoinColumn(name = "fk_zivotinja_drzava_markice") })
+	private List<Zivotinja> zivotinje = new ArrayList<>();
 
 	public EvidencijaKretanja() {
 	}
 
 	public EvidencijaKretanja(Date datumOdlazka, Date datumDolazka,
-			String mjesto, Veterinar veterinar, Set<Zivotinja> zivotinje) {
+			String mjesto, Veterinar veterinar, List<Zivotinja> zivotinje) {
 		super();
 		this.datumOdlazka = datumOdlazka;
 		this.datumDolazka = datumDolazka;
@@ -59,11 +59,11 @@ public class EvidencijaKretanja {
 	}
 
 	public Long getEvBroj() {
-		return evBroj;
+		return id;
 	}
 
-	public void setEvBroj(Long evBroj) {
-		this.evBroj = evBroj;
+	public void setEvBroj(Long id) {
+		this.id = id;
 	}
 
 	public Date getDatumOdlazka() {
@@ -98,11 +98,11 @@ public class EvidencijaKretanja {
 		this.veterinar = veterinar;
 	}
 
-	public Set<Zivotinja> getZivotinje() {
+	public List<Zivotinja> getZivotinje() {
 		return zivotinje;
 	}
 
-	public void setZivotinje(Set<Zivotinja> zivotinje) {
+	public void setZivotinje(List<Zivotinja> zivotinje) {
 		this.zivotinje = zivotinje;
 	}
 

@@ -16,7 +16,7 @@ public class Adresa {
 	@Id
 	@NonVisual
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "pk_adresa_id")
 	private Long id;
 
 	@Column(name = "grad", nullable = false)

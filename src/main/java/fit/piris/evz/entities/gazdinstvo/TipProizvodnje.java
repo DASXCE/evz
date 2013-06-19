@@ -19,7 +19,7 @@ public class TipProizvodnje {
 
 	@Id
 	@NonVisual
-	@Column(name = "id")
+	@Column(name = "pk_tip_proizvodnje_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 

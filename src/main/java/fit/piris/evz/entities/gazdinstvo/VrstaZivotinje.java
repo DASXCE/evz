@@ -19,7 +19,7 @@ public class VrstaZivotinje {
 
 	@Id
 	@NonVisual
-	@Column(name = "id")
+	@Column(name = "pk_vrsta_zivotinje_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 

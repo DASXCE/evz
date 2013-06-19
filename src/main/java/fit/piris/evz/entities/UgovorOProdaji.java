@@ -1,8 +1,8 @@
 package fit.piris.evz.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
-
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,12 +20,12 @@ import fit.piris.evz.entities.users.Vlasnik;
 import fit.piris.evz.entities.zivotinje.Zivotinja;
 
 @Entity
-@Table(name = "ugovori_o_prodaji")
+@Table(name = "ugovori")
 public class UgovorOProdaji {
 
 	@Id
 	@NonVisual
-	@Column(name = "id")
+	@Column(name = "pk_ugovor_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
@@ -36,21 +36,21 @@ public class UgovorOProdaji {
 	private Double cijena;
 
 	@ManyToMany
-	@JoinTable(name = "ugovori_zivotinje", joinColumns = { @JoinColumn(name = "ugovor") }, inverseJoinColumns = { @JoinColumn(name = "zivotinja") })
-	private Set<Zivotinja> zivotinje;
-
+	@JoinTable(name = "ugovori_zivotinje", joinColumns = { @JoinColumn(name = "fk_ugovor_id") }, inverseJoinColumns = { @JoinColumn(name = "fk_zivotinja_broj_markice"),@JoinColumn(name = "fk_zivotinja_drzava_markice") })
+	private List<Zivotinja> zivotinje = new ArrayList<>();
+	
 	@ManyToOne
-	@JoinColumn(name = "prodavac")
+	@JoinColumn(name = "fk_prodavac_id")
 	private Vlasnik prodavac;
 
 	@ManyToOne
-	@JoinColumn(name = "kupac")
+	@JoinColumn(name = "fk_kupac_id")
 	private Vlasnik kupac;
 
 	public UgovorOProdaji() {
 	}
 
-	public UgovorOProdaji(Date datum, Double cijena, Set<Zivotinja> zivotinje,
+	public UgovorOProdaji(Date datum, Double cijena, List<Zivotinja> zivotinje,
 			Vlasnik prodavac, Vlasnik kupac) {
 		super();
 		this.datum = datum;
@@ -84,11 +84,11 @@ public class UgovorOProdaji {
 		this.cijena = cijena;
 	}
 
-	public Set<Zivotinja> getZivotinje() {
+	public List<Zivotinja> getZivotinje() {
 		return zivotinje;
 	}
 
-	public void setZivotinje(Set<Zivotinja> zivotinje) {
+	public void setZivotinje(List<Zivotinja> zivotinje) {
 		this.zivotinje = zivotinje;
 	}
 

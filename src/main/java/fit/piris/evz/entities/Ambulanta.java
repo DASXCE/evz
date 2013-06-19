@@ -17,7 +17,7 @@ public class Ambulanta {
 
 	@Id
 	@NonVisual
-	@Column(name = "id")
+	@Column(name = "pk_ambulanta_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
@@ -25,7 +25,7 @@ public class Ambulanta {
 	private String naziv;
 
 	@ManyToOne
-	@JoinColumn(name = "adresa")
+	@JoinColumn(name = "fk_adresa_id")
 	private Adresa adresa;
 
 	public Ambulanta() {
