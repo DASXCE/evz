@@ -125,6 +125,7 @@ public class ViewUser {
 	private int showsuccess;
 
 	public void onActivate() {
+		
 		if (user == null) {
 			user = authenticator.getLoggedUser();
 		}
@@ -153,7 +154,7 @@ public class ViewUser {
 			email = user.getEmail();
 			vet_ime = ((Veterinar) user).getIme();
 			vet_prezime = ((Veterinar) user).getPrezime();
-			amb = ((Veterinar) user).getAmbulanta().getNaziv();
+//				amb = ((Veterinar) user).getAmbulanta().getNaziv();
 		} else {
 			isCurrentUserAdmin = true;
 			email = user.getEmail();
@@ -189,32 +190,62 @@ public class ViewUser {
 
 	@CommitAfter
 	public Object onSubmitFromForma() throws IOException {
-		if (!MD5.md5(oldpass).equals(user.getPassword())) {
-			System.out.println(resources.getPageName());
-			Error_401.PREVIOUS_PAGE = resources.getPageName();
-			response.sendRedirect("/evz/errorPages/Error_401");
-			showsuccess = 3;
-			return null;
+		if (password2!=null) {
+			if (oldpass==null || !MD5.md5(oldpass).equals(user.getPassword())) {
+				Error_401.PREVIOUS_PAGE = resources.getPageName();
+				response.sendRedirect("/evz/errorPages/Error_401");
+				showsuccess = 3;
+				return null;
+			}
 		}
 		if (user instanceof Vlasnik) {
 			Vlasnik updated = (Vlasnik) user;
-			if (password2!="") {
+			if (password2!=null) {
 				updated.setPassword(MD5.md5(password2));
+			}else {
+				updated.setPassword(user.getPassword());
 			}
+			
 			updated.setEmail(email);
 			updated.setJmbg(jmbg);
 			updated.setIme(ime);
 			updated.setPrezime(prezime);
 			updated.setTelefon(telefon);
-			updated.setAdresa(new Adresa(grad, posta, ulica));
+			
+			Adresa stara = ((Vlasnik) user).getAdresa();
+			
+			Adresa nova = new Adresa();
+			nova.setGrad(grad);
+			nova.setBrPoste(posta);
+			nova.setUlica(ulica);
+			
+			if (!nova.equals(stara)) {
+				session.save(nova);
+				updated.setAdresa(nova);
+			}
+			
 			userDAO.update(updated);
+			showsuccess = 1;
+			return null;
 		}
 		if (user instanceof Veterinar) {
-
+			Veterinar updated = (Veterinar) user;
+			if (password2!=null) {
+				updated.setPassword(MD5.md5(password2));
+			}else {
+				updated.setPassword(user.getPassword());
+			}
+			updated.setIme(vet_ime);
+			updated.setPrezime(vet_prezime);
+			updated.setAmbulanta(ambulanta);
+			userDAO.update(updated);
+			showsuccess = 1;
 		} else {
 			User updated = user;
-			if (password2!="") {
+			if (password2!=null) {
 				updated.setPassword(MD5.md5(password2));
+			}else {
+				updated.setPassword(user.getPassword());
 			}
 			updated.setEmail(email);
 			userDAO.update(updated);

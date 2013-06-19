@@ -16,9 +16,9 @@ public class MD5 {
 	}
 
 	public static String md5(String message) {
-//		System.out.println("MD5.md5() password: "+message);
 		if (message==null) {
-			throw new NullPointerException();
+			return "";
+//			throw new NullPointerException();
 		}
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
