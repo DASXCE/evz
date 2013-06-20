@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -20,15 +21,18 @@ import fit.piris.evz.enums.Pol;
 
 @Entity
 @Table(name = "zivotinje")
-@IdClass(UsnaMarkica.class)
+//@IdClass(UsnaMarkica.class)
 public class Zivotinja {
 	
-	@Id
-	@Column(name="pk_zivotinja_broj_markice")
-	public Long broj;
+//	@Id
+//	@Column(name="pk_zivotinja_broj_markice")
+//	public Long broj;
+//
+//	@Column(name="pk_zivotinja_drzava_markice")
+//	public String drzava;
 
-	@Column(name="pk_zivotinja_drzava_markice")
-	public String drzava;
+	@EmbeddedId
+	private UsnaMarkica markica;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "fk_pasos_id")
@@ -62,12 +66,11 @@ public class Zivotinja {
 	public Zivotinja() {
 	}
 
-	public Zivotinja(Long broj, String drzava, Pasos pasos,
+	public Zivotinja(UsnaMarkica markica,Pasos pasos,
 			ZdravstveniKarton karton, String ime, Date datumRodjenja,
 			Date datumUginuca, Pol pol, Zivotinja majka, Zivotinja otac) {
 		super();
-		this.broj = broj;
-		this.drzava = drzava;
+		this.markica = markica;
 		this.pasos = pasos;
 		this.karton = karton;
 		this.ime = ime;
@@ -78,20 +81,12 @@ public class Zivotinja {
 		this.otac = otac;
 	}
 
-	public Long getBroj() {
-		return broj;
+	public UsnaMarkica getMarkica() {
+		return markica;
 	}
 
-	public void setBroj(Long broj) {
-		this.broj = broj;
-	}
-
-	public String getDrzava() {
-		return drzava;
-	}
-
-	public void setDrzava(String drzava) {
-		this.drzava = drzava;
+	public void setMarkica(UsnaMarkica markica) {
+		this.markica = markica;
 	}
 
 	public Pasos getPasos() {

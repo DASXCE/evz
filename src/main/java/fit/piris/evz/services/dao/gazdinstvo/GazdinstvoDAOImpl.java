@@ -115,4 +115,13 @@ public class GazdinstvoDAOImpl implements GazdinstvoDAO {
 		return false;
 	}
 
+	@Override
+	public void addZivotinja(Gazdinstvo gazdinstvo,Zivotinja zivotinja) {
+
+		List<Zivotinja> list = session.createCriteria(Zivotinja.class).list();
+		list.add(zivotinja);
+		gazdinstvo.setZivotinje(list);
+		session.update(gazdinstvo);
+	}
+
 }

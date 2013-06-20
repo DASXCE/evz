@@ -15,6 +15,8 @@ public interface GazdinstvoDAO {
 			Vlasnik vlasnik, List<TipProizvodnje> tipProizvodnje,
 			List<VrstaZivotinje> vrsteZivotinja, List<Zivotinja> zivotinje);
 
+	public void addZivotinja(Gazdinstvo gazdinstvo,Zivotinja zivotinja);
+	
 	public boolean update(Gazdinstvo g);
 
 	public boolean update(Long sifra);

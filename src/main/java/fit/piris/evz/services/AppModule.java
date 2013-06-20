@@ -16,6 +16,7 @@ import org.got5.tapestry5.jquery.JQuerySymbolConstants;
 import fit.piris.evz.services.dao.gazdinstvo.GazdinstvoDAO;
 import fit.piris.evz.services.dao.user.UserDAO;
 import fit.piris.evz.services.dao.user.UserDAOImpl;
+import fit.piris.evz.services.dao.zivotinja.ZivotinjaDAO;
 import fit.piris.evz.services.security.AuthenticationFilter;
 import fit.piris.evz.services.security.Authenticator;
 
@@ -37,6 +38,7 @@ public class AppModule {
 											// Impl
 		binder.bind(UserDAO.class, UserDAOImpl.class);
 		binder.bind(GazdinstvoDAO.class);
+		binder.bind(ZivotinjaDAO.class);
 	}
 
 	public static void contributeFactoryDefaults(

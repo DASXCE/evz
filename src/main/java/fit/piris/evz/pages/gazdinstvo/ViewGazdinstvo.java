@@ -3,6 +3,7 @@ package fit.piris.evz.pages.gazdinstvo;
 import java.util.List;
 
 import org.apache.tapestry5.PersistenceConstants;
+import org.apache.tapestry5.ValueEncoder;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -16,8 +17,11 @@ import fit.piris.evz.entities.gazdinstvo.TipProizvodnje;
 import fit.piris.evz.entities.gazdinstvo.VrstaZivotinje;
 import fit.piris.evz.entities.users.Veterinar;
 import fit.piris.evz.entities.users.Vlasnik;
+import fit.piris.evz.entities.zivotinje.UsnaMarkica;
 import fit.piris.evz.entities.zivotinje.Zivotinja;
 import fit.piris.evz.pages.user.ViewUser;
+import fit.piris.evz.pages.zivotinja.AddZivotinja;
+import fit.piris.evz.pages.zivotinja.ViewZivotinja;
 import fit.piris.evz.services.dao.gazdinstvo.GazdinstvoDAO;
 import fit.piris.evz.services.security.Authenticator;
 @VlasnikAccess
@@ -118,10 +122,15 @@ public class ViewGazdinstvo {
 		posta = gazdinstvo.getAdresa().getBrPoste();
 		ulica = gazdinstvo.getAdresa().getUlica();
 		
-		List<Zivotinja> l = session.createCriteria(Zivotinja.class).list();
-		for (Zivotinja zivotinja : l) {
-			System.out.println(zivotinja.getBroj());
-		}
+//		List<Zivotinja> l = session.createCriteria(Zivotinja.class).list();
+//		for (Zivotinja zivotinja : l) {
+//			System.out.println(zivotinja.getDrzava()+zivotinja.getBroj());
+//		}
+		
+//		Zivotinja test = new Zivotinja();
+//		test.setBroj(5L);
+//		test.setDrzava("SRB");
+//		System.out.println(test.getDrzava()+test.getBroj());
 	}
 	
 	public String getProizvodi() {
@@ -151,11 +160,35 @@ public class ViewGazdinstvo {
 	
 	@SuppressWarnings("unchecked")
 	public List<Zivotinja> getZivotinjee() {
-		List<Zivotinja> l = session.createCriteria(Zivotinja.class).list();
-		for (Zivotinja zivotinja : l) {
-			System.out.println(zivotinja.getBroj());
-		}
-		return null;
-//		return session.createCriteria(Zivotinja.class).list();
+//		List<Zivotinja> l = session.createCriteria(Zivotinja.class).list();
+//		for (Zivotinja zivotinja : l) {
+//			System.out.println(zivotinja.getBroj());
+//		}
+//		return l;
+		return session.createCriteria(Zivotinja.class).list();
 	}
+	
+	public Object onActionFromAdd(){
+		AddZivotinja.gazdinstvo = gazdinstvo;
+		return AddZivotinja.class;
+	}
+	
+	public boolean isNotNull(Zivotinja zivotinja){
+		if (zivotinja!=null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public Object onActionFromDetalji(Long broj, String drzava){
+		UsnaMarkica u = new UsnaMarkica(broj, drzava);
+		Zivotinja c = (Zivotinja) session.get(Zivotinja.class, u);
+		ViewZivotinja.zivotinja = c;
+		return ViewZivotinja.class;
+	}
+	
+	public Object[] getMyContext() 
+	{ 
+	    return new Object[] { zivotinjaTmp.getMarkica().getBroj(), zivotinjaTmp.getMarkica().getDrzava() }; 
+	} 
 }

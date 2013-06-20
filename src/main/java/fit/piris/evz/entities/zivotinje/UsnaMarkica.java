@@ -2,6 +2,7 @@ package fit.piris.evz.entities.zivotinje;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -12,10 +13,10 @@ public class UsnaMarkica implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	//	@Column(name = "broj")
+	@Column(name="pk_zivotinja_broj_markice")
 	public Long broj;
 
-//	@Column(name = "drzava")
+	@Column(name="pk_zivotinja_drzava_markice")
 	public String drzava;
 
 	public UsnaMarkica() {

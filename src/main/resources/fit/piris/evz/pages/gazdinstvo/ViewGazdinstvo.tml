@@ -14,7 +14,7 @@
 
 			<div class="grid-16">
 
-				<div class="widget">
+				<div class="widget" id="info">
 
 					<div class="widget-header">
 						<span class="icon-article"></span>
@@ -75,7 +75,7 @@
 				</div> <!-- .widget -->
 		<script>
 			$(document).ready(function(){
-    			$("input").attr("readonly","true");
+    			$("#info").find("input").attr("readonly","true");
 			});
 		</script>
 <div class="widget widget-table">
@@ -90,22 +90,31 @@
 						<thead>
 							<tr>
 								<th>Oznaka</th>
-								<th>Datum Rodjenja</th>
+								<th>Rodjeno</th>
+								<th>Uginulo</th>
 								<th>Pol</th>
 								<th>Ime</th>
 								<th>Majka</th>
+								<th>Otac</th>
 							</tr>
 						</thead>
 						<tbody>
-							<!-- <t:loop source="zivotinjee" value="zivotinjaTmp">
+							  <t:loop source="zivotinjee" value="zivotinjaTmp">
 								<tr class="gradeA">
-								 	<td>${zivotinjaTmp.getBroj()} ${zivotinjaTmp.getDrzava()}</td>
+								 	<td><a t:type="actionlink" t:id="detalji" context="myContext">${zivotinjaTmp.getMarkica().getDrzava()}${zivotinjaTmp.getMarkica().getBroj()}</a></td>
 									<td>${zivotinjaTmp.getDatumRodjenja()}</td>
+									<td>${zivotinjaTmp.getDatumUginuca()}</td>
 									<td>${zivotinjaTmp.getPol()}</td>
 									<td>${zivotinjaTmp.getIme()}</td>
-									<td>${zivotinjaTmp.getMajka()}</td>
-								</tr> 
-							</t:loop> -->
+									<td>
+									<t:if test="${isNotNull(zivotinjaTmp.getMajka())}">
+									<a t:type="actionlink" t:id="majka" t:context="${zivotinjaTmp.getMajka()}">${zivotinjaTmp.getMajka().getMarkica().getDrzava()}${zivotinjaTmp.getMajka().getMarkica().getBroj()}</a><p:else>N/A</p:else></t:if></td>
+									<td>
+									<t:if test="${isNotNull(zivotinjaTmp.getOtac())}">
+									<a t:type="actionlink" t:id="otac" t:context="${zivotinjaTmp.getOtac()}">${zivotinjaTmp.getOtac().getMarkica().getDrzava()}${zivotinjaTmp.getOtac().getMarkica().getBroj()}</a><p:else>N/A</p:else></t:if></td>
+								</tr>
+								 
+							</t:loop> 
 						</tbody>
 
 					</table>
@@ -131,35 +140,14 @@
 				</t:if>
 
 				<div class="box plain">
-
-					<button type="submit" id="save" class="btn  btn-large btn-green"
+	
+					<t:actionlink t:id="add" >
+					<button type="button" id="add" class="btn  btn-large btn-green"
 						style="
     width: 100%;
-">+
-						Save</button>
-					<br />
-					<br />
-					<button type="reset" class="btn  btn-large btn-gray" style="
-    width: 100%;
-">-
-						Cancel</button>
+">Evidentiraj novu zivotinju</button></t:actionlink>
 
 				</div>
-				<script>
-					$(function () {
-
-					$('#save').live ('click', function (e) {
-					e.preventDefault ();
-					$.alert ({
-					type: 'confirm'
-					, title: 'Paznja'
-					, text: '<p>Da li ste sigurni da zelite da unesete ove podatke?</p>'
-					, callback: function () { $("#forma").submit(); }
-					});
-					});
-
-					});
-				</script>
 
 
 			</div> <!-- .grid -->
