@@ -4,10 +4,11 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://localhost/evz</property>
+		<property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/evz</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="hibernate.connection.username">root</property>
-		<property name="hibernate.connection.password">root</property>
+		<property name="hibernate.connection.password"></property>
+		
 		<property name="hbm2ddl.auto">update</property>
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.format_sql">true</property>
@@ -15,6 +16,8 @@
 		<property name="hibernate.connection.useUnicode">true</property>
 		<property name="hibernate.connection.characterEncoding">UTF-8</property>
 		<property name="hibernate.generate_statistics">true</property>
+		
+		<property name="hibernate.hbm2ddl.import_files">initial.sql</property>
 
 		<!-- pool via c3p0 which knows how to reconnect to server and does it nicely 
 			<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property> 

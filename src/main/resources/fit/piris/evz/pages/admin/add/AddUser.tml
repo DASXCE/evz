@@ -2,19 +2,19 @@
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
 	<!-- script for save button -->
 	<div id="contentHeader">
-		<h1>+ Korisnik</h1>
+		<h1>+ User</h1>
 	</div> <!-- #contentHeader -->
 
 	<div class="container">
-		<form t:type="form" class="form uniformForm validateForm" t:id="forma">
+		<form t:type="form" class="form uniformForm validateForm" t:id="form">
 
 			<div class="grid-16">
 
 
 				<div class="widget">
-					<div id="nalog" class="widget-header">
+					<div id="account" class="widget-header">
 						<span class="icon-article" style="background-position: 0px -3960px;"></span>
-						<h3>Nalog</h3>
+						<h3>Account</h3>
 					</div> <!-- .widget-header -->
 
 					<div class="widget-content">
@@ -43,7 +43,7 @@
 							</div>
 
 							<div class="field-group">
-								<label for="password1">Lozinka:</label>
+								<label for="password1">Password:</label>
 								<div class="field">
 									<input type="password" name="password1" id="password1"
 										size="25" class="validate[required,minSize[5]]" value=""
@@ -52,7 +52,7 @@
 							</div> <!-- .field-group -->
 
 							<div class="field-group">
-								<label for="password2">Potvrda Lozinke:</label>
+								<label for="password2">Confirm Password:</label>
 								<div class="field">
 									<input t:type="passwordfield" name="password2" id="password2"
 										size="25" class="validate[required,equals[password1]]"
@@ -60,9 +60,9 @@
 								</div>
 							</div>
 						</div> <!-- .field-group -->
-						<t:radiogroup t:value="privilegija">
+						<t:radiogroup t:value="privilege">
 							<div class="field-group control-group inline">
-								<label>Privilegija:</label>
+								<label>Privilege:</label>
 
 								<div class="field">
 									<input t:type="radio" t:id="admin" t:value="literal:admin"
@@ -70,14 +70,14 @@
 									<label for="radio1">Admin</label>
 								</div>
 								<div class="field">
-									<input t:type="radio" t:id="veterinar" t:value="literal:veterinar"
+									<input t:type="radio" t:id="vet" t:value="literal:vet"
 										class="validate[required]" />
-									<label for="radio3">Veterinar</label>
+									<label for="radio3">Vet</label>
 								</div>
 								<div class="field">
-									<input t:type="radio" t:id="vlasnik" t:value="literal:vlasnik"
+									<input t:type="radio" t:id="owner" t:value="literal:owner"
 										class="validate[required]" />
-									<label for="radio2">Vlasnik</label>
+									<label for="radio2">Owner</label>
 								</div>
 
 							</div>
@@ -87,68 +87,62 @@
 				</div> <!-- .widget -->
 				<script>
 					$('input[name=radiogroup]:radio').click(
-					function() {
-					if
-					($(this).val() == 'admin') {
-					$('html,body').animate({
-					scrollTop :
-					$('body').offset().top
-					}, 2000);
-					$('#v-podaci').fadeOut(500);
-					$('#vet-podaci').fadeOut(500);
-					$("#save").fadeIn(400).fadeOut(400).fadeIn(400).fadeOut(400)
-					.fadeIn(400).fadeOut(400).fadeIn(400);
-					} else if ($(this).val() ==
-					'vlasnik') {
-					$('#vet-podaci').fadeOut();
-					$('#v-podaci').css('opacity', 0).slideDown('slow').animate({
+		function() {
+			if ($(this).val() == 'admin') {
+				$('html,body').animate({
+					scrollTop : $('body').offset().top
+				}, 2000);
+				$('#ownerData').fadeOut(500);
+				$('#vetData').fadeOut(500);
+				$("#save").fadeIn(400).fadeOut(400).fadeIn(400).fadeOut(400)
+						.fadeIn(400).fadeOut(400).fadeIn(400);
+			} else if ($(this).val() == 'owner') {
+				$('#vetData').fadeOut();
+				$('#ownerData').css('opacity', 0).slideDown('slow').animate({
 					opacity : 1
-					}, {
+				}, {
 					queue : false,
 					duration : 'slow'
-					});
-					$('html,body').animate({
-					scrollTop : $('#v-podaci').offset().top
-					},
-					2600);
-					}else if ($(this).val() == 'veterinar') {
-					$('#v-podaci').fadeOut();
-					$('#vet-podaci').css('opacity',
-					0).slideDown('slow').animate({
+				});
+				$('html,body').animate({
+					scrollTop : $('#ownerData').offset().top
+				}, 2600);
+			} else if ($(this).val() == 'vet') {
+				$('#ownerData').fadeOut();
+				$('#vetData').css('opacity', 0).slideDown('slow').animate({
 					opacity : 1
-					}, {
+				}, {
 					queue : false,
 					duration : 'slow'
-					});
-					$('html,body').animate({
-					scrollTop :
-					$('#vet-podaci').offset().top
-					}, 2600);
-					}
-					});
+				});
+				$('html,body').animate({
+					scrollTop : $('#vetData').offset().top
+				}, 2600);
+			}
+		});
 				</script>
 
-				<!-- DIV ZA DODAVANJE VLASNIKA -->
+				<!-- OWNER DIV -->
 
-				<div id="v-podaci" class="widget" style="display:none;">
+				<div id="ownerData" class="widget" style="display:none;">
 
 					<div class="widget-header">
 						<span class="icon-article" style="
     background-position: 0px -7480px;
 "></span>
-						<h3>Podaci</h3>
+						<h3>Data</h3>
 					</div> <!-- .widget-header -->
 
 					<div class="widget-content">
 						<div class="field-group">
-							<label>JMBG:</label>
+							<label>Personal ID:</label>
 
 							<div class="field">
-								<input t:type="textfield" t:value="jmbg" name="jmbg" t:id="jmbg"
+								<input t:type="textfield" t:value="personalId" name="personalId" t:id="personalId"
 									size="15" t:mixins="jquery/mask" />
 							</div>
 							<script>jQuery(function($){
-								$("#jmbg").mask("9999999999999",{placeholder:"*"});
+								$("#personalId").mask("9999999999999",{placeholder:"*"});
 								});</script>
 						</div>
 
@@ -156,14 +150,14 @@
 							<label>Naziv:</label>
 
 							<div class="field">
-								<input t:type="textfield" t:value="ime" t:id="ime" size="10"
+								<input t:type="textfield" t:value="firstName" t:id="firstName" size="10"
 									class="" />
-								<label for="ime">Ime</label>
+								<label for="firstName">firstName</label>
 							</div>
 							<div class="field">
-								<input t:type="textfield" t:value="prezime" t:id="prezime"
+								<input t:type="textfield" t:value="firstName" t:id="firstName"
 									size="12" class="" />
-								<label for="prezime">Prezime</label>
+								<label for="firstName">firstName</label>
 							</div>
 						</div> <!-- .field-group -->
 
@@ -171,35 +165,35 @@
 							<label>Kontakt:</label>
 
 							<div class="field">
-								<input t:type="textfield" t:value="telefon" name="phone1"
-									t:id="phone1" size="15" t:mixins="jquery/mask" />
-								<label for="phone1">Tel</label>
+								<input t:type="textfield" t:value="phone" name="phone"
+									t:id="phone" size="15" t:mixins="jquery/mask" />
+								<label for="phone">Tel</label>
 								<script>jQuery(function($){
-									$("#phone1").mask("999/999/999",{placeholder:"*"});
+									$("#phone").mask("999/999/999",{placeholder:"*"});
 									});</script>
 							</div>
 						</div>
 
 						<div class="field-group">
-							<label>Adresa:</label>
+							<label>Address:</label>
 
 							<div class="field">
-								<input t:type="textfield" t:value="grad" name="grad" id="grad"
+								<input t:type="textfield" t:value="town" name="town" id="town"
 									size="12" />
-								<label for="grad">Grad</label>
+								<label for="town">town</label>
 							</div>
 							<div class="field">
-								<input t:type="textfield" t:value="posta" name="posta"
-									t:id="posta" size="6" t:mixins="jquery/mask" />
-								<label for="posta">Postanski Broj</label>
+								<input t:type="textfield" t:value="postal" name="postal"
+									t:id="postal" size="6" t:mixins="jquery/mask" />
+								<label for="postal">postalnski Broj</label>
 								<script>jQuery(function($){
-									$("#posta").mask("99999",{placeholder:"*"});
+									$("#postal").mask("99999",{placeholder:"*"});
 									});</script>
 							</div>
 							<div class="field">
-								<input t:type="textfield" t:value="ulica" name="ulica" id="ulica"
+								<input t:type="textfield" t:value="street" name="street" id="street"
 									size="20" />
-								<label for="ulica">Ulica</label>
+								<label for="street">street</label>
 							</div>
 						</div>
 
@@ -208,7 +202,7 @@
 
 				</div> <!-- .widget -->
 
-				<div id="vet-podaci" class="widget" style="display:none;">
+				<div id="vetData" class="widget" style="display:none;">
 
 					<div class="widget-header">
 						<span class="icon-article" style="
@@ -222,29 +216,29 @@
 							<label>Naziv:</label>
 
 							<div class="field">
-								<input t:type="textfield" t:value="vet_ime" t:id="vet_ime"
+								<input t:type="textfield" t:value="vetFirstName" t:id="vetFirstName"
 									size="10" class="validate[required]" />
-								<label for="vet_ime">Ime</label>
+								<label for="vetFirstName">Ime</label>
 							</div>
 							<div class="field">
-								<input t:type="textfield" t:value="vet_prezime" t:id="vet_prezime"
+								<input t:type="textfield" t:value="vetLastName" t:id="vetLastName"
 									size="12" class="validate[required]" />
-								<label for="vet_prezime">Prezime</label>
+								<label for="vetLastName">Prezime</label>
 							</div>
 						</div> <!-- .field-group -->
-						<t:zone t:id="ambZona" id="ambZona">
+						<t:zone t:id="infZone" id="infZone">
 							<div class="field-group">
-								<label>Ambulanta:</label>
+								<label>infirmary:</label>
 								<div class="field">
-									<input t:type="select" model="ambulantaModel" encoder="ambulantaEncoder"
-										value="ambulanta" class="validate[required]" />
+									<input t:type="select" model="infirmaryModel" encoder="infirmaryEncoder"
+										value="infirmary" class="validate[required]" />
 
-									<button type="button" id="ambShow" class="btn btn-small btn-primary">Dodaj</button>
+									<button type="button" id="infShow" class="btn btn-small btn-primary">Dodaj</button>
 									<script>
-										$("#ambShow").click(function (){
+										$("#infShow").click(function (){
 
 										$.blockUI({ message:
-										$('#ambulanta'), css: { border: '1px solid #aaa',top:'20%'},overlayCss:{cursor:'default'}});
+										$('#infirmary'), css: { border: '1px solid #aaa',top:'20%'},overlayCss:{cursor:'default'}});
 										});
 									</script>
 									<label for="cardtype">Izaberite</label>
@@ -258,7 +252,7 @@
 			</div> <!-- .grid -->
 
 			<div class="grid-7">
-				<t:if test="${isSuccessfullFromVlasnik()}">
+				<t:if test="${isSuccessfullFromOwner()}">
 					<div id="succ" class="notify notify-success">
 
 						<a href="javascript:;" class="close">&times;
@@ -271,13 +265,13 @@
 
 					<div class="box plain">
 
-						<a t:type="actionlink" t:id="novoGazdinstvo" id="novoGazdinstvo"
+						<a t:type="actionlink" t:id="newFarm" id="newFarm"
 							class="btn btn-primary btn-large dashboard_add"
 							original-title="Preko ovoga linka mozete dodati novo gazdinstvo za predhodno kreiranog korisnika">+ Gazdinstvo</a>
 					</div>
 					<script>
 						$(function () {
-						$('#novoGazdinstvo').tipsy({gravity: 'se'});
+						$('#newFarm').tipsy({gravity: 'se'});
 						});
 					</script>
 				</t:if>
@@ -313,7 +307,7 @@
 					confirmText: 'Sacuvaj'
 					, cancelText: 'Odustani'
 					, text: '<p>Da li ste sigurni?</p>'
-					, callback: function () { $('#forma').submit(); }
+					, callback: function () { $('#form').submit(); }
 					});
 					});
 					});
@@ -321,9 +315,9 @@
 
 			</div> <!-- .grid -->
 		</form>
-		<div id="ambulanta" style="display:none;" align="left" cursor="default">
-			<form t:type="form" t:zone="ambZona" class="form uniformForm validateForm" t:id="ambForma"
-				id="ambForma">
+		<div id="infirmary" style="display:none;" align="left" cursor="default">
+			<form t:type="form" t:zone="infZone" class="form uniformForm validateForm" t:id="infForm"
+				id="infForm">
 				<div class="widget">
 
 					<div class="widget-header">
@@ -339,7 +333,7 @@
 							<label>Naziv:</label>
 
 							<div class="field">
-								<input t:type="textfield" t:value="amb_naziv" t:id="amb_naziv"
+								<input t:type="textfield" t:value="infName" t:id="infName"
 									size="16" class="validate[required]" />
 							</div>
 						</div> <!-- .field-group -->
@@ -348,22 +342,22 @@
 							<label>Adresa:</label>
 
 							<div class="field">
-								<input t:type="textfield" t:value="ambGrad" name="ambGrad"
-									id="ambGrad" size="12" class="validate[required]" />
-								<label for="ambGrad">Grad</label>
+								<input t:type="textfield" t:value="infTown" name="infTown"
+									id="infTown" size="12" class="validate[required]" />
+								<label for="infTown">Grad</label>
 							</div>
 							<div class="field">
-								<input t:type="textfield" t:value="ambPosta" name="ambPosta"
-									t:id="ambPosta" size="6" t:mixins="jquery/mask" class="validate[required]" />
-								<label for="ambPosta">Postanski Broj</label>
+								<input t:type="textfield" t:value="infPostal" name="infPostal"
+									t:id="infPostal" size="6" t:mixins="jquery/mask" class="validate[required]" />
+								<label for="infPostal">Postanski Broj</label>
 								<script>jQuery(function($){
-									$("#ambPosta").mask("99999",{placeholder:"*"});
+									$("#infPostal").mask("99999",{placeholder:"*"});
 									});</script>
 							</div>
 							<div class="field">
-								<input t:type="textfield" t:value="ambUlica" name="ambUlica"
-									id="ambUlica" size="20" class="validate[required]" />
-								<label for="ambUlica">Ulica</label>
+								<input t:type="textfield" t:value="infStreet" name="infStreet"
+									id="infStreet" size="20" class="validate[required]" />
+								<label for="infStreet">Ulica</label>
 							</div>
 
 						</div>
@@ -373,13 +367,13 @@
 									<tr>
 										<td>
 										
-											<button type="submit" id="saveAmb" class="btn btn-green">+Save</button>
+											<button type="submit" id="saveInf" class="btn btn-green">+Save</button>
 										</td>
 										<td>
-											<button type="reset" id="resetAmb" class="btn btn-gray">Cancel</button>
+											<button type="reset" id="resetInf" class="btn btn-gray">Cancel</button>
 										</td>
 										<script>
-											$("#resetAmb").click(function (){
+											$("#resetInf").click(function (){
 											$.unblockUI();
 											});
 										</script>

@@ -10,8 +10,8 @@ import org.apache.tapestry5.SymbolConstants;
 import org.hibernate.Session;
 
 import fit.piris.evz.entities.users.User;
-import fit.piris.evz.entities.users.Veterinar;
-import fit.piris.evz.entities.users.Vlasnik;
+import fit.piris.evz.entities.users.Vet;
+import fit.piris.evz.entities.users.Owner;
 import fit.piris.evz.pages.Login;
 import fit.piris.evz.pages.user.ViewUser;
 import fit.piris.evz.services.security.Authenticator;
@@ -76,7 +76,8 @@ public class Layout {
 //		if (authenticator.getLoggedUser().getEmail()!=null) {
 //			return authenticator.getLoggedUser().getEmail();
 //		}
-		return authenticator.getLoggedUser().getEmail();
+//		return authenticator.getLoggedUser().getEmail();
+		return "";
 	}
 	
 	public int getNumberOfUsers() {
@@ -84,9 +85,9 @@ public class Layout {
 	}
 	
 	public boolean ifAdmin() {
-		if (authenticator.getLoggedUser()instanceof Vlasnik || authenticator.getLoggedUser()instanceof Veterinar) {
-			return false;
-		}
+//		if (authenticator.getLoggedUser()instanceof Vlasnik || authenticator.getLoggedUser()instanceof Veterinar) {
+//			return false;
+//		}
 		return true;
 	}
 	

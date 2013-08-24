@@ -4,22 +4,22 @@ import javax.inject.Inject;
 
 import org.hibernate.Session;
 
-import fit.piris.evz.entities.zivotinje.UsnaMarkica;
-import fit.piris.evz.entities.zivotinje.Zivotinja;
+import fit.piris.evz.entities.animal.EarTag;
+import fit.piris.evz.entities.animal.Animal;
 
 public class ZivotinjaDAOImpl implements ZivotinjaDAO{
 
 	@Inject
 	private Session session;
 	@Override
-	public void save(Zivotinja zivotinja) {
+	public void save(Animal zivotinja) {
 		session.save(zivotinja);
 	}
 	
 	@Override
-	public Zivotinja getRoditelj(Long broj, String drzava) {
+	public Animal getRoditelj(Long broj, String drzava) {
 		
-		return (Zivotinja) session.get(Zivotinja.class, new UsnaMarkica(broj,drzava));
+		return (Animal) session.get(Animal.class, new EarTag(broj,drzava));
 	}
 
 }

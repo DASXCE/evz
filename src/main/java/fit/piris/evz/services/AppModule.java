@@ -13,7 +13,7 @@ import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.validator.ValidatorMacro;
 import org.got5.tapestry5.jquery.JQuerySymbolConstants;
 
-import fit.piris.evz.services.dao.gazdinstvo.GazdinstvoDAO;
+import fit.piris.evz.services.dao.farm.FarmDAO;
 import fit.piris.evz.services.dao.user.UserDAO;
 import fit.piris.evz.services.dao.user.UserDAOImpl;
 import fit.piris.evz.services.dao.zivotinja.ZivotinjaDAO;
@@ -37,7 +37,7 @@ public class AppModule {
 											// paketu sa istim imenom i sufiksom
 											// Impl
 		binder.bind(UserDAO.class, UserDAOImpl.class);
-		binder.bind(GazdinstvoDAO.class);
+		binder.bind(FarmDAO.class);
 		binder.bind(ZivotinjaDAO.class);
 	}
 

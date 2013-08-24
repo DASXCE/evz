@@ -17,7 +17,7 @@
 
 						<h2 class="dashboard_title">
 							Statistika
-							<span>${danas}</span>
+							<span>${now}</span>
 							<t:actionlink t:id="refresh" zone="statZone">
 								<button class="btn btn-orange" style="float:right;">
 									<span class="icon-loop" style="color:white; font-style:normal;">Refresh</span>
@@ -27,28 +27,28 @@
 
 						<div class="dashboard_report first activeState">
 							<div class="pad">
-								<span class="value">${brKorisnikaUSistemu}</span>
+								<span class="value">${noOfUsers}</span>
 								Korisnika
 							</div> <!-- .pad -->
 						</div>
 
 						<div class="dashboard_report defaultState">
 							<div class="pad">
-								<span class="value">${brGazdinstavaUSistemu}</span>
+								<span class="value">${noOfFarms}</span>
 								Gazdinstava
 							</div> <!-- .pad -->
 						</div>
 
 						<div class="dashboard_report defaultState">
 							<div class="pad">
-								<span class="value">${brVeterinaraUSistemu}</span>
+								<span class="value">${noOfVets}</span>
 								Veterinara
 							</div> <!-- .pad -->
 						</div>
 
 						<div class="dashboard_report defaultState last">
 							<div class="pad">
-								<span class="value">${brZivotinjaUSistemu}</span>
+								<span class="value">${noOfAnimals}</span>
 								Zivotinja
 							</div> <!-- .pad -->
 						</div>
@@ -75,27 +75,27 @@
 							</tr>
 						</thead>
 						<tbody>
-							<t:loop source="vlasnicii" value="vlasnikTmp">
+							<t:loop source="owners" value="ownerTmp">
 								<tr class="gradeA">
 									<td>
 										<ul id="invoice_actions" style="margin:0; list-style-type:none;">
 											<t:if test="isAdmin()">
-												<li id="liDelete${vlasnikTmp.getJmbg()}" class="delete"
+												<li id="liDelete${ownerTmp.getPersonalId()}" class="delete"
 													style="margin:0; display:inline;" original-title="Delete">
-													<a t:type="actionlink" id="id${vlasnikTmp.getId()}" class="del" t:id="deleteVlasnik" context="vlasnikTmp"></a>
+													<a t:type="actionlink" id="id${ownerTmp.getId()}" class="del" t:id="deleteOwner" context="ownerTmp"></a>
 												</li>
-												<li id="liEdit${vlasnikTmp.getJmbg()}" class="edit"
+												<li id="liEdit${ownerTmp.getPersonalId()}" class="edit"
 													style="margin:0; display:inline;" original-title="Edit">
-													<a t:type="actionlink" t:id="editVlasnik" context="vlasnikTmp"></a>
+													<a t:type="actionlink" t:id="editOwner" context="ownerTmp"></a>
 												</li>
 											</t:if>
 										</ul>
 									</td>
-									<td>${vlasnikTmp.getJmbg()}</td>
-									<td>${vlasnikTmp.getIme()}</td>
-									<td>${vlasnikTmp.getPrezime()}</td>
-									<t:if test="${akoNijeNull(vlasnikTmp.getGazdinstvo())}">
-										<td>${vlasnikTmp.getGazdinstvo().getNaziv()}</td>
+									<td>${ownerTmp.getPersonalId()}</td>
+									<td>${ownerTmp.getFirstName()}</td>
+									<td>${ownerTmp.getLastName()}</td>
+									<t:if test="${notNull(ownerTmp.getFarm())}">
+										<td>${ownerTmp.getFarm().getName()}</td>
 										<p:else>
 											<td>N/A</td>
 										</p:else>
@@ -104,8 +104,8 @@
 								</tr>
 								<script>
 									$(function () {
-									$('#liEdit${vlasnikTmp.getJmbg()}').tipsy({gravity: 'se'});
-									$('#liDelete${vlasnikTmp.getJmbg()}').tipsy({gravity: 'se'});
+									$('#liEdit${ownerTmp.getPersonalId()}').tipsy({gravity: 'se'});
+									$('#liDelete${ownerTmp.getPersonalId()}').tipsy({gravity: 'se'});
 									});
 								</script>
 							</t:loop>
@@ -157,24 +157,24 @@
 							</tr>
 						</thead>
 						<tbody>
-							<t:loop source="gazdinstva" value="gazdTmp">
+							<t:loop source="farms" value="farmTmp">
 								<tr class="gradeA">
 									<td>
 										<ul id="invoice_actions" style="margin:0; list-style-type:none;">
-											<li id="liEdit${gazdTmp.getSifra()}" class="edit"
+											<li id="liEdit${farmTmp.getCode()}" class="edit"
 												style="margin:0; display:inline;" original-title="Detalji">
-												<a t:type="actionlink" t:id="editGazd" context="gazdTmp"></a>
+												<a t:type="actionlink" t:id="editFarm" context="farmTmp"></a>
 											</li>
 										</ul>
 									</td>
-									<td>${gazdTmp.getSifra()}</td>
-									<td>${gazdTmp.getNaziv()}</td>
-									<td>${gazdTmp.getAdresa().getGrad()}</td>
-									<td><a t:type="actionlink" t:id="editVlasnik2" context="gazdTmp.getVlasnik()">${gazdTmp.getVlasnik().getIme()} ${gazdTmp.getVlasnik().getPrezime()}</a></td>
+									<td>${farmTmp.getCode()}</td>
+									<td>${farmTmp.getName()}</td>
+									<td>${farmTmp.getAddress().getTown()}</td>
+									<td><a t:type="actionlink" t:id="editOwner2" context="farmTmp.getOwner()">${farmTmp.getOwner().getFirstName()} ${farmTmp.getOwner().getLastName()}</a></td>
 								</tr>
 								<script>
 									$(function () {
-									$('#liEdit${gazdTmp.getSifra()}').tipsy({gravity: 'se'});
+									$('#liEdit${farmTmp.getCode()}').tipsy({gravity: 'se'});
 									});
 								</script>
 							</t:loop>
@@ -202,7 +202,7 @@
 
 					<a t:type="pagelink" t:page="admin/add/user" href="admin/add/user"
 						class="btn btn-primary btn-large dashboard_add">+ Korisnik</a>
-					<a href="admin/add/gazdinstvo" class="btn btn-teal btn-large dashboard_add">+ Gazdinstvo</a>
+					<a href="admin/add/farm" class="btn btn-teal btn-large dashboard_add">+ Gazdinstvo</a>
 
 				</div>
 			</t:if>

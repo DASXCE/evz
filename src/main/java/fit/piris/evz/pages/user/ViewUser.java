@@ -13,22 +13,22 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Response;
 import org.hibernate.Session;
 
-import fit.piris.evz.annotations.VeterinarAccess;
-import fit.piris.evz.annotations.VlasnikAccess;
-import fit.piris.evz.entities.Adresa;
-import fit.piris.evz.entities.Ambulanta;
+import fit.piris.evz.annotations.VetAccess;
+import fit.piris.evz.annotations.OwnerAccess;
+import fit.piris.evz.entities.Address;
+import fit.piris.evz.entities.Infirmary;
 import fit.piris.evz.entities.users.User;
-import fit.piris.evz.entities.users.Veterinar;
-import fit.piris.evz.entities.users.Vlasnik;
+import fit.piris.evz.entities.users.Vet;
+import fit.piris.evz.entities.users.Owner;
 import fit.piris.evz.model.MD5;
-import fit.piris.evz.model.selectBox.ambulanta.AmbulantaEncoder;
-import fit.piris.evz.model.selectBox.ambulanta.AmbulantaSelectModel;
+import fit.piris.evz.model.selectBox.infirmary.InfirmaryEncoder;
+import fit.piris.evz.model.selectBox.infirmary.InfirmarySelectModel;
 import fit.piris.evz.pages.errorPages.Error_401;
 import fit.piris.evz.services.dao.user.UserDAO;
 import fit.piris.evz.services.security.Authenticator;
 
-@VlasnikAccess
-@VeterinarAccess
+@OwnerAccess
+@VetAccess
 @Import(library = { "context:layout/canvasAdmin/javascripts/all.js",
 		"context:layout/canvasAdmin/javascripts/jquery.blockUI.js" })
 public class ViewUser {
@@ -37,57 +37,57 @@ public class ViewUser {
 	private String email;
 
 	@Property
-	private String password2;// password '2' zato sto uzimamo potvrdu passworda
+	private String password2;
 
 	@Property
 	private String oldpass;
 	/*
-	 * podaci o vlasniku
+	 * owner data
 	 */
 	@Property
-	private String ime;
+	private String firstName;
 
 	@Property
-	private String prezime;
+	private String lastName;
 
 	@Property
-	private Long jmbg;
+	private Long personalId;
 
 	@Property
-	private String telefon;
+	private String phone;
 
 	/*
-	 * podaci o veterinaru
+	 * vet data
 	 */
 	@Property
-	private String vet_ime;
+	private String vetFirstName;
 
 	@Property
-	private String vet_prezime;
+	private String vetLastName;
 
 	/*
-	 * adresa za vlasnika ili za ambulantu
+	 * address
 	 */
 	@Property
-	private String grad;
+	private String town;
 
 	@Property
-	private Integer posta;
+	private Integer postal;
 
 	@Property
-	private String ulica;
+	private String street;
 
 	@Persist
 	public static User user;
 
 	@Property
-	private String naslov;
+	private String title;
 
 	@Property
-	private boolean isCurrentUserVlasnik;
+	private boolean isCurrentUserOwner;
 
 	@Property
-	private boolean isCurrentUserVeterinar;
+	private boolean isCurrentUserVet;
 	
 	@Property
 	private boolean isCurrentUserAdmin;
@@ -102,10 +102,10 @@ public class ViewUser {
 	 * ambulanta
 	 */
 	@Property
-	private Ambulanta ambulanta;
+	private Infirmary infirmary;
 
 	@Property
-	private String amb;
+	private String inf;
 
 	@Inject
 	private UserDAO userDAO;
@@ -129,31 +129,31 @@ public class ViewUser {
 		if (user == null) {
 			user = authenticator.getLoggedUser();
 		}
-		if (user instanceof Vlasnik) {
+		if (user instanceof Owner) {
 			isCurrentUserAdmin = false;
-			isCurrentUserVeterinar = false;
-			isCurrentUserVlasnik = true;
-			naslov = ((Vlasnik) user).getIme() + " "
-					+ ((Vlasnik) user).getPrezime();
+			isCurrentUserVet = false;
+			isCurrentUserOwner = true;
+			title = ((Owner) user).getFirstName() + " "
+					+ ((Owner) user).getLastName();
 			email = user.getEmail();
-			jmbg = ((Vlasnik) user).getJmbg();
-			ime = ((Vlasnik) user).getIme();
-			prezime = ((Vlasnik) user).getPrezime();
-			telefon = ((Vlasnik) user).getTelefon();
-			grad = ((Vlasnik) user).getAdresa().getGrad();
-			posta = ((Vlasnik) user).getAdresa().getBrPoste();
-			ulica = ((Vlasnik) user).getAdresa().getUlica();
+			personalId = ((Owner) user).getPersonalId();
+			firstName = ((Owner) user).getFirstName();
+			lastName = ((Owner) user).getLastName();
+			phone = ((Owner) user).getPhone();
+			town = ((Owner) user).getAddress().getTown();
+			postal = ((Owner) user).getAddress().getPostal();
+			street = ((Owner) user).getAddress().getStreet();
 			return;
 		}
-		if (user instanceof Veterinar) {
+		if (user instanceof Vet) {
 			isCurrentUserAdmin = false;
-			isCurrentUserVlasnik = false;
-			isCurrentUserVeterinar = true;
-			naslov = "Veterinar: " + ((Veterinar) user).getIme() + " "
-					+ ((Veterinar) user).getPrezime();
+			isCurrentUserOwner = false;
+			isCurrentUserVet = true;
+			title = "Veterinar: " + ((Vet) user).getFirstName() + " "
+					+ ((Vet) user).getLastName();
 			email = user.getEmail();
-			vet_ime = ((Veterinar) user).getIme();
-			vet_prezime = ((Veterinar) user).getPrezime();
+			vetFirstName = ((Vet) user).getFirstName();
+			vetLastName = ((Vet) user).getLastName();
 //				amb = ((Veterinar) user).getAmbulanta().getNaziv();
 		} else {
 			isCurrentUserAdmin = true;
@@ -170,26 +170,26 @@ public class ViewUser {
 	}
 
 	@SuppressWarnings("unchecked")
-	public SelectModel getAmbulantaModel() {
-		return new AmbulantaSelectModel(session.createCriteria(Ambulanta.class)
+	public SelectModel getInfirmaryModel() {
+		return new InfirmarySelectModel(session.createCriteria(Infirmary.class)
 				.list());
 	}
 
-	public AmbulantaEncoder getAmbulantaEncoder() {
-		return new AmbulantaEncoder(session);
+	public InfirmaryEncoder getInfirmaryEncoder() {
+		return new InfirmaryEncoder(session);
 	}
 
 	public boolean hasAccess() {
 		if (user.getId() == authenticator.getLoggedUser().getId()
-				|| !(authenticator.getLoggedUser() instanceof Vlasnik || authenticator
-						.getLoggedUser() instanceof Veterinar)) {
+				|| !(authenticator.getLoggedUser() instanceof Owner || authenticator
+						.getLoggedUser() instanceof Vet)) {
 			return true;
 		}
 		return false;
 	}
 
 	@CommitAfter
-	public Object onSubmitFromForma() throws IOException {
+	public Object onSubmitFromForm() throws IOException {
 		if (password2!=null) {
 			if (oldpass==null || !MD5.md5(oldpass).equals(user.getPassword())) {
 				Error_401.PREVIOUS_PAGE = resources.getPageName();
@@ -198,8 +198,8 @@ public class ViewUser {
 				return null;
 			}
 		}
-		if (user instanceof Vlasnik) {
-			Vlasnik updated = (Vlasnik) user;
+		if (user instanceof Owner) {
+			Owner updated = (Owner) user;
 			if (password2!=null) {
 				updated.setPassword(MD5.md5(password2));
 			}else {
@@ -207,37 +207,37 @@ public class ViewUser {
 			}
 			
 			updated.setEmail(email);
-			updated.setJmbg(jmbg);
-			updated.setIme(ime);
-			updated.setPrezime(prezime);
-			updated.setTelefon(telefon);
+			updated.setPersonalId(personalId);
+			updated.setFirstName(firstName);
+			updated.setLastName(lastName);
+			updated.setPhone(phone);
 			
-			Adresa stara = ((Vlasnik) user).getAdresa();
+			Address old = ((Owner) user).getAddress();
 			
-			Adresa nova = new Adresa();
-			nova.setGrad(grad);
-			nova.setBrPoste(posta);
-			nova.setUlica(ulica);
+			Address newAddr = new Address();
+			newAddr.setTown(town);;
+			newAddr.setPostal(postal);
+			newAddr.setStreet(street);
 			
-			if (!nova.equals(stara)) {
-				session.save(nova);
-				updated.setAdresa(nova);
+			if (!newAddr.equals(old)) {
+				session.save(newAddr);
+				updated.setAddress(newAddr);
 			}
 			
 			userDAO.update(updated);
 			showsuccess = 1;
 			return null;
 		}
-		if (user instanceof Veterinar) {
-			Veterinar updated = (Veterinar) user;
+		if (user instanceof Vet) {
+			Vet updated = (Vet) user;
 			if (password2!=null) {
 				updated.setPassword(MD5.md5(password2));
 			}else {
 				updated.setPassword(user.getPassword());
 			}
-			updated.setIme(vet_ime);
-			updated.setPrezime(vet_prezime);
-			updated.setAmbulanta(ambulanta);
+			updated.setFirstName(vetFirstName);
+			updated.setLastName(vetLastName);
+			updated.setInfirmary(infirmary);
 			userDAO.update(updated);
 			showsuccess = 1;
 		} else {
@@ -256,8 +256,8 @@ public class ViewUser {
 	}
 
 	public boolean isAdminLoggedIn() {
-		if (authenticator.getLoggedUser() instanceof Vlasnik
-				|| authenticator.getLoggedUser() instanceof Veterinar) {
+		if (authenticator.getLoggedUser() instanceof Owner
+				|| authenticator.getLoggedUser() instanceof Vet) {
 			return false;
 		}
 		return true;

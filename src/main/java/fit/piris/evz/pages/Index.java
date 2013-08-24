@@ -13,16 +13,15 @@ import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
-import fit.piris.evz.annotations.VeterinarAccess;
-import fit.piris.evz.annotations.VlasnikAccess;
-import fit.piris.evz.entities.gazdinstvo.Gazdinstvo;
+import fit.piris.evz.annotations.VetAccess;
+import fit.piris.evz.annotations.OwnerAccess;
+import fit.piris.evz.entities.animal.Animal;
+import fit.piris.evz.entities.farm.Farm;
 import fit.piris.evz.entities.users.User;
-import fit.piris.evz.entities.users.Veterinar;
-import fit.piris.evz.entities.users.Vlasnik;
-import fit.piris.evz.entities.zivotinje.Zivotinja;
-import fit.piris.evz.pages.gazdinstvo.ViewGazdinstvo;
+import fit.piris.evz.entities.users.Vet;
+import fit.piris.evz.entities.users.Owner;
+import fit.piris.evz.pages.farm.ViewFarm;
 import fit.piris.evz.pages.user.ViewUser;
 import fit.piris.evz.services.dao.user.UserDAO;
 import fit.piris.evz.services.security.Authenticator;
@@ -30,8 +29,8 @@ import fit.piris.evz.services.security.Authenticator;
 /**
  * Start page of application evz.
  */
-@VeterinarAccess
-@VlasnikAccess
+@VetAccess
+@OwnerAccess
 @Import(stylesheet = { "context:layout/canvasAdmin/stylesheets/sample_pages/invoice.css" })
 public class Index {
 
@@ -54,38 +53,38 @@ public class Index {
 	private UserDAO userDAO;
 
 	/*
-	 * kocke za statistiku sa brojevima
+	 * stats
 	 */
 	@Persist
 	@Property
-	private int brKorisnikaUSistemu;
+	private int noOfUsers;
 
 	@Persist
 	@Property
-	private int brGazdinstavaUSistemu;
+	private int noOfFarms;
 
 	@Persist
 	@Property
-	private int brVeterinaraUSistemu;
+	private int noOfVets;
 
 	@Persist
 	@Property
-	private int brZivotinjaUSistemu;
+	private int noOfAnimals;
 
 	@Property
-	private Date danas = new Date();
+	private Date now = new Date();
 	
 	@Property
-	private Vlasnik vlasnikTmp;
+	private Owner ownerTmp;
 	
 	@Property
-	private Gazdinstvo gazdTmp;
+	private Farm farmTmp;
 
 	/*
-	 * lista svih vlasnika iz baze
+	 * 
 	 */
-	@Property
-	private List<Vlasnik> vlasnici;
+//	@Property
+//	private List<Owner> owners;
 
 	@Component
 	private Zone statZone;
@@ -97,17 +96,17 @@ public class Index {
 	public static boolean newEntity;
 
 	public void onActivate() {
-		danas = new Date();
+		now = new Date();
 		if (newEntity) {
-			brKorisnikaUSistemu = session.createCriteria(User.class).list().size();
+			noOfUsers = session.createCriteria(User.class).list().size();
 
-			brGazdinstavaUSistemu = session.createCriteria(Gazdinstvo.class).list()
+			noOfFarms = session.createCriteria(Farm.class).list()
 					.size();
 
-			brVeterinaraUSistemu = session.createCriteria(Veterinar.class).list()
+			noOfVets = session.createCriteria(Vet.class).list()
 					.size();
 
-			brZivotinjaUSistemu = session.createCriteria(Zivotinja.class).list()
+			noOfAnimals = session.createCriteria(Animal.class).list()
 					.size();
 			
 			
@@ -119,8 +118,8 @@ public class Index {
 	 * ako je administrator, koristim za prikaz komponenti koje zahtjevaju ovu privilegiju
 	 */
 	public boolean isAdmin() {
-		if (!(authenticator.getLoggedUser() instanceof Veterinar)
-				&& !(authenticator.getLoggedUser() instanceof Vlasnik)) {
+		if (!(authenticator.getLoggedUser() instanceof Vet)
+				&& !(authenticator.getLoggedUser() instanceof Owner)) {
 			return true;
 		}
 		return false;
@@ -134,20 +133,20 @@ public class Index {
 	 * metoda koja puni listu vlasnici
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Vlasnik> getVlasnicii() {
-		return session.createCriteria(Vlasnik.class).list();
+	public List<Owner> getOwners() {
+		return session.createCriteria(Owner.class).list();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Gazdinstvo> getGazdinstva() {
-		List<Gazdinstvo> list = session.createCriteria(Gazdinstvo.class).list();
-		List<Gazdinstvo> l = new CopyOnWriteArrayList<>();
+	public List<Farm> getFarms() {
+		List<Farm> list = session.createCriteria(Farm.class).list();
+		List<Farm> l = new CopyOnWriteArrayList<>();
 //		return session.createCriteria(Gazdinstvo.class).add(Restrictions.isNull("vlasnik")).list();
-		for (Gazdinstvo gazdinstvo : list) {
-			System.out.println(gazdinstvo.getNaziv());
-			System.out.println(gazdinstvo.getVlasnik());
-			if (gazdinstvo.getVlasnik()!=null) {
-				l.add(gazdinstvo);
+		for (Farm farm : list) {
+			System.out.println(farm.getName());
+			System.out.println(farm.getOwner());
+			if (farm.getOwner()!=null) {
+				l.add(farm);
 			}
 		}
 		return l;
@@ -155,46 +154,46 @@ public class Index {
 
 	public Object onActionFromRefresh() {
 
-		brKorisnikaUSistemu = session.createCriteria(User.class).list().size();
+		noOfUsers = session.createCriteria(User.class).list().size();
 
-		brGazdinstavaUSistemu = session.createCriteria(Gazdinstvo.class).list()
+		noOfFarms = session.createCriteria(Farm.class).list()
 				.size();
 
-		brVeterinaraUSistemu = session.createCriteria(Veterinar.class).list()
+		noOfVets = session.createCriteria(Vet.class).list()
 				.size();
 
-		brZivotinjaUSistemu = session.createCriteria(Zivotinja.class).list()
+		noOfAnimals = session.createCriteria(Animal.class).list()
 				.size();
 		
 		return statZone.getBody();
 	}
 
-	public boolean akoNijeNull(Gazdinstvo gazdinstvo) {
-		if (gazdinstvo != null) {
+	public boolean notNull(Farm farm) {
+		if (farm != null) {
 			return true;
 		}
 		return false;
 	}
 	
 	@CommitAfter
-	public Object onActionFromDeleteVlasnik(Vlasnik vlasnik) {
-		userDAO.delete(vlasnik);
+	public Object onActionFromDeleteOwner(Owner owner) {
+		userDAO.delete(owner);
 		// return null da bi uradio refresh strane, sa void to nebi
 		return null;
 	}
 	
-	public Object onActionFromEditVlasnik(Vlasnik vlasnik) {
-		ViewUser.user = vlasnik;
+	public Object onActionFromEditOwner(Owner owner) {
+		ViewUser.user = owner;
 		return ViewUser.class;
 	}
 	
-	public Object onActionFromEditVlasnik2(Vlasnik vlasnik) {
-		ViewUser.user = vlasnik;
+	public Object onActionFromEditOwner2(Owner owner) {
+		ViewUser.user = owner;
 		return ViewUser.class;
 	}
 	
-	public Object onActionFromEditGazd(Gazdinstvo gazdinstvo) {
-		ViewGazdinstvo.gazdinstvo = gazdinstvo;
-		return ViewGazdinstvo.class;
+	public Object onActionFromEditFarm(Farm farm) {
+		ViewFarm.farm = farm;
+		return ViewFarm.class;
 	}
 }

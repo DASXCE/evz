@@ -1,0 +1,206 @@
+<html t:type="layout" title="add gazdinstvo"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
+
+	<div id="contentHeader">
+	<h1>Evidencija Zivotinja za gazdinstvo: ${gazdinstvo.getNaziv()}</h1>
+	</div> <!-- #contentHeader -->
+
+	<form t:type="form" t:id="forma" class="form uniformForm">
+		<div class="container">
+
+			<div class="grid-16">
+
+				<div class="widget">
+
+					<div class="widget-header">
+						<span class="icon-article"></span>
+						<h3>Evidencija goveda</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+						<div class="field-group">
+							<label id="markica" original-title="Usna markica" style="width:115px;">Zivotni broj goveda:</label>
+							<script>
+							$(function () {
+						$('#markica').tipsy({gravity: 'w'});
+						});
+							</script>
+							<div class="field">
+							<table>
+							<tr>
+							<td>
+								<input t:type="textfield" t:value="broj"
+									name="broj" t:id="broj" size="10" t:mixins="jquery/mask" class="validate[required]"/>
+									<label for="broj">Broj</label>
+								</td>
+								<td>
+								<input t:type="textfield" t:value="drzava" name="drzava"
+									t:id="drzava" size="10" class="validate[required]"/>
+									<label for="drzava">Drzava</label>
+								</td></tr>	</table>
+							</div>
+<script>jQuery(function($){
+								$("#broj").mask("9999",{placeholder:"*"});
+								});</script>
+						</div> <!-- .field-group -->
+						<div class="field-group">
+							<label>Ime:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="ime" name="ime" t:id="ime"
+									size="20" />
+							</div>
+
+						</div> <!-- .field-group -->
+						<t:radiogroup t:value="pol">
+							<div class="field-group">
+								<label>Pol:</label>
+
+								<div class="field">
+									<input t:type="radio" t:id="musko" t:value="literal:musko"
+										class="validate[required]" />
+									<label for="radio1">Musko</label>
+								</div>
+								<div class="field">
+									<input t:type="radio" t:id="zensko" t:value="literal:zensko"
+										class="validate[required]" />
+									<label for="radio2">Zensko</label>
+								</div>
+
+							</div> <!-- .field-group -->
+						</t:radiogroup>
+						
+						<div class="field-group inlineField">
+							<label>Datum rodjenja:</label>
+
+							<div class="field">
+								<input t:type="datefield" t:value="drodjenja" name="drodjenja" t:id="drodjenja" class="validate[required]"/>	
+							</div>
+
+						</div> <!-- .field-group -->
+						
+						<div class="field-group inlineField">
+							<label>Datum uginuca:</label>
+
+							<div class="field">
+								<input t:type="datefield" t:value="duginuca" name="duginuca" t:id="duginuca" />	
+							</div>
+
+						</div> <!-- .field-group -->
+					
+					
+					<div class="field-group">
+							<label id="markica_mama" original-title="Usna markica" style="width:115px;">Zivotni broj majke:</label>
+							<script>
+							$(function () {
+						$('#markica_mama').tipsy({gravity: 'w'});
+						});
+							</script>
+							<div class="field">
+							<table>
+							<tr>
+							<td>
+								<input t:type="textfield" t:value="broj_mame"
+									name="broj_mame" t:id="broj_mame" size="10" t:mixins="jquery/mask"/>
+									<label for="broj_mame">Broj</label>
+								</td>
+								<td>
+								<input t:type="textfield" t:value="drzava_mame" name="drzava_mame"
+									t:id="drzava_mame" size="10" />
+									<label for="drzava_mame">Drzava</label>
+								</td></tr>	</table>
+							</div>
+<script>jQuery(function($){
+								$("#broj_mame").mask("9999",{placeholder:"*"});
+								});</script>
+						</div> <!-- .field-group -->
+						
+						<div class="field-group">
+							<label id="markica_tata" original-title="Usna markica" style="width:115px;">Zivotni broj oca:</label>
+							<script>
+							$(function () {
+						$('#markica_tata').tipsy({gravity: 'w'});
+						});
+							</script>
+							<div class="field">
+							<table>
+							<tr>
+							<td>
+								<input t:type="textfield" t:value="broj_tate"
+									name="broj_tate" t:id="broj_tate" size="10" t:mixins="jquery/mask"/>
+									<label for="broj_tate">Broj</label>
+								</td>
+								<td>
+								<input t:type="textfield" t:value="drzava_tate" name="drzava_tate"
+									t:id="drzava_tate" size="10" />
+									<label for="drzava_tate">Drzava</label>
+								</td></tr>	</table>
+							</div>
+<script>jQuery(function($){
+								$("#broj_tate").mask("9999",{placeholder:"*"});
+								});</script>
+						</div> <!-- .field-group -->
+</div> <!-- .widget-content -->
+				</div> <!-- .widget -->
+			</div> <!-- .grid -->
+
+			 <div class="grid-7">
+				 <t:if test="showsuccess">
+					<div id="succ" class="notify notify-success">
+
+						<a href="javascript:;" class="close">&times;
+						</a>
+
+						<h3>Uspjesno!</h3>
+
+						<p>Uspjesno ste evidentirali zivotinju</p>
+					</div> 
+				</t:if> 
+
+				<div class="box plain">
+
+					<button type="submit" id="save" class="btn  btn-large btn-green"
+						style="
+    width: 100%;
+">+
+						Save</button>
+					<br />
+					<br />
+					<button type="reset" class="btn  btn-large btn-gray" style="
+    width: 100%;
+">-
+						Cancel</button>
+
+				</div>
+				<script>
+					$(function () {
+
+					$('#save').live ('click', function (e) {
+					e.preventDefault ();
+					$.alert ({
+					type: 'confirm'
+					, title: 'Paznja'
+					,
+					text: '<p>Da li ste sigurni da zelite da unesete ove podatke?</p>'
+					, callback: function () { $("#forma").submit(); }
+					});
+					});
+
+					});
+				</script>
+
+
+			</div> <!-- .grid -->
+		</div> <!-- .container -->
+	</form>
+	
+	<script>
+$(function () { 
+	$( "#drodjenja" ).datepicker();
+	$( "#duginuca" ).datepicker();
+	
+
+});
+
+</script>
+</html>

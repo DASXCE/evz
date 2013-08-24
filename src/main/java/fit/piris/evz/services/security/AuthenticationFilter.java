@@ -13,11 +13,11 @@ import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.apache.tapestry5.services.Response;
 
 import fit.piris.evz.annotations.GuestAccess;
-import fit.piris.evz.annotations.VeterinarAccess;
-import fit.piris.evz.annotations.VlasnikAccess;
+import fit.piris.evz.annotations.VetAccess;
+import fit.piris.evz.annotations.OwnerAccess;
 import fit.piris.evz.entities.users.User;
-import fit.piris.evz.entities.users.Veterinar;
-import fit.piris.evz.entities.users.Vlasnik;
+import fit.piris.evz.entities.users.Vet;
+import fit.piris.evz.entities.users.Owner;
 import fit.piris.evz.pages.Login;
 
 public class AuthenticationFilter implements ComponentRequestFilter {
@@ -76,8 +76,8 @@ public class AuthenticationFilter implements ComponentRequestFilter {
 
 			// if Vlasnik i logged in and if has privileges to 'page', dont
 			// redirect!
-			if (authenticator.getLoggedUser() instanceof Vlasnik) {
-				if (page.getClass().isAnnotationPresent(VlasnikAccess.class)) {
+			if (authenticator.getLoggedUser() instanceof Owner) {
+				if (page.getClass().isAnnotationPresent(OwnerAccess.class)) {
 					return false;
 				} else {
 					response.sendRedirect(linkToError);
@@ -85,8 +85,8 @@ public class AuthenticationFilter implements ComponentRequestFilter {
 				}
 			}
 
-			if (authenticator.getLoggedUser() instanceof Veterinar) {
-				if (page.getClass().isAnnotationPresent(VeterinarAccess.class)) {
+			if (authenticator.getLoggedUser() instanceof Vet) {
+				if (page.getClass().isAnnotationPresent(VetAccess.class)) {
 					return false;
 				} else {
 					response.sendRedirect(linkToError);

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.Link;
 import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.annotations.Import;
@@ -12,18 +11,17 @@ import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.beaneditor.Validate;
 import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Response;
 import org.hibernate.Session;
 
-import fit.piris.evz.entities.Adresa;
-import fit.piris.evz.entities.Ambulanta;
-import fit.piris.evz.entities.users.Vlasnik;
-import fit.piris.evz.model.selectBox.ambulanta.AmbulantaEncoder;
-import fit.piris.evz.model.selectBox.ambulanta.AmbulantaSelectModel;
+import fit.piris.evz.entities.Address;
+import fit.piris.evz.entities.Infirmary;
+import fit.piris.evz.entities.users.Owner;
+import fit.piris.evz.model.selectBox.infirmary.InfirmaryEncoder;
+import fit.piris.evz.model.selectBox.infirmary.InfirmarySelectModel;
 import fit.piris.evz.pages.Index;
 import fit.piris.evz.pages.errorPages.Error_500;
 import fit.piris.evz.services.dao.user.UserDAO;
@@ -33,55 +31,55 @@ import fit.piris.evz.services.dao.user.UserDAO;
 public class AddUser {
 
 	/*
-	 * tip korisnika
+	 * user type
 	 */
 	@Property
-	private String privilegija;
+	private String privilege;
 
 	/*
-	 * zajednicko za sve korisnike ili samo ako je admin
+	 * common fields
 	 */
 	@Property
 	private String email;
 
 	@Property
-	private String password2;// password '2' zato sto uzimamo potvrdu passworda
+	private String password2;// the confirmed password
 
 	/*
-	 * podaci o vlasniku
+	 * owner info
 	 */
 	@Property
-	private String ime;
+	private String firstName;
 
 	@Property
-	private String prezime;
+	private String lastName;
 
 	@Property
-	private Long jmbg;
+	private Long personalId;
 
 	@Property
-	private String telefon;
+	private String phone;
 
 	/*
-	 * podaci o veterinaru
+	 * vet info
 	 */
 	@Property
-	private String vet_ime;
+	private String vetFirstname;
 
 	@Property
-	private String vet_prezime;
+	private String vetLastName;
 
 	/*
-	 * adresa za vlasnika ili za ambulantu
+	 * address
 	 */
 	@Property
-	private String grad;
+	private String town;
 
 	@Property
-	private Integer posta;
+	private Integer postal;
 
 	@Property
-	private String ulica;
+	private String street;
 
 	@Inject
 	private UserDAO userDAO;
@@ -90,22 +88,22 @@ public class AddUser {
 	private Session session;
 
 	/*
-	 * ambulanta
+	 * infirmary
 	 */
 	@Property
-	private Ambulanta ambulanta;
+	private Infirmary infirmary;
 
 	@Property
-	private String ambGrad;
+	private String infTown;
 
 	@Property
-	private Integer ambPosta;
+	private Integer infPostal;
 
 	@Property
-	private String ambUlica;
+	private String infStreet;
 
 	@Property
-	private String amb_naziv;
+	private String infName;
 
 	/*
 	 * 
@@ -116,7 +114,7 @@ public class AddUser {
 	private int showsuccess;
 
 	@InjectComponent
-	private Zone ambZona;
+	private Zone infZone;
 
 	@Inject
 	private Response response;
@@ -125,20 +123,20 @@ public class AddUser {
 	private ComponentResources resources;
 
 	@CommitAfter
-	public void onSubmitFromForma() throws IOException {
+	public void onSubmitFromForm() throws IOException {
 		try {
-			if (privilegija.toLowerCase().equals("admin")) {
+			if (privilege.toLowerCase().equals("admin")) {
 				userDAO.registerAdmin(email, password2);
-			} else if (privilegija.toLowerCase().equals("vlasnik")) {
-				userDAO.registerVlasnik(email, password2, jmbg, ime, prezime,
-						new Adresa(grad, posta, ulica), telefon);
+			} else if (privilege.toLowerCase().equals("owner")) {
+				userDAO.registerOwner(email, password2, personalId, firstName, lastName,
+						new Address(town, postal, street), phone);
 
-				// set flag for success message and button link to +Gazdinstvo
+				// set flag for success message and button link to +Farm
 				showsuccess = 2;
 				return;
-			} else if (privilegija.toLowerCase().equals("veterinar")) {
-				userDAO.registerVeterinar(email, password2, vet_ime,
-						vet_prezime, ambulanta);
+			} else if (privilege.toLowerCase().equals("vet")) {
+				userDAO.registerVet(email, password2, vetFirstname,
+						vetLastName, infirmary);
 			}
 			// set flag for stats refresh
 			Index.newEntity = true;
@@ -153,44 +151,44 @@ public class AddUser {
 	}
 
 	@CommitAfter
-	public Object onSubmitFromAmbForma() {
-		Adresa adresa = new Adresa(ambGrad, ambPosta, ambUlica);
+	public Object onSubmitFromInfForm() {
+		Address address = new Address(infTown, infPostal, infStreet);
 
 		@SuppressWarnings("unchecked")
-		List<Adresa> adrese = session.createCriteria(Adresa.class).list();
-		for (Adresa adr : adrese) {
-			if (adr.equals(adresa)) {
-				ambulanta = new Ambulanta(amb_naziv, adr);
-				session.save(ambulanta);
+		List<Address> addresses = session.createCriteria(Address.class).list();
+		for (Address addr : addresses) {
+			if (addr.equals(address)) {
+				infirmary = new Infirmary(infName, addr);
+				session.save(infirmary);
 				return null;
 			}
 		}
-		session.save(adresa);
+		session.save(address);
 
-		ambulanta = new Ambulanta(amb_naziv, adresa);
-		session.save(ambulanta);
-		return ambZona.getBody();
+		infirmary = new Infirmary(infName, address);
+		session.save(infirmary);
+		return infZone.getBody();
 	}
 
 	@InjectPage
-	private AddGazdinstvo gazdinstvo;
+	private AddFarm farm;
 
-	public Object onActionFromNovoGazdinstvo() {
+	public Object onActionFromNewFarm() {
 		@SuppressWarnings("unchecked")
-		List<Vlasnik> list = session.createCriteria(Vlasnik.class).list();
-		gazdinstvo.setVlasnik(list.get(list.size() - 1));
-		return gazdinstvo;
+		List<Owner> list = session.createCriteria(Owner.class).list();
+		farm.setOwner(list.get(list.size() - 1));
+		return farm;
 	}
 
 	@SuppressWarnings("unchecked")
-	public SelectModel getAmbulantaModel() {
-		return new AmbulantaSelectModel(session.createCriteria(Ambulanta.class)
+	public SelectModel getInfirmaryModel() {
+		return new InfirmarySelectModel(session.createCriteria(Infirmary.class)
 				.list());
 
 	}
 
-	public AmbulantaEncoder getAmbulantaEncoder() {
-		return new AmbulantaEncoder(session);
+	public InfirmaryEncoder getInfirmaryEncoder() {
+		return new InfirmaryEncoder(session);
 	}
 
 	public boolean isSuccessfull() {
@@ -200,7 +198,7 @@ public class AddUser {
 		return false;
 	}
 
-	public boolean isSuccessfullFromVlasnik() {
+	public boolean isSuccessfullFromOwner() {
 		if (showsuccess == 2) {
 			return true;
 		}

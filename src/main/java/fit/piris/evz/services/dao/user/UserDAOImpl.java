@@ -6,11 +6,11 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import fit.piris.evz.entities.Adresa;
-import fit.piris.evz.entities.Ambulanta;
+import fit.piris.evz.entities.Address;
+import fit.piris.evz.entities.Infirmary;
 import fit.piris.evz.entities.users.User;
-import fit.piris.evz.entities.users.Veterinar;
-import fit.piris.evz.entities.users.Vlasnik;
+import fit.piris.evz.entities.users.Vet;
+import fit.piris.evz.entities.users.Owner;
 import fit.piris.evz.model.MD5;
 
 public class UserDAOImpl implements UserDAO{
@@ -53,31 +53,31 @@ public class UserDAOImpl implements UserDAO{
 		session.save(u);
 	}
 
-	public void registerVlasnik(String email, String password, Long jmbg,
-			String ime, String prezime, Adresa adresa, String telefon) {
+	public void registerOwner(String email, String password, Long personalId,
+			String firstName, String lastName, Address address, String phone) {
 
-		Vlasnik v = new Vlasnik(email, MD5.md5(password),jmbg, ime, prezime, null, telefon);
+		Owner o = new Owner(email, MD5.md5(password),personalId, firstName, lastName, null, phone);
 		
 		@SuppressWarnings("unchecked")
-		List<Adresa> adrese = session.createCriteria(Adresa.class).list();
-		for (Adresa adr : adrese) {
-			if (adr.equals(adresa)) {
-				v.setAdresa(adr);
-				session.save(v);
+		List<Address> addresses = session.createCriteria(Address.class).list();
+		for (Address addr : addresses) {
+			if (addr.equals(address)) {
+				o.setAddress(addr);
+				session.save(o);
 				return;
 			}
 		}
-		session.save(adresa);
+		session.save(address);
 
-		v.setAdresa(adresa);
-		session.save(v);
+		o.setAddress(address);
+		session.save(o);
 	}
 
-	public void registerVeterinar(String email, String password, String ime,
-			String prezime, Ambulanta ambulanta) {
+	public void registerVet(String email, String password, String firstName,
+			String lastName, Infirmary infirmary) {
 
-		Veterinar v = new Veterinar(email, MD5.md5(password), ime, prezime,
-				ambulanta);
+		Vet v = new Vet(email, MD5.md5(password), firstName, lastName,
+				infirmary);
 		session.save(v);
 	}
 

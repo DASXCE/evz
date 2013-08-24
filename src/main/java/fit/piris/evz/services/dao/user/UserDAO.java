@@ -1,18 +1,18 @@
 package fit.piris.evz.services.dao.user;
 
-import fit.piris.evz.entities.Adresa;
-import fit.piris.evz.entities.Ambulanta;
+import fit.piris.evz.entities.Address;
+import fit.piris.evz.entities.Infirmary;
 import fit.piris.evz.entities.users.User;
 
 public interface UserDAO {
 
 	public void registerAdmin(String email, String password);
 
-	public void registerVlasnik(String email, String password, Long jmbg,
-			String ime, String prezime, Adresa adresa, String telefon);
+	public void registerOwner(String email, String password, Long personalId,
+			String firstName, String lastName, Address address, String phone);
 
-	public void registerVeterinar(String email, String password, String ime,
-			String prezime, Ambulanta ambulanta);
+	public void registerVet(String email, String password, String firstName,
+			String lastName, Infirmary infirmary);
 
 	public boolean update(User u);
 
@@ -20,7 +20,7 @@ public interface UserDAO {
 
 	public boolean delete(User u);
 	
-	public void delete(Long jmbg);
+	public void delete(Long personalId);
 
 	public User find(String username, String password);
 }

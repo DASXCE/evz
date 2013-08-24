@@ -1,0 +1,156 @@
+<html t:type="layout" title="view farm"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
+
+	<div id="contentHeader">
+		<h1>
+			Farm: ${farm.getName()}, Owner: <a t:type="actionlink" t:id="editOwner" context="farm.getOwner()">${farm.getOwner().getFirstName()} ${farm.getOwner().getLastName()}</a>
+		</h1>
+
+	</div> <!-- #contentHeader -->
+
+
+	<form t:type="form" t:id="form" class="form uniformForm">
+		<div class="container">
+
+			<div class="grid-16">
+
+				<div class="widget" id="info">
+
+					<div class="widget-header">
+						<span class="icon-article"></span>
+						<h3>Opsti podaci</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+						<div class="field-group">
+							<label>code:</label>
+							<div class="field">
+								<input t:type="textfield" t:value="code" name="code"
+									t:id="code" size="10"  />
+							</div>
+
+						</div> <!-- .field-group -->
+						<div class="field-group">
+							<label>name:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="name" name="name"
+									t:id="name" size="20" />
+							</div>
+
+						</div> <!-- .field-group -->
+
+						<div class="field-group">
+							<label>Adresa:</label>
+							<div class="field">
+								<input t:type="textfield" t:value="town" name="town" id="town"
+									size="12" />
+								<label for="town">town</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="postal" name="postal"
+									t:id="postal" size="6"  />
+								<label for="postal">postalnski Broj</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="street" name="street" id="street"
+									size="20" />
+								<label for="street">street</label>
+							</div>
+						</div> <!-- .field-group -->
+
+						<div class="field-group control-group">
+							<label>Proizvodi:</label>
+
+							<span>${products}</span>
+						</div>
+						<div class="field-group control-group">
+							<label>Vrste Zivotinja na gazdinstvu:</label>
+
+							<span>${animalSpecies}</span>
+						</div>
+
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+		<script>
+			$(document).ready(function(){
+    			$("#info").find("input").attr("readonly","true");
+			});
+		</script>
+<div class="widget widget-table">
+
+				<div class="widget-header">
+					<span class="icon-list"></span>
+					<h3 class="icon aperture">Zivotinje</h3>
+				</div> <!-- .widget-header -->
+
+				<div class="widget-content">
+					<table class="table table-bordered table-striped data-table">
+						<thead>
+							<tr>
+								<th>Oznaka</th>
+								<th>Rodjeno</th>
+								<th>Uginulo</th>
+								<th>Pol</th>
+								<th>Ime</th>
+								<th>Majka</th>
+								<th>Otac</th>
+							</tr>
+						</thead>
+						<tbody>
+							  <t:loop source="animals" value="animalTmp">
+								<tr class="gradeA">
+								 	<td><a t:type="actionlink" t:id="detalji" context="myContext">${animalTmp.getTag().getCountry()}${animalTmp.getTag().getNumber()}</a></td>
+									<td>${animalTmp.getBorn()}</td>
+									<td>${animalTmp.getDied()}</td>
+									<td>${animalTmp.getSex()}</td>
+									<td>${animalTmp.getName()}</td>
+									<td>
+									<t:if test="${isNotNull(animalTmp.getMother())}">
+									<a t:type="actionlink" t:id="mother" t:context="${animalTmp.getMother()}">${animalTmp.getMother().getTag().getCountry()}${animalTmp.getMother().getTag().getNumber()}</a><p:else>N/A</p:else></t:if></td>
+									<td>
+									<t:if test="${isNotNull(animalTmp.getFather())}">
+									<a t:type="actionlink" t:id="father" t:context="${animalTmp.getFather()}">${animalTmp.getFather().getTag().getCountry()}${animalTmp.getFather().getTag().getNumber()}</a><p:else>N/A</p:else></t:if></td>
+								</tr>
+								 
+							</t:loop> 
+						</tbody>
+
+					</table>
+
+
+				</div> <!-- .widget-content -->
+
+			</div> <!-- .widget -->
+
+			</div> <!-- .grid -->
+
+			<div class="grid-7">
+				<t:if test="showsuccess">
+					<div id="succ" class="notify notify-success">
+
+						<a href="javascript:;" class="close">&times;
+						</a>
+
+						<h3>Uspjesno!</h3>
+
+						<p>Uspjesno ste dodali novo gazdinstvo u sistemu</p>
+					</div> <!-- .notify -->
+				</t:if>
+
+				<div class="box plain">
+	
+					<t:actionlink t:id="add" >
+					<button type="button" id="add" class="btn  btn-large btn-green"
+						style="
+    width: 100%;
+">Evidentiraj novu zivotinju</button></t:actionlink>
+
+				</div>
+
+
+			</div> <!-- .grid -->
+		</div> <!-- .container -->
+	</form>
+</html>

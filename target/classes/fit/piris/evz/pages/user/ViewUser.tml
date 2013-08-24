@@ -5,11 +5,11 @@
 		
 	<div id="contentHeader">
 		<h1>
-			<t:if test="isCurrentUserVlasnik">
-				${naslov}
+			<t:if test="isCurrentUserOwner">
+				${title}
 			</t:if>
-			<t:if test="isCurrentUserVeterinar">
-				${naslov}
+			<t:if test="isCurrentUserVet">
+				${title}
 			</t:if>
 			<t:if test="isCurrentUserAdmin">
 			Admin: ${user.getEmail()}
@@ -18,7 +18,7 @@
 	</div> <!-- #contentHeader -->
 
 	<div class="container">
-<form t:type="form" class="form uniformForm validateForm" t:id="forma">
+<form t:type="form" class="form uniformForm validateForm" t:id="form">
 
 		<div class="grid-16">
 			<div class="widget">
@@ -69,10 +69,10 @@
 
 				</div> <!-- .widget -->
 				
-				<!-- VLASNIK PODACI -->
+				<!-- OWNER DATA -->
 				
-				<t:if test="isCurrentUserVlasnik">
-				<div id="v-podaci" class="widget">
+				<t:if test="isCurrentUserOwner">
+				<div id="ownerData" class="widget">
 
 					<div class="widget-header">
 						<span class="icon-article" style="
@@ -87,16 +87,16 @@
 
 							<t:if test="writePermission">
 							<div class="field">
-								<input t:type="textfield" t:value="jmbg" name="jmbg" t:id="jmbg"
+								<input t:type="textfield" t:value="personalId" name="personalId" t:id="personalId"
 									size="15" t:mixins="jquery/mask" />
 							</div>
 							<script>
 							jQuery(function($){
-								$("#jmbg").mask("9999999999999",{placeholder:"*"});
+								$("#personalId").mask("9999999999999",{placeholder:"*"});
 								});</script>
 								<p:else>
 								<div class="field">
-								<input t:type="textfield" t:value="jmbg" name="jmbg" t:id="jmbg2"
+								<input t:type="textfield" t:value="personalId" name="personalId" t:id="personalId"
 									size="15" />
 							</div>
 								</p:else>
@@ -107,14 +107,14 @@
 							<label>Naziv:</label>
 
 							<div class="field">
-								<input t:type="textfield" t:value="ime" t:id="ime" size="10"
+								<input t:type="textfield" t:value="firstName" t:id="firstName" size="10"
 									/>
-								<label for="ime">Ime</label>
+								<label for="firstName">firstName</label>
 							</div>
 							<div class="field">
-								<input t:type="textfield" t:value="prezime" t:id="prezime"
+								<input t:type="textfield" t:value="lastName" t:id=""lastName""
 									size="12" />
-								<label for="prezime">Prezime</label>
+								<label for=""lastName"">"lastName"</label>
 							</div>
 						</div> <!-- .field-group -->
 
@@ -123,7 +123,7 @@
 				
 							<t:if test="writePermission">
 							<div class="field">
-								<input t:type="textfield" t:value="telefon" name="phone1"
+								<input t:type="textfield" t:value="phone" name="phone1"
 									t:id="phone1" size="15" t:mixins="jquery/mask" />
 								<label for="phone1">Tel</label>
 							</div>
@@ -132,7 +132,7 @@
 									});</script>
 							<p:else>
 							<div class="field">
-								<input t:type="textfield" t:value="telefon" name="phone1"
+								<input t:type="textfield" t:value="phone" name="phone1"
 									t:id="phone2" size="15"  />
 								<label for="phone1">Tel</label>
 							</div>
@@ -144,31 +144,31 @@
 							<label>Adresa:</label>
 
 							<div class="field">
-								<input t:type="textfield" t:value="grad" name="grad" t:id="grad"
+								<input t:type="textfield" t:value="town" name="town" t:id="town"
 									size="12" />
-								<label for="grad">Grad</label>
+								<label for="town">town</label>
 							</div>
 							<t:if test="writePermission">
 							<div class="field">
-								<input t:type="textfield" t:value="posta" name="posta"
-									t:id="posta" size="6" t:mixins="jquery/mask"/>
-								<label for="posta">Postanski Broj</label>
+								<input t:type="textfield" t:value="postal" name="postal"
+									t:id="postal" size="6" t:mixins="jquery/mask"/>
+								<label for="postal">postalnski Broj</label>
 							</div>
 							<script>jQuery(function($){
-									$("#posta").mask("99999",{placeholder:"*"});
+									$("#postal").mask("99999",{placeholder:"*"});
 									});</script>
 							<p:else>
 							<div class="field">
-								<input t:type="textfield" t:value="posta" name="posta"
-									t:id="posta2" size="6" />
-								<label for="posta">Postanski Broj</label>
+								<input t:type="textfield" t:value="postal" name="postal"
+									t:id="postal2" size="6" />
+								<label for="postal">postalnski Broj</label>
 							</div>
 							</p:else>
 							</t:if>
 							<div class="field">
-								<input t:type="textfield" t:value="ulica" name="ulica" t:id="ulica"
+								<input t:type="textfield" t:value="street" name="street" t:id="street"
 									size="20" />
-								<label for="ulica">Ulica</label>
+								<label for="street">street</label>
 							</div>
 						</div>
 
@@ -178,9 +178,9 @@
 				</div> <!-- .widget -->
 				</t:if>
 				
-				<!-- VETERINAR PODACI -->
-				<t:if test="isCurrentUserVeterinar">
-				<div id="vet-podaci" class="widget" >
+				<!-- VET DATA -->
+				<t:if test="isCurrentUserVet">
+				<div id="vetData" class="widget" >
 
 					<div class="widget-header">
 						<span class="icon-article" style="
@@ -194,30 +194,30 @@
 							<label>Naziv:</label>
 
 							<div class="field">
-								<input t:type="textfield" t:value="vet_ime" t:id="vet_ime"
+								<input t:type="textfield" t:value="vetFirstName" t:id="vetFirstName"
 									size="10" class="validate[required]" />
-								<label for="vet_ime">Ime</label>
+								<label for="vetFirstName">Ime</label>
 							</div>
 							<div class="field">
-								<input t:type="textfield" t:value="vet_prezime" t:id="vet_prezime"
+								<input t:type="textfield" t:value="vetLastName" t:id="vetLastName"
 									size="12" class="validate[required]" />
-								<label for="vet_prezime">Prezime</label>
+								<label for="vetLastName">Prezime</label>
 							</div>
 						</div> <!-- .field-group -->
-						<t:zone t:id="ambZona" id="ambZona">
+						<t:zone t:id="infZone" id="infZone">
 							<div class="field-group">
-								<label>Ambulanta:</label>
+								<label>infirmary:</label>
 								<t:if test="writePermission">
 								<div class="field">
-									<input t:type="select" model="ambulantaModel" encoder="ambulantaEncoder"
-										value="ambulanta" class="validate[required]" />
+									<input t:type="select" model="infirmaryModel" encoder="infirmaryEncoder"
+										value="infirmary" class="validate[required]" />
 									<t:if test="${isAdminLoggedIn()}">
-									<button type="button" id="ambShow" class="btn btn-small btn-primary">Dodaj</button>
+									<button type="button" id="infShow" class="btn btn-small btn-primary">Dodaj</button>
 									<script>
-										$("#ambShow").click(function (){
+										$("#infShow").click(function (){
 
 										$.blockUI({ message:
-										$('#ambulanta'), css: { border: '1px solid #aaa',top:'20%'},overlayCss:{cursor:'default'}});
+										$('#infirmary'), css: { border: '1px solid #aaa',top:'20%'},overlayCss:{cursor:'default'}});
 										});
 									</script>
 									<label for="cardtype">Izaberite</label>
@@ -225,7 +225,7 @@
 								</div>
 								<p:else>
 								<div class="field">
-									<input t:type="textfield" t:id="amb" value="amb" />
+									<input t:type="textfield" t:id="inf" value="inf" />
 								</div>
 								</p:else>
 								</t:if>
@@ -247,13 +247,13 @@
     					$("input").removeAttr("readonly");
     						return;
    					 }
-   					 if(${isCurrentUserVlasnik}){
+   					 if(${isCurrentUserOwner}){
    					 
    					 	$("#phone1").removeAttr("readonly");
    					 	
-   					 	$("#grad").removeAttr("readonly");
-   					 	$("#posta").removeAttr("readonly");
-   					 	$("#ulica").removeAttr("readonly");
+   					 	$("#town").removeAttr("readonly");
+   					 	$("#postal").removeAttr("readonly");
+   					 	$("#street").removeAttr("readonly");
    					 
    					 }
     	
@@ -310,7 +310,7 @@
 					confirmText: 'Sacuvaj'
 					, cancelText: 'Odustani'
 					, text: '<p>Da li ste sigurni?</p>'
-					, callback: function () { $('#forma').submit(); }
+					, callback: function () { $('#form').submit(); }
 					});
 					});
 					});

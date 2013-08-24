@@ -1,0 +1,255 @@
+<html t:type="layout" title="New Farm"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
+
+	<div id="contentHeader">
+		<t:if test="${forOwner()}">
+			<h1>+ Farm, owner: ${owner.getFirstName()}, JMBG: ${owner.getPersonalId()} <button id="chown" type="button" class="btn btn-large btn-blue" ><span class="icon-user" >Change</span></button></h1>
+			<script>
+				$("#chown").click(function (){
+					$.blockUI({ message:
+						$('#popup'), css: { border: '1px solid #aaa',top:'5%',left:'25%',textAlign:'left',width:'50%'},overlayCss:{cursor:'default'}});
+						$('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
+				});
+			</script>
+			<p:else>
+				<h1>+ Farm <t:actionlink t:id="fillTable">
+				<button id="setOwner" type="button" class="btn btn-large btn-orange" ><span class="icon-user" >Owner</span></button></t:actionlink></h1>
+				<script>
+				$(document).ready(function() {
+				if(${showTable}){
+				$.blockUI({ message:
+						$('#popup'), css: { border: '1px solid #aaa',top:'5%',left:'25%',textAlign:'left',width:'50%'},overlayCss:{cursor:'default'}});
+						$('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
+				}
+				});
+				
+				</script>
+			</p:else>
+		</t:if>
+
+	</div> <!-- #contentHeader -->
+	
+	<!-- Popup table for owner setting	-->
+	
+	<div id="popup" class="widget widget-table" style="display:none;">
+
+				<div class="widget-header">
+					<span class="icon-list"></span>
+					<h3 class="icon aperture">Vlasnici bez gazdinstava</h3>
+				</div> <!-- .widget-header -->
+
+				<div class="widget-content">
+					<table class="table table-bordered table-striped data-table">
+						<thead>
+							<tr>
+								<th>Choose</th>
+								<th>PID</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+							</tr>
+						</thead>
+						<tbody>
+						<!-- <t:if test="${testVlasnici()}"> -->
+							<t:loop source="owners" value="ownerTmp">
+								<tr class="gradeA">
+								<t:if test="${isSelected(ownerTmp)}">
+									<td style="width:16%;text-align:center;"><t:actionlink t:id="deSelect"><button id="selected" type="button" class="btn btn-small btn-green"><span class="icon-check"></span></button></t:actionlink>
+									</td>
+									<script>
+									$("#selected").click(function (){
+										$.unblockUI();
+									});
+									</script>
+									<p:else>
+									<td style="width:16%;text-align:center;"><t:actionlink t:id="select" context="ownerTmp"><button type="button" class="btn btn-small btn-blue"><span class="icon-minus"></span></button></t:actionlink>
+									</td>
+									</p:else>
+									</t:if>
+									<td>${ownerTmp.getPersonalId()}</td>
+									<td>${ownerTmp.getFirstName()}</td>
+									<td>${ownerTmp.getLastName()}</td>
+								</tr>
+							</t:loop>
+						<!-- </t:if>-->
+						</tbody>
+					</table>
+
+
+				</div> <!-- .widget-content -->
+
+			</div> <!-- .widget -->
+	
+	
+	<form t:type="form" t:id="form" class="form uniformForm">
+		<div class="container">
+
+			<div class="grid-16">
+
+
+
+				<div class="widget">
+
+					<div class="widget-header">
+						<span class="icon-article"></span>
+						<h3>Opsti podaci</h3>
+					</div> <!-- .widget-header -->
+
+					<div class="widget-content">
+						<div class="field-group">
+							<label>Code:</label>
+							<div class="field">
+								<input t:type="textfield" t:value="code" name="code"
+									t:id="code" size="10" t:mixins="jquery/mask" />
+								<script>jQuery(function($){
+									$("#code").mask("99999",{placeholder:"*"});
+									});</script>
+							</div>
+
+						</div> <!-- .field-group -->
+						<div class="field-group">
+							<label>Name:</label>
+
+							<div class="field">
+								<input t:type="textfield" t:value="name" name="name"
+									t:id="name" size="20" />
+							</div>
+
+						</div> <!-- .field-group -->
+
+						<div class="field-group">
+							<label>Address:</label>
+							<div class="field">
+								<input t:type="textfield" t:value="town" name="town" id="town"
+									size="12" />
+								<label for="town">Town</label>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="postal" name="postal"
+									t:id="postal" size="6" t:mixins="jquery/mask" />
+								<label for="postal">Postanski Broj</label>
+								<script>jQuery(function($){
+									$("#postal").mask("99999",{placeholder:"*"});
+									});</script>
+							</div>
+							<div class="field">
+								<input t:type="textfield" t:value="street" name="street" id="street"
+									size="20" />
+								<label for="street">Ulica</label>
+							</div>
+						</div> <!-- .field-group -->
+
+						<div class="field-group control-group">
+							<label>Produces:</label>
+
+							<div class="field">
+								<input t:type="checkbox" t:value="meat" t:name="product"
+									t:id="meat" value="0" />
+								<label for="meat">Meat products</label>
+							</div>
+
+							<div class="field">
+								<input t:type="checkbox" t:value="milk" t:name="product"
+									t:id="milk" value="0" />
+								<label for="milk">Milk products</label>
+							</div>
+
+							<div class="field">
+								<input t:type="checkbox" t:value="eggs" t:name="product"
+									t:id="eggs" value="0" />
+								<label for="eggs">Eggs</label>
+							</div>
+						</div>
+						<div class="field-group control-group">
+							<label>Vrste Zivotinja na gazdinstvu:</label>
+
+							<div class="field">
+								<input t:type="checkbox" t:value="cattle" t:name="species"
+									t:id="cattle" value="0" />
+								<label for="cattle">cattle</label>
+							</div>
+
+							<div class="field">
+								<input t:type="checkbox" t:value="sheep" t:name="species"
+									t:id="sheep" value="0" />
+								<label for="sheep">sheep</label>
+							</div>
+
+							<div class="field">
+								<input t:type="checkbox" t:value="goats" t:name="species"
+									t:id="goats" value="0" />
+								<label for="goats">goats</label>
+							</div>
+							<div class="field">
+								<input t:type="checkbox" t:value="piggs" t:name="species"
+									t:id="piggs" value="0" />
+								<label for="piggs">piggs</label>
+							</div>
+							<div class="field">
+								<input t:type="checkbox" t:value="ungulates" t:name="species"
+									t:id="ungulates" value="0" />
+								<label for="ungulates">ungulates</label>
+							</div>
+							<div class="field">
+								<input t:type="checkbox" t:value="poultry" t:name="species"
+									t:id="poultry" value="0" />
+								<label for="poultry">poultry</label>
+							</div>
+						</div>
+
+					</div> <!-- .widget-content -->
+
+				</div> <!-- .widget -->
+
+
+
+			</div> <!-- .grid -->
+
+			<div class="grid-7">
+				<t:if test="showsuccess">
+					<div id="succ" class="notify notify-success">
+
+						<a href="javascript:;" class="close">&times;
+						</a>
+
+						<h3>Uspjesno!</h3>
+
+						<p>Uspjesno ste dodali novo gazdinstvo u sistemu</p>
+					</div> <!-- .notify -->
+				</t:if>
+
+				<div class="box plain">
+
+					<button type="submit" id="save" class="btn  btn-large btn-green"
+						style="
+    width: 100%;
+">+
+						Save</button>
+					<br />
+					<br />
+					<button type="reset" class="btn  btn-large btn-gray" style="
+    width: 100%;
+">-
+						Cancel</button>
+
+				</div>
+				<script>
+					$(function () {
+
+					$('#save').live ('click', function (e) {
+					e.preventDefault ();
+					$.alert ({
+					type: 'confirm'
+					, title: 'Paznja'
+					, text: '<p>Da li ste sigurni da zelite da unesete ove podatke?</p>'
+					, callback: function () { $("#form").submit(); }
+					});
+					});
+
+					});
+				</script>
+
+
+			</div> <!-- .grid -->
+		</div> <!-- .container -->
+	</form>
+</html>
